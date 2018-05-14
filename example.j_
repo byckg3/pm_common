@@ -17,8 +17,8 @@ function unexpected( cxt )
 
 try
 {
-    let Context = eval( "(" + pm.variables.get( "getContext" ) + ")" );
-    let TestRunner = eval( "(" + pm.variables.get( "getTestRunner" ) + ")" );
+    let Context = eval( "(" + pm.variables.get( "Context" ) + ")" );
+    let TestRunner = eval( "(" + pm.variables.get( "TestRunner" ) + ")" );
     
     TestRunner.addTestCase( expect_ok_200 );
     TestRunner.addTestCase( expect_bad_request_400 );
