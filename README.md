@@ -15,4 +15,13 @@
 使用方式 : 複製貼上Postman變數欄位XD
 
 
+Status code   |   OK  |Bad Request     |Unauthorized|Not Found|Method Not Allowed|Internal Server Error  |
+--------------|:-----:|:--------------:|-----------:|--------:|-----------------:|-----------------------
+200           |     O |              X |          X |       X |                X |                      X
+400           |     X |              O |          X |       X |                X |                      X
+401           |     X |              X |          O |       X |                X |                      X
+404           |     X |              X |          X |       O |                X |                      X
+405           |     X |              X |          X |       X |                O |                      X
+500           |     X |              X |          X |       X |                X |                      O
 
+O : 可繼續測試的狀態	   X : 不符預期必須做exception(error)處理 (測試失敗)
