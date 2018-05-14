@@ -1,0 +1,8 @@
+Context = 
+{
+    statusText : pm.response.status,
+    statusCode : pm.response.code,
+    expectedCode : parseInt( pm.environment.get( "expectedCode" ) ),
+    jsonObject : pm.response.json()
+};
+

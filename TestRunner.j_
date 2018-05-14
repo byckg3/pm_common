@@ -1,0 +1,42 @@
+TestRunner = 
+{
+    addTestCase :
+    function( f )
+    {
+        if ( ( typeof f ) === "function" )
+            this[  f.name ] = f;
+    },
+
+    setUp : 
+    function( cxt )
+    {
+        console.log( "Setup :");
+    },
+
+    tearDown : 
+    function( cxt )
+    {
+        console.log( "Tear Down :" );
+    },
+
+    run :
+    function( context )
+    {
+        let statusText = context.statusText.replace( " ", "_" ).toLowerCase();
+        let expectedCode = context.expectedCode;
+        let testingFunctionName = "expect_" + statusText + "_" + expectedCode;
+   
+        if ( this.hasOwnProperty( testingFunctionName ) )
+        {   
+            this.setUp();
+            console.log( "executing : " + testingFunctionName );
+            this[ testingFunctionName ]( context );
+            this.tearDown();
+        }
+        else
+        {
+            console.log( "unexpected result : no matched function" );
+            this[ "unexpected" ]( context );
+        }
+    }
+};
