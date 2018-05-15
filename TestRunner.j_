@@ -1,25 +1,25 @@
-TestRunner = 
+function TestRunner() 
 {
-    addTestCase :
+    this.addTestCase =
     function( f )
     {
         if ( ( typeof f ) === "function" )
-            this[  f.name ] = f;
-    },
+            this[ f.name ] = f;
+    };
 
-    setUp : 
+    this.setUp = 
     function( cxt )
     {
         console.log( "Setup :");
-    },
+    };
 
-    tearDown : 
+    this.tearDown = 
     function( cxt )
     {
         console.log( "Tear Down :" );
-    },
+    };
 
-    run :
+    this.run =
     function( context )
     {
         let statusText = context.statusText.replace( " ", "_" ).toLowerCase();
@@ -38,5 +38,5 @@ TestRunner =
             console.log( "unexpected result : no matched function" );
             this[ "unexpected" ]( context );
         }
-    }
-};
+    };
+}
