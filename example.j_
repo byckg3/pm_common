@@ -17,14 +17,16 @@ function unexpected( cxt )
 
 try
 {
-    let Context = eval( "(" + pm.variables.get( "Context" ) + ")" );
-    let TestRunner = eval( "(" + pm.variables.get( "TestRunner" ) + ")" );
+    eval(  pm.variables.get( "getContext" ) );
+    eval( pm.variables.get( "getTestRunner" ) );
     
-    TestRunner.addTestCase( expect_ok_200 );
-    TestRunner.addTestCase( expect_bad_request_400 );
-    TestRunner.addTestCase( unexpected );
-    TestRunner.run( Context );
+    let context = new Context();
+    let testRunner = new TestRunner();
     
+    testRunner.addTestCase( expect_ok_200 );
+    testRunner.addTestCase( expect_bad_request_400 );
+    testRunner.addTestCase( unexpected );
+    testRunner.run( context );
 }
 catch( err )
 {

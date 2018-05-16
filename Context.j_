@@ -1,8 +1,7 @@
-Context = 
+function Context() 
 {
-    statusText : pm.response.status,
-    statusCode : pm.response.code,
-    expectedCode : parseInt( pm.environment.get( "expectedCode" ) ),
-    jsonObject : pm.response.json()
-};
-
+    this.statusText = pm.response.status;
+    this.statusCode = pm.response.code;
+    this.expectedCode = parseInt( pm.environment.get( "expectedCode" ) );
+    this.jsonObject = pm.response.json();
+}
