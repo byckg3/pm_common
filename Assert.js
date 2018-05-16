@@ -1,30 +1,32 @@
 Assert = 
 {
     assertBy :
-    function( f )
+    function( message, f, ...args )
     {
-        if ( ( typeof f ) === "function" && f() )
+        if ( ( typeof f ) === "function" )
         {
-            
+            tests[ message ] = f( ...args );
         }
     },
 
-    assertEqual :
-    function( expected, result, message ) 
+    assertEquals :
+    function( message, expected, result ) 
     {
-        if ( expected !== result ) 
-        {
-            //throw new Error( message );
-        }
-        else
-        {
-            throw "Success";
-        }
+        tests[ message ] = expected === result;
+        // if ( expected !== result ) 
+        // {
+        //     throw new Error( message );
+        // }
+        // else
+        // {
+        //     throw "Success";
+        // }
     },
 
     fail :
     function( message )
     {
-        throw new Error( message );
+        tests[ message ] = false;
+        //throw new Error( message );
     }
 };

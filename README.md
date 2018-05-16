@@ -1,5 +1,5 @@
 # pm_common
-測試函式實作要點( 待討論 參考example.js)
+測試函式實作要點(參考example.js)
 1.  先設定變數expectedCode表明此次測試預期回傳的response狀態。
 2.	實作的function name定為字串”expect” + expected status + expected code，並以下底線隔開各單字，統一小寫(討論)
     ex: expect _ok_200, expect _bad_request_400。
