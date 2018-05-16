@@ -22,5 +22,11 @@ Utils =
     function( key )
     {
         pm.environment.get( key );
+    },
+
+    getVariable : 
+    function( key )
+    {
+        pm.variables.get( key );
     }
-} 
+}; 

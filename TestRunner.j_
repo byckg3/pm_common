@@ -1,10 +1,12 @@
 function TestRunner() 
 {
-    this.addTestCase =
+    this.addResponseHandler =
     function( f )
     {
         if ( ( typeof f ) === "function" )
+        {
             this[ f.name ] = f;
+        }
     };
 
     this.setUp = 
@@ -22,21 +24,22 @@ function TestRunner()
     this.run =
     function( context )
     {
+        this.setUp( context );
+
         let statusText = context.statusText.replace( " ", "_" ).toLowerCase();
         let expectedCode = context.expectedCode;
         let testingFunctionName = "expect_" + statusText + "_" + expectedCode;
-   
         if ( this.hasOwnProperty( testingFunctionName ) )
         {   
-            this.setUp();
             console.log( "executing : " + testingFunctionName );
             this[ testingFunctionName ]( context );
-            this.tearDown();
         }
         else
         {
             console.log( "unexpected result : no matched function" );
             this[ "unexpected" ]( context );
         }
+        
+        this.tearDown( context );
     };
 }

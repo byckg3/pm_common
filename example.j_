@@ -1,3 +1,13 @@
+eval( "(" + pm.variables.get( "Utils" ) + ")" );
+eval( pm.variables.get( "Context" ) );
+eval( pm.variables.get( "TestRunner" ) );
+
+function before( cxt )
+{
+    console.log( "Setup :" );
+    cxt.expectedCode = 200;
+}
+
 function expect_ok_200( cxt )
 {
    tests[ "status is 200" ] = true;
@@ -15,17 +25,20 @@ function unexpected( cxt )
     throw new Error( JSON.stringify( cxt ) );
 }
 
+function after()
+{
+    console.log( "Tear Down :" );
+    RequestScheduler.setNextRequest( null );
+}
+
 try
 {
-    eval(  pm.variables.get( "getContext" ) );
-    eval( pm.variables.get( "getTestRunner" ) );
-    
     let context = new Context();
     let testRunner = new TestRunner();
     
-    testRunner.addTestCase( expect_ok_200 );
-    testRunner.addTestCase( expect_bad_request_400 );
-    testRunner.addTestCase( unexpected );
+    testRunner.addResponseHandler( expect_ok_200 );
+    testRunner.addResponseHandler( expect_bad_request_400 );
+    testRunner.addResponseHandler( unexpected );
     testRunner.run( context );
 }
 catch( err )
