@@ -1,4 +1,4 @@
-RequestScheduler = 
+RequestDispatcher = 
 {
     setNextRequest :
     function( requestName )
