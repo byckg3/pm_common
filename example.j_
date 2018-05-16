@@ -8,6 +8,12 @@ function before( cxt )
     cxt.expectedCode = 200;
 }
 
+function after()
+{
+    console.log( "Tear Down :" );
+    RequestDispatcher.setNextRequest( null );
+}
+
 function expect_ok_200( cxt )
 {
    tests[ "status is 200" ] = true;
@@ -36,6 +42,8 @@ try
     let context = new Context();
     let testRunner = new TestRunner();
     
+    testRunner.setUp = before;
+    testRunner.tearDown = after;
     testRunner.addResponseHandler( expect_ok_200 );
     testRunner.addResponseHandler( expect_bad_request_400 );
     testRunner.addResponseHandler( unexpected );
