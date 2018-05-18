@@ -9,7 +9,7 @@ Utils =
     getGlobalVariable :
     function( key )
     {
-        pm.globals.get( key );
+        return pm.globals.get( key );
     },
 
     setEnvironmentVariable :
@@ -21,12 +21,12 @@ Utils =
     getEnvironmentVariable : 
     function( key )
     {
-        pm.environment.get( key );
+        return pm.environment.get( key );
     },
 
     getVariable : 
     function( key )
     {
-        pm.variables.get( key );
+        return pm.variables.get( key );
     }
 }; 
