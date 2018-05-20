@@ -9,37 +9,42 @@ function TestRunner()
         }
     };
 
-    this.setUp = 
-    function( cxt )
-    {
-        console.log( "Setup :");
-    };
-
-    this.tearDown = 
-    function( cxt )
-    {
-        console.log( "Tear Down :" );
-    };
-
     this.run =
     function( context )
-    {
-        this.setUp( context );
-
-        let statusText = context.statusText.replace( " ", "_" ).toLowerCase();
+    {   
+        this.tryToCall( "setUp", context );
+        
+        let statusText = context.statusText.replace( / /g, "_" ).toLowerCase();
         let expectedCode = context.expectedCode;
-        let testingFunctionName = "expect_" + statusText + "_" + expectedCode;
-        if ( this.hasOwnProperty( testingFunctionName ) )
-        {   
-            console.log( "executing : " + testingFunctionName );
-            this[ testingFunctionName ]( context );
+        let functionName = "expect_" + statusText + "_" + expectedCode;
+
+
+        if ( this.tryToCall( functionName, context) )
+        {
+            console.log( "executing : " + functionName );
         }
         else
         {
             console.log( "unexpected result : no matched function" );
-            this[ "unexpected" ]( context );
+            this.tryToCall( "unexpected", context );
         }
-        
-        this.tearDown( context );
+
+        this.tryToCall( "tearDown", context );
+    };
+
+    this.tryToCall = 
+    function( fName, ...args )
+    {
+        if ( this.hasOwnProperty( fName ) && ( typeof this[ fName ] === "function" ) )
+        {
+            this[ fName ]( ...args );
+            return true;
+        }
+        else if ( eval( "typeof " + fName ) === "function" )
+        {
+            eval( fName + "( ...args )" );
+            return true;
+        } 
+        return false;   
     };
 }

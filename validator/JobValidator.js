@@ -15,14 +15,17 @@ JobValidator =
         "jobCatSet-length" : "職務類別長度必須介於 1 到 3",
         
     },
-
+    // 陣列儲存輸出結果
     results : [],
+
+    // 將物件加入輸出陣列
     appendResult :
     function( errorName )
     {
         this.results.push( { "code" : errorName, "message" : this.ErrorTypes[ errorName ] } );
     },
 
+    // 清除陣列
     clear :
     function()
     {
@@ -30,13 +33,15 @@ JobValidator =
         
     },
 
-    check_out_role : // role 欄位不可傳入, 此欄位不可被修改
+    // 檢查role欄位的輸入
+    check_out_role : 
     function( roleNum )
     {
-        if ( roleNum )
+        if ( roleNum )  // role 欄位不可傳入, 此欄位不可被修改
             this.appendResult( "jobUpdateRequest-cantModifiedColumnRole" );
     },
 
+    // 檢查job欄位的輸入
     check_out_job : // maxLength：120 
     function( jobName )
     {
@@ -66,10 +71,11 @@ JobValidator =
         }
         if( this.results.length !== 0 )
         {
-            return this.getErrorResponse();
+            return this.createErrorResponse();
         }
     },
 
+    // 輸出message字串訊息
     getMessages :
     function()
     {
@@ -81,13 +87,15 @@ JobValidator =
         return messages;
     },
 
+    // 輸出details物件陣列
     getDetails : 
     function()
     {
         return this.results;
     },
 
-    getErrorResponse : 
+    // 建構輸出的JSON物件
+    createErrorResponse : 
     function()
     {
         let errorJson = 
