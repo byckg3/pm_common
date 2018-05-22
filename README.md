@@ -8,8 +8,7 @@
 5.	runner將會依據實際回傳的status text + 預期設定的expected code 組成欲呼叫的function name(同樣下底線隔開各單字，統一小寫)
 
 保留變數
-1. expectedCode
-2. Context
-3. TestRunner
+1. Context
+2. TestRunner
 
 使用方式 : 複製貼上Postman變數欄位XD
