@@ -3,6 +3,5 @@ function Context()
     this.requestBodyText = pm.request.body[ pm.request.body.mode ];
     this.statusText = pm.response.status;
     this.statusCode = pm.response.code;
-    this.expectedCode = parseInt( pm.environment.get( "expectedCode" ), 10 );
     this.responseText = pm.response.text();
 }

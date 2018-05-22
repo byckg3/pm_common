@@ -2,13 +2,13 @@ eval( "(" + pm.variables.get( "Utils" ) + ")" );
 eval( pm.variables.get( "Context" ) );
 eval( pm.variables.get( "TestRunner" ) );
 
-function before( cxt )
+function setUp( cxt )
 {
     console.log( "Setup :" );
     cxt.expectedCode = 200;
 }
 
-function after()
+function tearDown()
 {
     console.log( "Tear Down :" );
     RequestDispatcher.setNextRequest( null );
@@ -31,22 +31,11 @@ function unexpected( cxt )
     throw new Error( JSON.stringify( cxt ) );
 }
 
-function after()
-{
-    console.log( "Tear Down :" );
-    RequestScheduler.setNextRequest( null );
-}
-
 try
 {
     let context = new Context();
     let testRunner = new TestRunner();
     
-    testRunner.setUp = before;
-    testRunner.tearDown = after;
-    testRunner.addResponseHandler( expect_ok_200 );
-    testRunner.addResponseHandler( expect_bad_request_400 );
-    testRunner.addResponseHandler( unexpected );
     testRunner.run( context );
 }
 catch( err )

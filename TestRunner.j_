@@ -1,5 +1,5 @@
 function TestRunner() 
-{
+{ 
     this.addResponseHandler =
     function( f )
     {
@@ -9,37 +9,57 @@ function TestRunner()
         }
     };
 
-    this.setUp = 
-    function( cxt )
+    this.addSelecter = 
+    function( f )
     {
-        console.log( "Setup :");
+        if ( ( typeof f ) === "function" )
+        {
+            this.selecter = f;
+        }
     };
 
-    this.tearDown = 
-    function( cxt )
+    this.selecter = 
+    function( context )
     {
-        console.log( "Tear Down :" );
+        let statusText = context.statusText.replace( / /g, "_" ).toLowerCase();
+        let expectedCode = context.expectedCode;
+
+        return "expect_" + statusText + "_" + expectedCode;
     };
 
     this.run =
     function( context )
-    {
-        this.setUp( context );
+    {   
+        this.tryToCall( "setUp", context );
+        
+        let calleeName = this.selecter( context );
 
-        let statusText = context.statusText.replace( " ", "_" ).toLowerCase();
-        let expectedCode = context.expectedCode;
-        let testingFunctionName = "expect_" + statusText + "_" + expectedCode;
-        if ( this.hasOwnProperty( testingFunctionName ) )
-        {   
-            console.log( "executing : " + testingFunctionName );
-            this[ testingFunctionName ]( context );
+        if ( this.tryToCall( calleeName, context) )
+        {
+            console.log( "executing : " + calleeName );
         }
         else
         {
             console.log( "unexpected result : no matched function" );
-            this[ "unexpected" ]( context );
+            this.tryToCall( "unexpected", context );
         }
-        
-        this.tearDown( context );
+
+        this.tryToCall( "tearDown", context );
+    };
+
+    this.tryToCall = 
+    function( fName, ...args )
+    {
+        if ( this.hasOwnProperty( fName ) && ( typeof this[ fName ] === "function" ) )
+        {
+            this[ fName ]( ...args );
+            return true;
+        }
+        else if ( eval( "typeof " + fName ) === "function" )
+        {
+            eval( fName + "( ...args )" );
+            return true;
+        } 
+        return false;   
     };
 }
