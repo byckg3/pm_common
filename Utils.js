@@ -28,5 +28,11 @@ Utils =
     function( key )
     {
         return pm.variables.get( key );
+    },
+
+    setVariable : 
+    function( key, value )
+    {
+        return pm.variables.set( key, value );
     }
 }; 
