@@ -1,5 +1,5 @@
 function TestRunner() 
-{
+{ 
     this.addResponseHandler =
     function( f )
     {
@@ -9,19 +9,34 @@ function TestRunner()
         }
     };
 
+    this.addSelecter = 
+    function( f )
+    {
+        if ( ( typeof f ) === "function" )
+        {
+            this.selecter = f;
+        }
+    };
+
+    this.selecter = 
+    function( context )
+    {
+        let statusText = context.statusText.replace( / /g, "_" ).toLowerCase();
+        let expectedCode = context.expectedCode;
+
+        return "expect_" + statusText + "_" + expectedCode;
+    };
+
     this.run =
     function( context )
     {   
         this.tryToCall( "setUp", context );
         
-        let statusText = context.statusText.replace( / /g, "_" ).toLowerCase();
-        let expectedCode = context.expectedCode;
-        let functionName = "expect_" + statusText + "_" + expectedCode;
+        let calleeName = this.selecter( context );
 
-
-        if ( this.tryToCall( functionName, context) )
+        if ( this.tryToCall( calleeName, context) )
         {
-            console.log( "executing : " + functionName );
+            console.log( "executing : " + calleeName );
         }
         else
         {
