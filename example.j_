@@ -1,11 +1,15 @@
 eval( "(" + pm.variables.get( "Utils" ) + ")" );
-eval( pm.variables.get( "Context" ) );
-eval( pm.variables.get( "TestRunner" ) );
+eval( Utils.getVariable( "Context" ) );
+eval( Utils.getVariable( "TestRunner" ) );
+eval( Utils.getVariable( "RequestDispatcher" ) );
 
 function setUp( cxt )
 {
     console.log( "Setup :" );
     cxt.expectedCode = 200;
+    // common test
+    tests[ "Http status code is " + cxt.statusCode ] = cxt.expectedCode === cxt.statusCode;
+    tests[ "Response time is " + cxt.responseTime + " ms" ] = cxt.responseTime <= 3000;
 }
 
 function tearDown()
@@ -16,19 +20,17 @@ function tearDown()
 
 function expect_ok_200( cxt )
 {
-   tests[ "status is 200" ] = true;
+   
 }
 
 function expect_bad_request_400( cxt )
 {
-    tests[ "Bad Request : " + cxt.jsonObject.error.message ] = 
-               JSON.stringify( cxt.jsonObject ).includes( "error" );
+   
 }
 
 function unexpected( cxt )
 {
-    tests[ "Status code is " + cxt.expectedCode ] = cxt.expectedCode === cxt.statusCode;
-    throw new Error( JSON.stringify( cxt ) );
+    throw new Error( cxt );
 }
 
 try
