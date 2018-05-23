@@ -1,5 +1,6 @@
 Assert = 
 {
+    results = [],
     assertBy :
     function( message, f, ...args )
     {
@@ -28,5 +29,19 @@ Assert =
     {
         tests[ message ] = false;
         //throw new Error( message );
-    }
+    },
+
+    appendResult :
+    function( result, message )
+    {
+        this.results.push( { "result" : result, "message" : message } );
+    },
+
+    // 清除陣列
+    clear :
+    function()
+    {
+        this.results = [];
+        
+    },
 };

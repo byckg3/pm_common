@@ -30,21 +30,32 @@ function TestRunner()
     this.run =
     function( context )
     {   
-        this.tryToCall( "setUp", context );
+        try
+        {
+            this.tryToCall( "setUp", context );
         
-        let calleeName = this.selecter( context );
+            let calleeName = this.selecter( context );
 
-        if ( this.tryToCall( calleeName, context) )
-        {
-            console.log( "executing : " + calleeName );
+            if ( this.tryToCall( calleeName, context) )
+            {
+                console.log( "Executing : " + calleeName );
+            }
+            else
+            {
+                console.log( "unexpected result : no matched function" );
+                this.tryToCall( "unexpected", context );
+            }
         }
-        else
+        catch( error )
         {
-            console.log( "unexpected result : no matched function" );
-            this.tryToCall( "unexpected", context );
+            console.log( error.name );
+            console.log( error.message );
         }
-
-        this.tryToCall( "tearDown", context );
+        finally
+        {
+            this.tryToCall( "tearDown", context );
+        }
+       
     };
 
     this.tryToCall = 

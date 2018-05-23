@@ -30,20 +30,11 @@ function expect_bad_request_400( cxt )
 
 function unexpected( cxt )
 {
+    tests[ "unexpected condition" ] = false;
     throw new Error( cxt );
 }
 
-try
-{
-    let context = new Context();
-    let testRunner = new TestRunner();
+let context = new Context();
+let testRunner = new TestRunner();
     
-    testRunner.run( context );
-}
-catch( err )
-{
-    console.log( err.name );
-    console.log( err.message );
-   
-    tests[ err ] = false;
-}
+testRunner.run( context );
