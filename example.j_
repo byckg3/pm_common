@@ -1,6 +1,7 @@
 eval( "(" + pm.variables.get( "Utils" ) + ")" );
-eval( pm.variables.get( "Context" ) );
-eval( pm.variables.get( "TestRunner" ) );
+eval( Utils.getVariable( "Context" ) );
+eval( Utils.getVariable( "TestRunner" ) );
+eval( Utils.getVariable( "RequestDispatcher" ) );
 
 function setUp( cxt )
 {
