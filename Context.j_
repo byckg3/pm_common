@@ -1,5 +1,6 @@
 function Context() 
 {
+    this.requestName = request.name;
     this.requestBodyText = pm.request.body[ pm.request.body.mode ];
 
     this.statusText = pm.response.status;

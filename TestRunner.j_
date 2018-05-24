@@ -1,14 +1,5 @@
 function TestRunner() 
 { 
-    this.addResponseHandler =
-    function( f )
-    {
-        if ( ( typeof f ) === "function" )
-        {
-            this[ f.name ] = f;
-        }
-    };
-
     this.addSelecter = 
     function( f )
     {
@@ -25,6 +16,12 @@ function TestRunner()
         let expectedCode = context.expectedCode;
 
         return "expect_" + statusText + "_" + expectedCode;
+    };
+
+    this.setUp = 
+    function( context )
+    {
+        console.log( "Setup : " + context.requestName );
     };
 
     this.run =
@@ -58,19 +55,32 @@ function TestRunner()
        
     };
 
+    this.unexpected = 
+    function( context )
+    {
+        throw new Error( context );
+    };
+
+    this.tearDown = 
+    function( context )
+    {
+        console.log( "Tear Down : " + context.requestName );
+    };
+
     this.tryToCall = 
     function( fName, ...args )
     {
-        if ( this.hasOwnProperty( fName ) && ( typeof this[ fName ] === "function" ) )
-        {
-            this[ fName ]( ...args );
-            return true;
-        }
-        else if ( eval( "typeof " + fName ) === "function" )
+        if ( eval( "typeof " + fName ) === "function" )
         {
             eval( fName + "( ...args )" );
             return true;
         } 
+        else if ( this.hasOwnProperty( fName ) && ( typeof this[ fName ] === "function" ) )
+        {
+            this[ fName ]( ...args );
+            return true;
+        }
+        
         return false;   
     };
 }
