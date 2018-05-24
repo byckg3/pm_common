@@ -7,6 +7,9 @@ function setUp( cxt )
 {
     console.log( "Setup :" );
     cxt.expectedCode = 200;
+    // common test
+    tests[ "Http status code is " + cxt.statusCode ] = cxt.expectedCode === cxt.statusCode;
+    tests[ "Response time is " + cxt.responseTime + " ms" ] = cxt.responseTime <= 3000;
 }
 
 function tearDown()
@@ -17,32 +20,21 @@ function tearDown()
 
 function expect_ok_200( cxt )
 {
-   tests[ "status is 200" ] = true;
+   
 }
 
 function expect_bad_request_400( cxt )
 {
-    tests[ "Bad Request : " + cxt.jsonObject.error.message ] = 
-               JSON.stringify( cxt.jsonObject ).includes( "error" );
+   
 }
 
 function unexpected( cxt )
 {
-    tests[ "Status code is " + cxt.expectedCode ] = cxt.expectedCode === cxt.statusCode;
-    throw new Error( JSON.stringify( cxt ) );
+    tests[ "unexpected condition" ] = false;
+    throw new Error( cxt );
 }
 
-try
-{
-    let context = new Context();
-    let testRunner = new TestRunner();
+let context = new Context();
+let testRunner = new TestRunner();
     
-    testRunner.run( context );
-}
-catch( err )
-{
-    console.log( err.name );
-    console.log( err.message );
-   
-    tests[ err ] = false;
-}
+testRunner.run( context );
