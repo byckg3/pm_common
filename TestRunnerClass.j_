@@ -1,11 +1,19 @@
 class TestRunner 
 { 
-    constructor( context )
+    constructor()
     {
-        this.context = context;
+        this.selecters = [];
     }
 
     addSelecter( f )
+    {
+        if ( ( typeof f ) === "function" )
+        {
+            this.selecters.push( f );
+        }
+    }
+
+    setSelecter( f )
     {
         if ( ( typeof f ) === "function" )
         {
@@ -13,57 +21,59 @@ class TestRunner
         }
     }
 
-    selecter( context )
+    selecter( cxt )
     {
-        let statusText = context.statusText.replace( / /g, "_" ).toLowerCase();
-        let expectedCode = context.expectedCode;
+        let statusText = cxt.statusText.replace( / /g, "_" ).toLowerCase();
+        let expectedCode = cxt.expectedCode;
 
         return "expect_" + statusText + "_" + expectedCode;
     }
 
-    setUp( context )
+    setUp( cxt )
     {
-        console.log( "Setup : " + context.requestName );
+        console.log( "Setup : " + cxt.requestName );
     }
 
-    run()
+    run( context )
     {   
         try
         {
-            this.setUp( this.context );
+            this.setUp( context );
         
-            let calleeName = this.selecter( this.context );
+            let calleeName = this.selecter( context );
             
             if ( ( calleeName in this ) && typeof this[ calleeName ] === "function" )
             {
                 console.log( "Executing : " + calleeName );
-                this[ calleeName ]( this.context );
+                this[ calleeName ]( context );
             }
             else
             {
                 console.log( "unexpected result : no matched function" );
-                this.unexpected( this.context );
+                this.unexpected( context );
             }
         }
-        catch( error )
+        catch( err )
         {
-            console.log( error.name );
-            console.log( error.message );
+            
+            console.log( err.name );
+            console.log( err.message );
+            
         }
         finally
         {
-            this.tearDown( this.context );
+            this.tearDown( context );
         }
        
     }
 
-    unexpected( context )
+    unexpected( cxt )
     {
-        throw new Error( context );
+        throw new Error( cxt );
     }
 
-    tearDown( context )
+    tearDown( cxt )
     {
-        console.log( "Tear Down : " + context.requestName );
+        console.log( "Tear Down : " + cxt.requestName );
     }
 }
