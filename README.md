@@ -1,11 +1,4 @@
 # pm_common
-測試函式實作要點(參考example.js)
-1.  先設定變數expectedCode表明此次測試預期回傳的response狀態。
-2.	實作的function name定為字串”expect” + expected status + expected code，並以下底線隔開各單字，統一小寫(討論)
-    ex: expect _ok_200, expect _bad_request_400。
-3.	function至少要有一個傳入參數做為此測試script的環境物件，物件應包含測試所需要的全部資料，也可視需求對環境物件做新增刪除屬性等操作。
-4.	runner將會依據實際回傳的status text + 預期設定的expected code 組成欲呼叫的function name(同樣下底線隔開各單字，統一小寫)
-
 ## Context 
 - 作為全域物件使用
 - setUp階段後應該包含所有test所需資料，供後續function使用
@@ -21,7 +14,12 @@
 - 工具函式庫
 - 共用function持續擴充
 
-
+預設Http狀態Selecter實作
+1.  先設定變數expectedCode表明此次測試預期回傳的response狀態。
+2.	視需要傳入環境物件，物件應包含選擇邏輯所需資訊。
+3.	Selecter將會跟據實際回傳的status text + 預期設定的expected code 組成之後會呼叫的main function name回傳
+4.  實作的main function名稱要與對應預期selecter回傳的字串一樣，所以要以字串”expect” + expected status + expected code，同樣下底線隔開各單字，統一     小寫，ex: expect _ok_200(預期發生狀態200), expect _bad_request_400(預期發生狀態400)
+    
 
 
 使用方式 : 複製貼上Postman變數欄位XD
