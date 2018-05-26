@@ -13,8 +13,8 @@
 
 ## TestCase
 - 預先定義的template
-- 繼承TestCase後覆寫所需的function
-- 主要覆寫function: setUp、main(可自訂名稱)、unexpected、tearDown
+- 可繼承TestCase後覆寫所需的function
+- 主要覆寫function: setUp、main(自訂名稱)、unexpected、tearDown
 - 可用super關鍵字存取父親的data和method
 
 ## Utils
