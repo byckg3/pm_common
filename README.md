@@ -6,9 +6,21 @@
 3.	function至少要有一個傳入參數做為此測試script的環境物件，物件應包含測試所需要的全部資料，也可視需求對環境物件做新增刪除屬性等操作。
 4.	runner將會依據實際回傳的status text + 預期設定的expected code 組成欲呼叫的function name(同樣下底線隔開各單字，統一小寫)
 
-變數
-Context 
-    sttUp階段後應該包含所有test所需資料，供後續function使用
-TestCase
-    繼承TestCase並覆寫所需的function
+## Context 
+- setUp階段後應該包含所有test所需資料，供後續function使用
+- 常用資料持續擴充
+
+## TestCase
+- 預先定義的template
+- 繼承TestCase後覆寫所需的function
+- 主要覆寫function: setUp、main(可自訂名稱)、unexpected、tearDown
+- 可用super關鍵字存取父親的data和method
+
+## Utils
+- 工具函式庫
+- 共用function持續擴充
+
+
+
+
 使用方式 : 複製貼上Postman變數欄位XD
