@@ -1,4 +1,4 @@
-function TestRunner() 
+function TestRunner() //deprecated
 { 
     this.addSelecter = 
     function( f )
