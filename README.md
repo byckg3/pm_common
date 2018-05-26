@@ -7,6 +7,7 @@
 4.	runner將會依據實際回傳的status text + 預期設定的expected code 組成欲呼叫的function name(同樣下底線隔開各單字，統一小寫)
 
 ## Context 
+- 作為全域物件使用
 - setUp階段後應該包含所有test所需資料，供後續function使用
 - 常用資料持續擴充
 
