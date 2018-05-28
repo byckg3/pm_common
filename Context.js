@@ -9,6 +9,10 @@ function Context()
     this.statusCode = pm.response.code;
     this.responseTime = pm.response.responseTime;
     this.responseText = pm.response.text();
+
+    // default expected value
+    this.expectedCode = 200;    
+    this.expectedTime = 5000;
     
     // others
     this.message = "";

@@ -1,6 +1,21 @@
 Assert = 
 {
     results = [],
+    
+    appendResult :
+    function( result, message )
+    {
+        this.results.push( { "result" : result, "message" : message } );
+    },
+
+    // 清除陣列
+    clear :
+    function()
+    {
+        this.results = [];
+        
+    },
+
     assertBy :
     function( message, f, ...args )
     {
@@ -31,17 +46,5 @@ Assert =
         //throw new Error( message );
     },
 
-    appendResult :
-    function( result, message )
-    {
-        this.results.push( { "result" : result, "message" : message } );
-    },
-
-    // 清除陣列
-    clear :
-    function()
-    {
-        this.results = [];
-        
-    },
+    
 };
