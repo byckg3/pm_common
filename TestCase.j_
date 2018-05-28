@@ -1,4 +1,4 @@
-class TestRunner 
+class TestCase
 { 
     constructor()
     {
@@ -49,16 +49,14 @@ class TestRunner
             }
             else
             {
-                console.log( "unexpected result : no matched function" );
+                console.log( "unexpected condition : no matched function" );
                 this.unexpected( context );
             }
         }
         catch( err )
         {
-            
             console.log( err.name );
-            console.log( err.message );
-            
+            console.log( err.message ); 
         }
         finally
         {
