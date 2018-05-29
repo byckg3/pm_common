@@ -38,7 +38,7 @@ class TestCase
                 if ( ( calleeName in this ) && typeof this[ calleeName ] === "function" )
                 {
                     console.log( "Executing : " + calleeName );
-                    this[ calleeName ]( this.context );
+                    this[ calleeName ]( context );
                 }
                 else
                 {
