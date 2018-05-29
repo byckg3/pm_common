@@ -7,4 +7,4 @@ Selecter =
 
         return "expect_" + statusText + "_" + expectedCode;
     }
-};
+}
