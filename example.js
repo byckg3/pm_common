@@ -1,40 +1,36 @@
 eval( "(" + pm.variables.get( "Utils" ) + ")" );
-eval( Utils.getVariable( "Context" ) );
-eval( Utils.getVariable( "TestRunner" ) );
 eval( Utils.getVariable( "RequestDispatcher" ) );
+eval( Utils.getVariable( "Context" ) );
+eval( Utils.getVariable( "Tests" ) );
+const TestCase = eval( "(" + Utils.getVariable( "TestCase" )+")" );
 
-function setUp( cxt )
+class Tester extends TestCase
 {
-    console.log( "Setup :" );
-    cxt.expectedCode = 200;
-    // common test
-    tests[ "Http status code is " + cxt.statusCode ] = cxt.expectedCode === cxt.statusCode;
-    tests[ "Response time is " + cxt.responseTime + " ms" ] = cxt.responseTime <= 3000;
-}
-
-function tearDown()
-{
-    console.log( "Tear Down :" );
-    RequestDispatcher.setNextRequest( null );
-}
-
-function expect_ok_200( cxt )
-{
-   
-}
-
-function expect_bad_request_400( cxt )
-{
-   
-}
-
-function unexpected( cxt )
-{
-    tests[ "unexpected condition" ] = false;
-    throw new Error( cxt );
-}
-
-let context = new Context();
-let testRunner = new TestRunner();
+    setUp( cxt )
+    {
+        super.setUp( cxt );
+        cxt.expectedCode = 200;
+        cxt.expectedTime = 5000;
+        // common test
+        Tests[ "Http status code : " + cxt.statusCode ] = cxt.expectedCode === cxt.statusCode;
+        Tests[ "Response time : " + cxt.responseTime + " ms" ] = cxt.responseTime <= cxt.expectedTime;
+    }
     
-testRunner.run( context );
+    expect_ok_200( cxt )
+    {   
+        // branch 200 
+    }
+    
+    expect_bad_request_400( cxt )
+    {
+        //  branch 400
+    }
+    unexpected( cxt )
+    {
+        Tests[ cxt.toString() ] = false;
+    }
+
+}
+
+let tester = new Tester();
+tester.run( new Context() );

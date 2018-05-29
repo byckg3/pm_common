@@ -28,7 +28,7 @@ class TestCase
         
     }
 
-    run( context )
+    run( context, testResult = Tests )
     {   
         try
         {
@@ -64,6 +64,7 @@ class TestCase
         finally
         {
             this.tearDown( context );
+            testResult.output();
         }
        
     }

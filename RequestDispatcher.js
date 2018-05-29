@@ -5,4 +5,4 @@ RequestDispatcher =
     {
         postman.setNextRequest( requestName );
     },
-};
+}
