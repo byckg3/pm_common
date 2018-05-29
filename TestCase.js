@@ -2,7 +2,6 @@ class TestCase
 { 
     constructor()
     {
-        this.Tests = new Tests();
         this.selecters = [];
     }
 
