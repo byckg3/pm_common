@@ -40,7 +40,7 @@ eval( Utils.getVariable( "Selector" ) );
 eval( Utils.getVariable( "RequestDispatcher" ) );
 eval( Utils.getVariable( "Context" ) );
 eval( Utils.getVariable( "Tests" ) );
-const TestCase = eval( "(" + Utils.getVariable( "TestCase" )+ ")" );
+const TestCase = eval( "(" + Utils.getVariable( "TestCase" ) + ")" );
 ```
 
 or
@@ -55,5 +55,5 @@ eval( Utils.getVariable( "RequestDispatcher" ) )
 eval( Utils.getVariable( "Selector" ) )
 eval( Utils.getVariable( "Context" ) )
 eval( Utils.getVariable( "Tests" ) )
-eval( "(" + Utils.getVariable( "TestCase" )+")" )
+eval( "(" + Utils.getVariable( "TestCase" ) + ")" )
 ```
