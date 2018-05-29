@@ -1,7 +1,8 @@
-class TestCase 
+class TestCase
 { 
     constructor()
     {
+        this.Tests = new Tests();
         this.selecters = [];
     }
 
@@ -13,7 +14,7 @@ class TestCase
         }
     }
 
-    selecter( context )
+    selecter( context ) 
     {
         let statusText = context.statusText.replace( / /g, "_" ).toLowerCase();
         let expectedCode = context.expectedCode;
@@ -24,6 +25,7 @@ class TestCase
     setUp( cxt )
     {
         console.log( "Setup : " + cxt.requestName );
+        
     }
 
     run( context )
@@ -38,7 +40,7 @@ class TestCase
                 if ( ( calleeName in this ) && typeof this[ calleeName ] === "function" )
                 {
                     console.log( "Executing : " + calleeName );
-                    this[ calleeName ]( this.context );
+                    this[ calleeName ]( context );
                 }
                 else
                 {
