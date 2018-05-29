@@ -1,19 +1,28 @@
 # pm_common
 ## Context 
-- 作為全域物件使用
+- global object
 - setUp階段後應該包含所有test所需資料，供後續function使用
 - 常用資料持續擴充
 
 ## TestCase
-- 預先定義的template
+- 提供預先定義的template方法
 - 可繼承TestCase後覆寫所需的method
-- 主要覆寫method: setUp、unexpected、tearDown
+- run()會依序呼叫setUp、main or unexpected、tearDown
 - 可用super關鍵字存取父親的已定義的data和已實作的method
 - 宣告且實作main(自訂名稱)
 
 ## Utils
-- 工具函式庫
+- 當作工具函式庫
 - 共用function持續擴充
+
+## Tests
+- global object
+- 提供測試方法並存放測試結果
+- TestCase的run()跑完後會呼叫此物件輸出結果
+
+## Selecter
+- 存放不同測試路徑分支選擇的方法
+- 方法執行最後需要回傳要被選擇的function name字串
 
 預設Http狀態Selecter實作
 1.  先設定變數expectedCode表明此次測試預期回傳的response狀態。
