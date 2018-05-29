@@ -8,7 +8,7 @@ class Tester extends TestCase
 {
     setUp( cxt )
     {
-        console.log( "Setup : " + request.name );
+        super.setUp( cxt );
         cxt.expectedCode = 200;
         cxt.expectedTime = 5000;
         // common test
