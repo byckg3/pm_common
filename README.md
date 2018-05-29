@@ -2,18 +2,18 @@
 ## Context 
 - global object
 - setUp階段後應該包含所有test所需資料，供後續function使用
-- 常用資料持續擴充
+- 持續擴充常用資料
 
 ## TestCase
 - 提供預先定義的template方法
 - 可繼承TestCase後覆寫所需的method
-- run()會依序呼叫setUp、main or unexpected、tearDown
+- run()會依序呼叫setUp、main(自訂名稱) or unexpected、tearDown
 - 可用super關鍵字存取父親的已定義的data和已實作的method
 - 宣告且實作main(自訂名稱)
 
 ## Utils
 - 當作工具函式庫
-- 共用function持續擴充
+- 持續擴充共用function
 
 ## Tests
 - global object
