@@ -26,7 +26,7 @@ class TestCase
         console.log( "Setup : " + cxt.requestName );
     }
 
-    run( context )
+    run( context, testResult = Tests )
     {   
         try
         {
@@ -62,6 +62,7 @@ class TestCase
         finally
         {
             this.tearDown( context );
+            testResult.output();
         }
        
     }
