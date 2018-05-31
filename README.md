@@ -34,3 +34,26 @@
 
 
 使用方式 : 複製貼上Postman變數欄位XD
+```javascript
+eval( "(" + pm.variables.get( "Utils" ) + ")" ); 
+eval( Utils.getVariable( "Selector" ) );
+eval( Utils.getVariable( "RequestDispatcher" ) );
+eval( Utils.getVariable( "Context" ) );
+eval( Utils.getVariable( "Tests" ) );
+const TestCase = eval( "(" + Utils.getVariable( "TestCase" ) + ")" );
+```
+
+or
+
+```javascript
+const TestCase = eval( pm.variables.get( "pm_framework" ) );
+
+pm_framework =
+
+eval( "(" + pm.variables.get( "Utils" ) + ")" )
+eval( Utils.getVariable( "RequestDispatcher" ) )
+eval( Utils.getVariable( "Selector" ) )
+eval( Utils.getVariable( "Context" ) )
+eval( Utils.getVariable( "Tests" ) )
+eval( "(" + Utils.getVariable( "TestCase" ) + ")" )
+```
