@@ -2,18 +2,18 @@ class TestTemplate
 { 
     constructor()
     {
-        this.selecters = [];
+        this.selectors = [];
     }
 
-    addSelecter( f )
+    addSelector( f )
     {
         if ( ( typeof f ) === "function" )
         {
-            this.selecters.push( f );
+            this.selectors.push( f );
         }
     }
 
-    selecter( context )
+    selector( context )
     {
         let statusText = context.statusText.replace( / /g, "_" ).toLowerCase();
         let expectedCode = context.expectedCode;
@@ -39,7 +39,7 @@ class TestTemplate
             this.setUp( context );
             do
             {
-                let calleeName = this.selecter( context );
+                let calleeName = this.selector( context );
             
                 if ( ( calleeName in this ) && typeof this[ calleeName ] === "function" )
                 {
@@ -52,13 +52,13 @@ class TestTemplate
                     this.unexpected( context );
                 }
 
-                let first = this.selecters.shift();
+                let first = this.selectors.shift();
                 if ( first !== "undefined" )
                 {
-                    this.selecter = first;
+                    this.selector = first;
                 }
 
-            } while ( this.selecters.length > 0 ) 
+            } while ( this.selectors.length > 0 ) 
         }
         catch( error )
         {
