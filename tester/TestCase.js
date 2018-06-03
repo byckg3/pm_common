@@ -13,7 +13,7 @@ class TestTemplate
         }
     }
 
-    selector( context )
+    selector( context ) 
     {
         let statusText = context.statusText.replace( / /g, "_" ).toLowerCase();
         let expectedCode = context.expectedCode;
@@ -24,12 +24,12 @@ class TestTemplate
     setUp( cxt )
     {
         console.log( "Setup : " + cxt.requestName );
+        
     }
 
     common_test( cxt )
     {
-        Tests[ "Http status code : " + cxt.statusCode ] = cxt.expectedCode === cxt.statusCode;
-        Tests[ "Response time : " + cxt.responseTime + " ms" ] = cxt.responseTime <= cxt.expectedTime;
+
     }
 
     run( context, testResult = Tests )
