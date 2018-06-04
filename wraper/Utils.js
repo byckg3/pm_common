@@ -1,43 +1,36 @@
-Utils = 
+class Utils
 {
-    setGlobalVariable :
-    function( key, value )
+    static setGlobalVariable( key, value )
     {
         pm.globals.set( key, value );
-    },
+    }
     
-    getGlobalVariable :
-    function( key )
+    static getGlobalVariable( key )
     {
         return pm.globals.get( key );
-    },
+    }
 
-    setEnvironmentVariable :
-    function( key, value )
+    static setEnvironmentVariable( key, value )
     {
         pm.environment.set( key, value );
-    },
+    }
 
-    getEnvironmentVariable : 
-    function( key )
+    static getEnvironmentVariable( key )
     {
         return pm.environment.get( key );
-    },
+    }
 
-    getVariable : 
-    function( key )
+    static getVariable( key )
     {
         return pm.variables.get( key );
-    },
+    }
 
-    setVariable : 
-    function( key, value )
+    static setVariable( key, value )
     {
         pm.variables.set( key, value );
-    },
+    }
 
-    getValueFromJsonString :
-    function( jsonString, key )
+    static getValueFromJsonString( jsonString, key )
     {
         let value;
         JSON.parse( jsonString, 
@@ -50,10 +43,9 @@ Utils =
             } 
         );
         return value;
-    },
+    }
 
-    getValueObjectFromJsonString :
-    function( jsonString, ...keys )
+    static getValueObjectFromJsonString( jsonString, ...keys )
     {
         let vo = {};
         for ( let i = 0; i < keys.length; i++ )
@@ -71,4 +63,5 @@ Utils =
         );
         return vo;
     }
+
 }
