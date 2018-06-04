@@ -1,4 +1,4 @@
-Selector = 
+ConditionSelector = 
 {
     selectHttpStatus( context ) 
     {
