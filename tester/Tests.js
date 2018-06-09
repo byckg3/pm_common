@@ -2,15 +2,13 @@ Tests =
 {
     results : new Map(),
 
-    clear :
-    function()
+    clear()
     {
         this.results.clear();
         
     },
 
-    assertBy :
-    function( message, f, ...args )
+    assertBy( message, f, ...args )
     {
         if ( ( typeof f ) === "function" )
         {
@@ -18,34 +16,29 @@ Tests =
         }
     },
 
-    assertEquals :
-    function( message, expected, result ) 
+    assertEquals( message, expected, result ) 
     {
         this.results.set( message, expected === result );
     },
 
-    assertJsonEquals :
-    function( message, jsonA, jsonB )
+    assertJsonEquals( message, jsonA, jsonB )
     {
         let a = JSON.stringify( jsonA );
         let b = JSON.stringify( jsonB );
         this.results.set( message, a === b );
     },
 
-    fail :
-    function( message = "test fail" )
+    fail( message = "test fail" )
     {
         this.results.set( message, false );
     },
 
-    pass : 
-    function( message )
+    pass( message )
     {
         this.results.set( message, true );
     },
 
-    output:
-    function()
+    output()
     {
         if ( this.results.size > 0 )
         {

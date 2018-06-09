@@ -1,13 +1,11 @@
 RequestDispatcher = 
 {
-    setNextRequest :
-    function( requestName )
+    setNextRequest( requestName )
     {
         postman.setNextRequest( requestName );
     },
 
-    repeatedRequest : 
-    function( requestName, expectedTimes, nextRequestName )
+    repeatedRequest( requestName, expectedTimes, nextRequestName )
     {
         let initial = 1;
         let times = pm.variables.get( requestName ); // requestNmae 當作 key
@@ -37,8 +35,7 @@ RequestDispatcher =
         }    
     },
 
-    getCurrentRepetition :
-    function( requestName )
+    getCurrentRepetition( requestName )
     {
         let times = pm.variables.get( requestName );
         if ( times === undefined )
