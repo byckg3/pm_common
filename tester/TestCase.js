@@ -1,4 +1,4 @@
-class TestTemplate
+class TestCase
 { 
     constructor()
     {
