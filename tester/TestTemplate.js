@@ -52,13 +52,9 @@ class TestTemplate
                     this.unexpected( context );
                 }
 
-                let first = this.selectors.shift();
-                if ( first !== "undefined" )
-                {
-                    this.selector = first;
-                }
-
-            } while ( this.selectors.length > 0 ) 
+                this.selector = this.selectors.shift();
+               
+            } while ( this.selector ) 
         }
         catch( error )
         {
