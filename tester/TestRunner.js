@@ -13,20 +13,20 @@ class TestRunner
         }
     }
 
-    setUp( cxt )
+    setUp()
     {
-        console.log( "Runner Setup : " );
+        console.log( "Setup : " );
     }
 
-    run( context, testResult = Tests )
+    run( testResult )
     {   
         try
         {
-            this.setUp( context );
+            this.setUp();
 
             for ( let i = 0, len = this.testCases.length; i < len; i++ )
             {
-                this.testCases[ i ].run();
+                this.testCases[ i ].run( testResult );
             }
            
         }
@@ -37,14 +37,14 @@ class TestRunner
         }
         finally
         {
-            this.tearDown( context );
+            this.tearDown();
             testResult.output();
         }
        
     }
 
-    tearDown( cxt )
+    tearDown()
     {
-        console.log( "Runner Tear Down : " );
+        console.log( "Tear Down : " );
     }
 }

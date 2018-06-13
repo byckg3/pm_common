@@ -1,7 +1,8 @@
 function Context() 
 {
     // request info
-    this.requestName = request.name;
+    this.requestName = pm.info.requestName;
+    this.requestId = pm.info.requestId;
     this.requestBodyText = pm.request.body[ pm.request.body.mode ];
 
     // response info

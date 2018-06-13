@@ -20,6 +20,11 @@ class Utils
         return pm.environment.get( key );
     }
 
+    static clearEnvironmentVariable( key )
+    {
+        pm.environment.unset( key );
+    }  
+
     static getVariable( key )
     {
         return pm.variables.get( key );
