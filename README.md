@@ -2,7 +2,7 @@
 可參考example.js
 ## Context 
 - global object
-- setUp階段後應該包含所有test所需資料，供後續function使用
+- setup階段後應該包含所有test所需資料，供後續function使用
 - 持續擴充常用資料
 
 ## TestCase
@@ -22,7 +22,7 @@
 - TestCase的run()跑完後會呼叫此物件輸出結果
 
 ## Selecter
-- 存放不同測試路徑分支選擇的方法
+- 存放可選擇不同測試分支路徑的方法
 - 方法執行最後需要回傳要被選擇的function name字串
 
 預設Http狀態Selecter實作
