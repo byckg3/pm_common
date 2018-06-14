@@ -20,7 +20,7 @@ class TestClass
 
     setUp()
     {
-        console.log( "Setup : " );   
+        console.log( "setup : " );   
     }
 
     run( testResult )
@@ -67,6 +67,6 @@ class TestClass
 
     tearDown()
     {
-        console.log( "Tear Down : " ); 
+        console.log( "tear down : " ); 
     }
 }
