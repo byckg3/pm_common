@@ -13,9 +13,9 @@ class TestClass
         }
     }
 
-    selector() 
+    selector() // abstract method
     {
-        throw new Error( 'You have to implement the selector() method' );
+        throw new Error( "You have to implement the selector() method" );
     }
 
     setUp()
@@ -62,7 +62,7 @@ class TestClass
 
     unexpected()
     {
-        console.log( "unexpected : " ); 
+        console.log( "unexpected : " );
     }
 
     tearDown()
