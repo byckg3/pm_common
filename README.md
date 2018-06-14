@@ -2,7 +2,7 @@
 可參考example.js
 ## Context 
 - global object
-- setUp階段後應該包含所有test所需資料，供後續function使用
+- setup階段後應該包含所有test所需資料，供後續function使用
 - 持續擴充常用資料
 
 ## TestCase
