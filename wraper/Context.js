@@ -1,4 +1,4 @@
-function Context() 
+function Context() // value object
 {
     // request info
     this.requestName = pm.info.requestName;

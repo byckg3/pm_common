@@ -23,13 +23,14 @@ class TestTemplate
 
     setUp( cxt )
     {
-        console.log( "Setup : " + cxt.requestName );
+        console.log( "setup : " + cxt.requestName );
         
     }
 
-    common_test( cxt )
+    commonTest( cxt )
     {
-
+        Tests[ "Http status code : " + cxt.statusCode ] = cxt.expectedCode === cxt.statusCode;
+        Tests[ "Response time : " + cxt.responseTime + " ms" ] = cxt.responseTime <= cxt.expectedTime;
     }
 
     run( context, testResult = Tests )
@@ -76,6 +77,6 @@ class TestTemplate
 
     tearDown( cxt )
     {
-        console.log( "Tear Down : " + cxt.requestName );
+        console.log( "tear down : " + cxt.requestName );
     }
 }

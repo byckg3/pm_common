@@ -1,4 +1,4 @@
-class TestRunner
+class TestRunner // tests runner
 { 
     constructor()
     {
@@ -7,7 +7,7 @@ class TestRunner
 
     addTestCase( t )
     {
-        if ( t instanceof TestCase )
+        if ( t.run )
         {
             this.testCases.push( t );
         }
@@ -24,7 +24,7 @@ class TestRunner
         {
             this.setUp();
 
-            for ( let i = 0, len = this.testCases.length; i < len; i++ )
+            for ( let i = 0, length = this.testCases.length; i < length; i++ )
             {
                 this.testCases[ i ].run( testResult );
             }
@@ -39,8 +39,7 @@ class TestRunner
         {
             this.tearDown();
             testResult.output();
-        }
-       
+        }     
     }
 
     tearDown()
