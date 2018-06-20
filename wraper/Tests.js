@@ -1,14 +1,17 @@
-Tests = 
+class Tests 
 {
-    results : new Map(),
-    pass : 0, // counter
-    fail : 0, // counter
-
+    constructor()
+    {
+        this.results = new Map();
+        this.pass = 0; // counter
+        this.fail = 0; // counter
+    }
+    
     clear() // unfinished 
     {
         this.results.clear();
         
-    },
+    }
 
     getTestResult( message )
     {
@@ -20,7 +23,7 @@ Tests =
         }
 
         return result;
-    },
+    }
 
     assertEquals( expected, actual, message, compare ) 
     {
@@ -41,27 +44,27 @@ Tests =
             error.name = "AssertionError";
             throw error;
         }
-    },
+    }
 
     assertFalse( booleanExpression, message )
     {
         this.assertEquals( false, booleanExpression, message );
-    },
+    }
 
     assertTrue( booleanExpression, message )
     {
         this.assertEquals( true, booleanExpression, message );
-    },
+    }
 
     fail( message = "test fail" )
     {
         this.results.set( message, false );
-    },
+    }
 
     pass( message = "test pass" )
     {
         this.results.set( message, true );
-    },
+    }
 
     output()
     {
