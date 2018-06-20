@@ -1,11 +1,11 @@
 # pm_common
 可參考example.js
-## Context 
+## TestContext 
 - global object
 - setup階段後應該包含所有test所需資料，供後續function使用
 - 持續擴充常用資料
 
-## TestCase
+## TestTemplate
 - 提供預先定義的template方法
 - 可繼承TestCase後覆寫所需的method
 - run()會依序呼叫setUp、main(自訂名稱) or unexpected、tearDown
@@ -21,7 +21,7 @@
 - 提供測試方法並存放測試結果
 - TestCase的run()跑完後會呼叫此物件輸出結果
 
-## Selecter
+## TestSelecter
 - 存放可選擇不同測試分支路徑的方法
 - 方法執行最後需要回傳要被選擇的function name字串
 
@@ -35,12 +35,12 @@
 
 使用方式 : 複製貼上Postman變數欄位XD
 ```javascript
-eval( "(" + pm.variables.get( "Utils" ) + ")" ); 
-eval( Utils.getVariable( "Selector" ) );
-eval( Utils.getVariable( "RequestDispatcher" ) );
-eval( Utils.getVariable( "Context" ) );
-eval( Utils.getVariable( "Tests" ) );
-const TestCase = eval( "(" + Utils.getVariable( "TestCase" ) + ")" );
+const Utils = eval( "(" + pm.variables.get( "Utils" ) + ")" );
+const RequestDispatcher = eval( "(" + Utils.getVariable( "RequestDispatcher" ) + ")" );
+const TestSelector = eval( "(" + Utils.getVariable( "TestSelector" ) + ")" );
+const TestContext = eval( "(" + Utils.getVariable( "TestContext" ) + ")" );
+const Tests = new ( eval( "(" + Utils.getVariable( "Tests" ) + ")" ) )();
+const TestTemplate = eval( "(" + Utils.getVariable( "TestTemplate" ) + ")" );
 ```
 
 or
