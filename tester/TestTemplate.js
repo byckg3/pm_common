@@ -10,6 +10,7 @@ class TestTemplate
                 return "expect_" + statusText + "_" + context.expectedCode;
             } 
         );
+        
     }
 
     addSelector( f )
@@ -28,7 +29,6 @@ class TestTemplate
     setUp( cxt )
     {
         console.log( "setup : " + cxt.requestName );
-        
     }
 
     commonTest( cxt )
