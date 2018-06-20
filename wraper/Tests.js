@@ -1,31 +1,56 @@
 Tests = 
 {
     results : new Map(),
+    pass : 0, // counter
+    fail : 0, // counter
 
-    clear()
+    clear() // unfinished 
     {
         this.results.clear();
         
     },
 
-    assertBy( message, f, ...args )
+    getTestResult( message )
     {
-        if ( ( typeof f ) === "function" )
+        let result = results.get( message );
+
+        if ( typeof result === "undefined" )
         {
-            this.results.set( message, f( ...args ) );
+            result = this[ message ];
+        }
+
+        return result;
+    },
+
+    assertEquals( expected, actual, message, compare ) 
+    {
+        let result;
+        if ( typeof compare === "function" )
+        {
+            result = compare( expected, actual );
+        }
+        else
+        {
+            result = expected === actual;
+        }
+        this.results.set( message, result );
+
+        if ( !result )
+        {
+            let error = new Error( message );
+            error.name = "AssertionError";
+            throw error;
         }
     },
 
-    assertEquals( message, expected, result ) 
+    assertFalse( booleanExpression, message )
     {
-        this.results.set( message, expected === result );
+        this.assertEquals( false, booleanExpression, message );
     },
 
-    assertJsonEquals( message, jsonA, jsonB )
+    assertTrue( booleanExpression, message )
     {
-        let a = JSON.stringify( jsonA );
-        let b = JSON.stringify( jsonB );
-        this.results.set( message, a === b );
+        this.assertEquals( true, booleanExpression, message );
     },
 
     fail( message = "test fail" )
@@ -33,7 +58,7 @@ Tests =
         this.results.set( message, false );
     },
 
-    pass( message )
+    pass( message = "test pass" )
     {
         this.results.set( message, true );
     },

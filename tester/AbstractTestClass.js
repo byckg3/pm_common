@@ -10,7 +10,7 @@ class AbstractTestClass // abstract class
         console.log( "setup : " );   
     }
 
-    run( testResult ) // abstract method
+    run() // abstract method
     {   
         throw new Error( "You have to implement the run() method" );
     }

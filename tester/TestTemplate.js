@@ -3,6 +3,13 @@ class TestTemplate
     constructor()
     {
         this.selectors = [];
+        this.addSelector( 
+            ( context ) => {
+                let statusText = context.statusText.replace( / /g, "_" ).toLowerCase();
+               
+                return "expect_" + statusText + "_" + context.expectedCode;
+            } 
+        );
     }
 
     addSelector( f )
@@ -13,12 +20,9 @@ class TestTemplate
         }
     }
 
-    selector( context ) 
+    selector( context ) // current selector
     {
-        let statusText = context.statusText.replace( / /g, "_" ).toLowerCase();
-        let expectedCode = context.expectedCode;
-
-        return "expect_" + statusText + "_" + expectedCode;
+        return "commonTest";
     }
 
     setUp( cxt )
