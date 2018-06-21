@@ -25,15 +25,15 @@
 - 存放可選擇不同測試分支路徑的function
 - function最後需要回傳要被選擇執行的method name字串
 
-預設: 選擇Http狀態Selecter實作
+預設: 選擇Http狀態的Selecter函式
 1.  先設定變數expectedCode表明此次測試預期回傳的response狀態。
-2.	傳入環境物件，物件應包含選擇邏輯所需資訊。
-3.	Selecter將會跟據實際回傳的status text + 預期設定的expected code 組成之後呼叫的main function name回傳
-4.  實作的main function名稱要與對應預期selecter回傳的字串一樣，故要以字串”expect” + expected status + expected code定名，同樣下底線隔開各單字，統     一小寫，ex: expect_ok_200(預期發生狀態200), expect_bad_request_400(預期發生狀態400)
+2.	參數傳入環境物件，物件應包含選擇邏輯所需資訊。
+3.	Selecter function將會跟據實際回傳的status text + 預期設定的expected code 組成之後呼叫的function name回傳
+4.  實作的function名稱要對應預期Selecter function回傳的字串一樣，故要以字串”expect” + expected status + expected code定名，同樣下底線隔開各單     字，統一小寫，ex: expect_ok_200(預期發生狀態200), expect_bad_request_400(預期發生狀態400)
     
 
 
-使用方式 : 複製貼上Postman變數欄位XD
+使用方式 : js檔案內容複製貼上Postman變數欄位
 ```javascript
 const Utils = eval( "(" + pm.variables.get( "Utils" ) + ")" );
 const RequestDispatcher = eval( "(" + Utils.getVariable( "RequestDispatcher" ) + ")" );
