@@ -1,9 +1,7 @@
-// value object
-class WebApiTestContext 
+class WebApiTestContext // value object
 {
-    constructor( testResult )
+    constructor()
     {   
-        this.testResult;
         // default expected value
         this.expectedCode = 200;    
         this.expectedTime = 5000;   

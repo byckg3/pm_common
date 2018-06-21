@@ -84,7 +84,7 @@ class WebApiTestTemplate
 
     unexpected()
     {
-        Tests[ "unexpected condition occured. " + this.context ] = false;
+        Tests[ "unexpected condition. " + this.context ] = false;
     }
 
     tearDown()
