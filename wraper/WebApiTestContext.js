@@ -1,8 +1,10 @@
 // value object
 class WebApiTestContext 
 {
-    constructor()
-    {   // default expected value
+    constructor( testResult )
+    {   
+        this.testResult;
+        // default expected value
         this.expectedCode = 200;    
         this.expectedTime = 5000;   
     }
@@ -35,8 +37,16 @@ class WebApiTestContext
     // others
     toString()
     {
-        console.log( [ this.statusCode, this.statusText, ", time : " + this.responseTime + " ms" ].join( " " ) );
-        console.log( "Response :\n" + this.responseText );
-        return this.responseText;
+        console.log( `${this.statusCode} ${this.statusText}, time : ${this.responseTime} ms` );
+       
+        let expectedValues = "";
+        for ( let property in this )
+        {
+            if ( property.includes( "expected" ) )
+            {
+                expectedValues += ( property + " : " + this[ property ] + "\t" );
+            }
+        }
+        return expectedValues;
     }
 }

@@ -3,14 +3,8 @@ class WebApiTestTemplate
     constructor( context )
     {
         this.context = context;
-        this.schedule( [ "common_test" ] );
-        this.addSelector( 
-            ( context ) => {
-                let statusText = context.statusText.replace( / /g, "_" ).toLowerCase();
-               
-                return "expect_" + statusText + "_" + context.expectedCode;
-            } 
-        );
+        this.schedule( [ "common_tests" ] );
+        this.addSelector( TestSelector.selectHttpStatus );
         this.step = 0;
     }
 
@@ -46,7 +40,7 @@ class WebApiTestTemplate
         console.log( "setup : " + this.context.requestName );
     }
 
-    common_test()
+    common_tests()
     {
         let cxt = this.context;
         Tests[ "Http status code : " + cxt.statusCode ] = cxt.expectedCode === cxt.statusCode;
@@ -70,10 +64,9 @@ class WebApiTestTemplate
                 }
                 else
                 {
-                    console.log( "unexpected result : no matched function" );
+                    console.log( this.step + ". unexpected condition : no matched function" );
                     this.unexpected();
                 }
-
                 this.step++;       
             }
         }
@@ -91,7 +84,7 @@ class WebApiTestTemplate
 
     unexpected()
     {
-        throw new Error( this.context );
+        Tests[ "unexpected condition occured. " + this.context ] = false;
     }
 
     tearDown()
