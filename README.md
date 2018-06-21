@@ -46,7 +46,7 @@ const TestTemplate = eval( "(" + Utils.getVariable( "WebApiTestTemplate" ) + ")"
 or
 
 ```javascript
-eval( pm.variables.get( "pm_framework" ) );
+eval( pm.variables.get( "pm_common" ) );
 
 
 pm_framework =
