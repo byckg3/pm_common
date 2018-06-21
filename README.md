@@ -49,7 +49,7 @@ or
 eval( pm.variables.get( "pm_common" ) );
 
 
-pm_framework =
+pm_common =
 var Utils = eval( "(" + pm.variables.get( "Utils" ) + ")" )
 var RequestDispatcher = eval( "(" + Utils.getVariable( "RequestDispatcher" ) + ")" );
 var TestSelector = eval( "(" + Utils.getVariable( "TestSelector" ) + ")" );
