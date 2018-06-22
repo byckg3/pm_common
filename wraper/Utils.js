@@ -70,7 +70,7 @@ class Utils {
         return true;
     }
 
-    static getQueryStringFromJsonString() {
+    static getQueryStringFromObject() {
         let query_list = []
         for (let i in query_object) {
             // 只將 value 有值的組成 array
@@ -78,7 +78,6 @@ class Utils {
                 query_list.push(`${i}=${query_object[i]}`);
             }
         }
-        console.log(query_list);
         // array 有值才會組字串
         return query_list.length > 0 ? `?${query_list.join('&')}` : ''
     }
