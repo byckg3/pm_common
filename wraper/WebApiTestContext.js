@@ -1,23 +1,22 @@
 class WebApiTestContext // value object
 {
-    constructor()
-    {   
+    constructor() {
         // default expected value
-        this.expectedCode = 200;    
-        this.expectedTime = 5000;   
+        this.expectedCode = 200;
+        this.expectedTime = 5000;
     }
     // request info
-    get requestName() {   
-        return pm.info.requestName; 
-    } 
+    get requestName() {
+        return pm.info.requestName;
+    }
     get requestId() {
         return pm.info.requestId;
-    } 
+    }
     get requestUrl() {
         return pm.request.url;
     }
     get requestBodyText() {
-        return pm.request.body[ pm.request.body.mode ];
+        return pm.request.body[pm.request.body.mode];
     }
     // response info
     get statusText() {
@@ -33,16 +32,12 @@ class WebApiTestContext // value object
         return pm.response.text();
     }
     // others
-    toString()
-    {
-        console.log( `${this.statusCode} ${this.statusText}, time : ${this.responseTime} ms` );
-       
+    toString() {
+
         let expectedValues = "";
-        for ( let property in this )
-        {
-            if ( property.includes( "expected" ) )
-            {
-                expectedValues += ( property + " : " + this[ property ] + "\t" );
+        for (let property in this) {
+            if (property.includes("expected")) {
+                expectedValues += (property + " : " + this[property] + "\t");
             }
         }
         return expectedValues;
