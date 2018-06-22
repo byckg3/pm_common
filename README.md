@@ -4,6 +4,8 @@
 - 傳入TestTemplate建構式
 - setup階段後應該包含所有test所需資料，供後續function共享使用
 - 持續擴充常用資料
+- 在class裡面使用this.context可取得reference
+- ex. this.context.responseText 取得回應的body字串
 
 ## TestTemplate
 - 提供預先定義的template方法
@@ -15,18 +17,20 @@
 ## Utils
 - 當作工具函式庫
 - 持續擴充共用function
+- ex. Utils.getValueObjectFromJsonString( jsonString, key1, key2 )
 
 ## Tests
 - global object
 - 提供測試方法並存放測試結果
-- TestCase的run()跑完後會呼叫此物件輸出結果
+- assert開頭的method提供中斷流程throw error的功能
+- ex. Tests[ "Test name" ] = ( boolean expression );
 
 ## TestSelecter
 - 存放可選擇不同測試分支路徑的function
 - function最後需要回傳要被選擇執行的method name字串
 
 預設: 選擇Http狀態的Selecter函式
-1.  先設定變數expectedCode表明此次測試預期回傳的response狀態。
+1.  先在context設定變數expectedCode表明此次測試預期回傳的response狀態(預設200)。
 2.	參數傳入環境物件，物件應包含選擇邏輯所需資訊。
 3.	Selecter function將會跟據實際回傳的status text + 預期設定的expected code 組成之後呼叫的function name回傳
 4.  實作的function名稱要對應預期Selecter function回傳的字串一樣，故要以字串”expect” + expected status + expected code定名，同樣下底線隔開各單     字，統一小寫，ex: expect_ok_200(預期發生狀態200), expect_bad_request_400(預期發生狀態400)
