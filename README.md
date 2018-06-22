@@ -4,6 +4,8 @@
 - 傳入TestTemplate建構式
 - setup階段後應該包含所有test所需資料，供後續function共享使用
 - 持續擴充常用資料
+- 在class裡面使用this.context可取得reference
+- ex. this.context.responseText 取得回應的body字串
 
 ## TestTemplate
 - 提供預先定義的template方法
