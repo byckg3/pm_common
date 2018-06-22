@@ -7,6 +7,10 @@ class Utils {
         return pm.globals.get(key);
     }
 
+    static clearGlobalVariable(key) {
+        pm.globals.unset(key);
+    }
+
     static setEnvironmentVariable(key, value) {
         pm.environment.set(key, value);
     }
