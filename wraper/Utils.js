@@ -68,21 +68,4 @@ class Utils
         );
         return vo;
     }
-
-    static propertiesExists( json, ...keys )
-    {
-        let jsonString = "";
-        let vo = {};
-
-        if ( typeof json === "Object" )
-        {
-            jsonString = JSON.stringify( json );
-        }
-        for ( let i = 0; i < keys.length; i++ )
-        {
-            vo[ keys[ i ] ] = "";
-        }
-
-        return true;
-    }
 }
