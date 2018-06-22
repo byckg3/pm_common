@@ -72,14 +72,9 @@ class Utils {
         }
         return true;
     }
-<<<<<<< HEAD
     
-    static getQueryStringFromJsonString() {
-=======
-
     static getQueryStringFromObject() {
->>>>>>> 1bd6278a4284881734b991e6ee8013afd629f9a7
-        let query_list = []
+        let query_list = [];
         for (let i in query_object) {
             // 只將 value 有值的組成 array
             if (query_object[i]) {
@@ -87,6 +82,6 @@ class Utils {
             }
         }
         // array 有值才會組字串
-        return query_list.length > 0 ? `?${query_list.join('&')}` : ''
+        return query_list.length > 0 ? `?${query_list.join('&')}` : '';
     }
 }
