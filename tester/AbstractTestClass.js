@@ -1,27 +1,23 @@
 class AbstractTestClass // abstract class
-{ 
-    constructor()
-    {
-        
+{
+    constructor() {
+
     }
 
-    setUp()
-    {
-        console.log( "setup : " );   
+    setUp() {
+        console.log("setup : ");
     }
 
     run() // abstract method
-    {   
-        throw new Error( "You have to implement the run() method" );
+    {
+        throw new Error("You have to implement the run() method");
     }
 
-    unexpected()
-    {
-        console.log( "unexpected : " );
+    unexpected() {
+        console.log("unexpected : ");
     }
 
-    tearDown()
-    {
-        console.log( "tear down : " ); 
+    tearDown() {
+        console.log("tear down : ");
     }
 }

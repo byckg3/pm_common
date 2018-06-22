@@ -1,28 +1,23 @@
-eval( pm.variables.get( "pm_common" ) );
+eval(pm.variables.get("pm_common"));
 
-class Tester extends TestTemplate
-{
-    setUp()
-    {
+class Tester extends TestTemplate {
+    setUp() {
         super.setUp();
         // doSomething();
     }
 
-    expect_ok_200()
-    {   
+    expect_ok_200() {
         // main test
     }
 
-    unexpected()
-    {
+    unexpected() {
         super.unexpected();
         // moreExceptionHandle();
     }
 
-    tearDown()
-    {
+    tearDown() {
         // totally overwrite
     }
 }
 
-new Tester( new TestContext() ).run();
+new Tester(new TestContext()).run();
