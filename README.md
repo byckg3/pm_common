@@ -17,6 +17,7 @@
 ## Utils
 - 當作工具函式庫
 - 持續擴充共用function
+- ex. Utils.getValueObjectFromJsonString( jsonString, key1, key2 )
 
 ## Tests
 - global object
