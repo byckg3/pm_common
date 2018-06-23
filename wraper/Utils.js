@@ -60,17 +60,7 @@ class Utils {
         );
         return vo;
     }
-    // 不支援有重複相同屬性名稱的JSON
-    static propertyExists(json, key) {
-        let jsonString = typeof json === "string" ? json : JSON.stringify(json);
-        let value = this.getValueFromJsonString(jsonString, key);
-
-        if (typeof value === "undefined") {
-            return false;
-        }
-        return true;
-    }
-
+    
     static getQueryStringFromObject(query_object) {
         let query_list = [];
         for (let i in query_object) {
