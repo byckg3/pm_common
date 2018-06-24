@@ -5,12 +5,6 @@ class Tests {
         this.fail = 0; // counter
     }
 
-    clear() // unfinished 
-    {
-        this.results.clear();
-
-    }
-
     getTestResult(message) {
         let result = results.get(message);
 
