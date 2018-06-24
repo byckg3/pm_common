@@ -1,5 +1,5 @@
 # pm_common
-可參考example.js
+可參考demo、example.js
 ## TestContext 
 - 傳入TestTemplate建構式
 - setup階段後應該包含所有test所需資料，供後續function共享使用
@@ -37,14 +37,14 @@
     
 
 
-使用方式 : js檔案內容複製貼上Postman變數欄位
+使用方式 : js檔案內容複製貼上Postman變數欄位並引用下列宣告在test script開頭
 ```javascript
 const Utils = eval( "(" + pm.variables.get( "Utils" ) + ")" );
 const RequestDispatcher = eval( "(" + Utils.getVariable( "RequestDispatcher" ) + ")" );
 const TestSelector = eval( "(" + Utils.getVariable( "TestSelector" ) + ")" );
 const Tests = new ( eval( "(" + Utils.getVariable( "Tests" ) + ")" ) )();
-const TestContext = eval( "(" + Utils.getVariable( "WebApiTestContext" ) + ")" );
-const TestTemplate = eval( "(" + Utils.getVariable( "WebApiTestTemplate" ) + ")" );
+const TestContext = eval( "(" + Utils.getVariable( "TestContext" ) + ")" );
+const TestTemplate = eval( "(" + Utils.getVariable( "TestTemplate" ) + ")" );
 ```
 
 or
@@ -58,6 +58,6 @@ var Utils = eval( "(" + pm.variables.get( "Utils" ) + ")" )
 var RequestDispatcher = eval( "(" + Utils.getVariable( "RequestDispatcher" ) + ")" );
 var TestSelector = eval( "(" + Utils.getVariable( "TestSelector" ) + ")" );
 var Tests = new ( eval( "(" + Utils.getVariable( "Tests" ) + ")" ) )();
-var TestContext = eval( "(" + Utils.getVariable( "WebApiTestContext" ) + ")" );
-var TestTemplate = eval( "(" + Utils.getVariable( "WebApiTestTemplate" ) + ")" );
+var TestContext = eval( "(" + Utils.getVariable( "TestContext" ) + ")" );
+var TestTemplate = eval( "(" + Utils.getVariable( "TestTemplate" ) + ")" );
 ```
