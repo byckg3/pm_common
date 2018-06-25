@@ -32,7 +32,7 @@ class Utils {
     }
     // 不支援有重複相同屬性名稱的JSON
     static getValueFromJsonString(jsonString, key) {
-        let value;
+        let value = null;
         JSON.parse(jsonString,
             (property, data) => {
                 if (property === key) {
@@ -47,7 +47,7 @@ class Utils {
     static getValueObjectFromJsonString(jsonString, ...keys) {
         let vo = {};
         for (let i = 0; i < keys.length; i++) {
-            vo[keys[i]] = null;
+            vo[ keys[ i ] ] = null;
         }
 
         JSON.parse(jsonString,

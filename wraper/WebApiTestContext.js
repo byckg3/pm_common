@@ -31,6 +31,9 @@ class WebApiTestContext // value object
     get responseText() {
         return pm.response.text();
     }
+    get responseJson() {
+        return pm.response.json();
+    }
     // others
     toString() {
 
