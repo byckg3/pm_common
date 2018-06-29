@@ -4,7 +4,7 @@
 - 傳入 TestTemplate 建構式
 - setup 階段後應該包含所有 test 所需資料，供後續 function 共享使用
 - 持續擴充常用資料
-- 在 class 裡面使用 this.context 可取得 reference
+- 在 class 裡面使用 this.context 可取得 TestContext 物件的 reference
 - ex. this.context.responseText 取得回應的 body 字串
 
 ## TestTemplate
@@ -33,7 +33,7 @@
 1.  先在 context 設定變數 expectedCode 表明此次測試預期回傳的 response 狀態(預設 200 )。
 2.	參數傳入環境物件，物件應包含選擇邏輯所需資訊。
 3.	Selecter function 將會跟據實際回傳的 status text + 預期設定的 expected code 組成之後呼叫的 function name 回傳
-1.  實作的 function 名稱要對應預期 Selecter function 回傳的字串一樣，故要以字串”expect” + expected status + expected code 定名，同樣下底線隔開各單字，統一小寫，ex: expect_ok_200 (預期發生狀態 200 ), expect_bad_request_400 (預期發生狀態 400 )
+1.  實作的 function 名稱要與對應預期 Selecter function 回傳的字串一樣，故要以字串”expect” + expected status + expected code 定名，同樣下底線隔開各單字，統一小寫，ex: expect_ok_200 (預期發生狀態 200 ), expect_bad_request_400 (預期發生狀態 400 )
     
 
 
