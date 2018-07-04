@@ -4,6 +4,7 @@ class WebApiTestContext // value object
         // default expected value
         this.expectedCode = 200;
         this.expectedTime = 5000;
+        this.attributes = new Map();
     }
     // request info
     get requestName() {
@@ -45,4 +46,18 @@ class WebApiTestContext // value object
         }
         return expectedValues;
     }
+
+    addAttribute( key, value ) // unfinish
+    {
+        if ( this.hasOwnProperty( key ) )
+        {
+            this[ key ] = value;
+        }
+        
+        let contextText = Utils.getVariable( "TestContext" );
+        let insertText = `this.attributes.set(${ key },${ value })`;
+        let reg = /constructor[^{]*{([^}]*)}/;
+    }
+
+    
 }

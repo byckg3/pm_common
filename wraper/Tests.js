@@ -4,7 +4,7 @@ class Tests {
         this.pass = 0; // counter
         this.fail = 0; // counter
     }
-
+    // 以 message 回傳指定的 test result
     getTestResult(message) {
         let result = results.get(message);
 
@@ -17,12 +17,14 @@ class Tests {
 
     assertEquals(expected, actual, message, compare) {
         let result;
+        
         if (typeof compare === "function") {
             result = compare(expected, actual);
         }
         else {
             result = expected === actual;
         }
+
         this.results.set(message, result);
 
         if (!result) {
