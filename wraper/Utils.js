@@ -32,7 +32,7 @@ class Utils {
     }
     // 不支援有重複相同屬性名稱的JSON
     static getValueFromJsonString(jsonString, key) {
-        let value;
+        let value = null;
         JSON.parse(jsonString,
             (property, data) => {
                 if (property === key) {
@@ -47,7 +47,7 @@ class Utils {
     static getValueObjectFromJsonString(jsonString, ...keys) {
         let vo = {};
         for (let i = 0; i < keys.length; i++) {
-            vo[keys[i]] = null;
+            vo[ keys[ i ] ] = null;
         }
 
         JSON.parse(jsonString,
@@ -60,17 +60,7 @@ class Utils {
         );
         return vo;
     }
-    // 不支援有重複相同屬性名稱的JSON
-    static propertyExists(json, key) {
-        let jsonString = typeof json === "string" ? json : JSON.stringify(json);
-        let value = this.getValueFromJsonString(jsonString, key);
-
-        if (typeof value === "undefined") {
-            return false;
-        }
-        return true;
-    }
-
+    
     static getQueryStringFromObject(query_object) {
         let query_list = [];
         for (let i in query_object) {
