@@ -5,6 +5,7 @@ class WebApiTestContext // value object
         this.expectedCode = 200;
         this.expectedTime = 5000;
         this.attributes = new Map();
+        this.initialize();
     }
     // request info
     get requestName() {
@@ -47,17 +48,28 @@ class WebApiTestContext // value object
         return expectedValues;
     }
 
-    addAttribute( key, value ) // unfinish
+    getAttribute( key )
     {
-        if ( this.hasOwnProperty( key ) )
-        {
-            this[ key ] = value;
-        }
-        
-        let contextText = Utils.getVariable( "TestContext" );
-        let insertText = `this.attributes.set(${ key },${ value })`;
-        let reg = /constructor[^{]*{([^}]*)}/;
+        return this.attributes.get( key ); 
     }
 
-    
+    setAttribute( key, value )
+    {
+        this.attributes.set( key, value ); 
+    }
+
+    addAttribute( key, value ) // unfinish
+    {
+        this.setAttribute( key, value );
+        
+        let contextCode = Utils.getVariable( "TestContext" );
+        let insertionCode = `this.setAttribute( "${ key }", "${ value }" );`;
+        let regExp = /initialize\s*\([\s\w,.]*\)\s*{([\s\w/.,=;"()]*)\s*}/; 
+        let result = regExp.exec( contextCode );
+        console.log( "(1) : " + result[ 1 ]);
+        Utils.setGlobalVariable( "TestContext", 
+                                 contextCode.replace( regExp, `initialize(){$1\n\t\t${ insertionCode } }` ) );
+    }
+
+    initialize() {}
 }
