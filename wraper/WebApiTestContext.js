@@ -64,11 +64,29 @@ class WebApiTestContext // value object
         
         let contextCode = Utils.getVariable( "TestContext" );
         let insertionCode = `this.setAttribute( "${ key }", "${ value }" );`;
-        let regExp = /initialize\s*\([\s\w,.]*\)\s*{([\s\w/.,=;"()]*)\s*}/; 
+        let regExp = /initialize\s*\([\s\w,.]*\)\s*{([\s\w/.,=;"()]*)\s*}$/m; 
         let result = regExp.exec( contextCode );
         console.log( "(1) : " + result[ 1 ]);
         Utils.setGlobalVariable( "TestContext", 
                                  contextCode.replace( regExp, `initialize(){$1\n\t\t${ insertionCode } }` ) );
+    }
+
+    removeAttribute()
+    {
+        this.attributes.delete( key ); 
+        let contextCode = Utils.getVariable( "TestContext" );
+    }
+
+    clearAttributes()
+    {
+        this.attributes.clear();
+
+        let contextCode = Utils.getVariable( "TestContext" );
+        let regExp = /initialize\s*\([\s\w,.]*\)\s*{([\s\w/.,=;"()]*)\s*}$/m; 
+        let result = regExp.exec( contextCode );
+        console.log( "(1) : " + result[ 1 ]);
+        Utils.setGlobalVariable( "TestContext", 
+                                 contextCode.replace( regExp, `initialize() {}` ) );
     }
 
     initialize() {}
