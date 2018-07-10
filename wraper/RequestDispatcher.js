@@ -3,9 +3,9 @@ class RequestDispatcher {
         postman.setNextRequest(requestName);
     }
 
-    static repeatedRequest(reqNameOrId, expectedTimes, nextReqNameOrId) {
+    static repeatedRequest(requestNameOrId, expectedTimes, nextRequestNameOrId) {
         let initial = 1;
-        let times = pm.variables.get(reqNameOrId); // requestNmae or requestId 當作 key
+        let times = pm.environment.get(requestNameOrId); // requestNmae or requestId 當作 key
 
         if (times === undefined) {
             times = initial;
@@ -13,16 +13,18 @@ class RequestDispatcher {
         else {
             times = parseInt(times, 10) + 1;
         }
-        pm.variables.set(reqNameOrId, times);
+        console.log( "Repeated times : " +  times );
+        pm.environment.set(requestNameOrId, times);
 
         if (times < expectedTimes) {
-            this.setNextRequest(reqNameOrId);
-            console.log("Next Request : " + reqNameOrId);
+            this.setNextRequest(requestNameOrId);
+            console.log("Next Request : " + requestNameOrId);
         }
         else {
-            if (nextReqNameOrId !== undefined) {
-                this.setNextRequest(nextReqNameOrId);
-                console.log("Next Request : " + nextReqNameOrId);
+            pm.environment.unset(requestNameOrId);
+            if (nextRequestNameOrId !== undefined) {
+                this.setNextRequest(nextRequestNameOrId);
+                console.log("Next Request : " + nextRequestNameOrId);
             }
         }
     }
