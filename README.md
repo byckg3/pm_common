@@ -43,8 +43,8 @@ const Utils = eval( "(" + pm.variables.get( "Utils" ) + ")" );
 const RequestDispatcher = eval( "(" + Utils.getVariable( "RequestDispatcher" ) + ")" );
 const TestSelector = eval( "(" + Utils.getVariable( "TestSelector" ) + ")" );
 const Tests = new ( eval( "(" + Utils.getVariable( "Tests" ) + ")" ) )();
-const TestContext = eval( "(" + Utils.getVariable( "WebApiTestContext" ) + ")" );
-const TestTemplate = eval( "(" + Utils.getVariable( "WebApiTestTemplate" ) + ")" );
+const TestContext = eval( "(" + Utils.getVariable( "TestContext" ) + ")" );
+const TestTemplate = eval( "(" + Utils.getVariable( "TestTemplate" ) + ")" );
 ```
 
 or
@@ -58,6 +58,6 @@ var Utils = eval( "(" + pm.variables.get( "Utils" ) + ")" );
 var RequestDispatcher = eval( "(" + Utils.getVariable( "RequestDispatcher" ) + ")" );
 var TestSelector = eval( "(" + Utils.getVariable( "TestSelector" ) + ")" );
 var Tests = new ( eval( "(" + Utils.getVariable( "Tests" ) + ")" ) )();
-var TestContext = eval( "(" + Utils.getVariable( "WebApiTestContext" ) + ")" );
-var TestTemplate = eval( "(" + Utils.getVariable( "WebApiTestTemplate" ) + ")" );
+var TestContext = eval( "(" + Utils.getVariable( "TestContext" ) + ")" );
+var TestTemplate = eval( "(" + Utils.getVariable( "TestTemplate" ) + ")" );
 ```
