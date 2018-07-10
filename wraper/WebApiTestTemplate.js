@@ -62,7 +62,10 @@ class WebApiTestTemplate {
         }
         finally {
             this.tearDown();
-            testResult.output();
+            if ( testResult )
+            {
+                testResult.output();
+            }   
         }
     }
 
