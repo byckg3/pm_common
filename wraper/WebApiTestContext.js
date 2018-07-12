@@ -55,10 +55,14 @@ class WebApiTestContext // value object
 
     setAttribute( key, value )
     {
-        this.attributes.set( key, value ); 
+        this.attributes.set( key, value );
+        if ( this.hasOwnProperty( key ) )
+        {
+            this[ key ] = value;
+        } 
     }
 
-    addAttribute( key, value ) // unfinish
+    addAttribute( key, value )
     {
         this.setAttribute( key, value );
         
@@ -71,7 +75,7 @@ class WebApiTestContext // value object
                                  contextCode.replace( regExp, `initialize(){$1\n\t\t${ insertionCode } }` ) );
     }
 
-    removeAttribute()
+    removeAttribute() // unfinish
     {
         this.attributes.delete( key ); 
         let contextCode = Utils.getVariable( "TestContext" );
@@ -86,7 +90,7 @@ class WebApiTestContext // value object
         let result = regExp.exec( contextCode );
         console.log( "(1) : " + result[ 1 ]);
         Utils.setGlobalVariable( "TestContext", 
-                                 contextCode.replace( regExp, `initialize() {}` ) );
+                                 contextCode.replace( regExp, `initialize() { }` ) );
     }
 
     initialize() {}
