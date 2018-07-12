@@ -56,7 +56,10 @@ class WebApiTestContext // value object
     setAttribute( key, value )
     {
         this.attributes.set( key, value );
-        this[ key ] = value;  
+        if ( this.hasOwnProperty( key ) )
+        {
+            this[ key ] = value;
+        } 
     }
 
     addAttribute( key, value )
