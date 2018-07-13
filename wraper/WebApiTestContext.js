@@ -1,10 +1,20 @@
 class WebApiTestContext // value object
 {
     constructor() {
+        this.attributes = new Map();
         // default expected value
+        Object.defineProperty( this, "expectedCode",  { 
+                                                            configurable : true,
+                                                            enumerable : true,   
+                                                            writable : true,
+                                                            get : function() { return this.getAttribut( "expectedCode" ) },
+                                                            set : function( value ) { this.attributes.set( "expectedCode", value ) }
+                                                        } 
+                                     
+        );
         this.expectedCode = 200;
         this.expectedTime = 5000;
-        this.attributes = new Map();
+
         this.initialize();
     }
     // request info
