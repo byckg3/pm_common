@@ -7,6 +7,9 @@ class WebApiTestContext // value object
         this.attributes = new Map();
         this.initialize();
     }
+
+    initialize() { }
+    
     // request info
     get requestName() {
         return pm.info.requestName;
@@ -92,6 +95,4 @@ class WebApiTestContext // value object
         Utils.setGlobalVariable( "TestContext", 
                                  contextCode.replace( regExp, `initialize() { }` ) );
     }
-
-    initialize() {}
 }
