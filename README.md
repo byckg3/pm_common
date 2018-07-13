@@ -56,6 +56,7 @@ eval( pm.variables.get( "pm_common" ) );
 pm_common =
 var Utils = eval( "(" + pm.variables.get( "Utils" ) + ")" );
 var RequestDispatcher = eval( "(" + Utils.getVariable( "RequestDispatcher" ) + ")" );
+var ContextBuilder = eval( "(" + Utils.getVariable( "ContextBuilder" ) + ")" );
 var TestSelector = eval( "(" + Utils.getVariable( "TestSelector" ) + ")" );
 var Tests = new ( eval( "(" + Utils.getVariable( "Tests" ) + ")" ) )();
 var TestContext = eval( "(" + Utils.getVariable( "TestContext" ) + ")" );
