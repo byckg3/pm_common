@@ -8,7 +8,9 @@ class WebApiTestContext // value object
         this.initializer();
     }
 
-    initializer() { }
+    initializer() {
+        // init content
+     }
     
     // request info
     get requestName() {
@@ -86,43 +88,33 @@ class WebApiTestContext // value object
     {
         this.setAttribute( key, value );
         
-        let contextCodeString = Utils.getVariable( "TestContext" );
-        let insertionCode = `this.setAttribute( "${ key }", "${ value }" );`;
-        //let regExp = /initializer\s*\([\s\w,.]*\)\s*{([\s\w/.,=;"()]*)\s*}$/m; 
-        let methodContent = InitializerBuilder.getInitializerContent( contextCodeString );
-
-        Utils.setGlobalVariable( "TestContext", 
-            contextCodeString.replace( methodContent, `initializer() {${ methodContent }\n\t\t${ insertionCode } }` ) );
+        
     }
 
     removeAttribute( key )
     {
         this.attributes.delete( key );
 
-        let contextCode = Utils.getVariable( "TestContext" );
-        let regExp = /initializer\s*\([\s\w,.]*\)\s*{([\s\w/.,=;"()]*)}$/m;
-
-        let result = regExp.exec( contextCode );
-        console.log( "(1) : " + result[ 1 ] );
-        let deletionCode = new RegExp( `\\s*this\\.setAttribute\\(\\s*"${ key }",.*\\);`, "gm" );
-        let codeString = result[ 1 ].replace( deletionCode, "" );
+        let contextCodeString = Utils.getVariable( "TestContext" );
+        let initializerContent = InitializerBuilder.getInitializerContent( contextCodeString );
+      
+        let removalPattern = new RegExp( `\\s*this\\.setAttribute\\(\\s*"${ key }",.*\\);`, "gm" );
+        let initializerNewContent = initializerContent.replace( removalPattern, "" );
         
 
         Utils.setGlobalVariable( "TestContext", 
-                                 contextCode.replace( regExp, `initializer() {${ codeString }}` ) );
+                                 contextCodeString.replace( initializerContent, 
+                                                            `${ initializerNewContent }` ) );
     }
 
     clearAttributes()
     {
         this.attributes.clear();
 
-        let contextCode = Utils.getVariable( "TestContext" );
-        let regExp = /initializer\s*\([\s\w,.]*\)\s*{([\s\w/.,=;"()]*)}$/m; 
-
-        let result = regExp.exec( contextCode );
-        console.log( "(1) : " + result[ 1 ]);
+        let contextCodeString = Utils.getVariable( "TestContext" );
+        let initializerContent = InitializerBuilder.getInitializerContent( contextCodeString );
 
         Utils.setGlobalVariable( "TestContext", 
-                                 contextCode.replace( regExp, `initializer() { }` ) );
+                                 contextCodeString.replace( initializerContent, " " ) );
     }
 }
