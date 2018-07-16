@@ -8,9 +8,7 @@ class WebApiTestContext // value object
         this.initializer();
     }
 
-    initializer() {
-        // init content
-     }
+    initializer() { }
     
     // request info
     get requestName() {
@@ -87,34 +85,21 @@ class WebApiTestContext // value object
     addAttribute( key, value )
     {
         this.setAttribute( key, value );
-        
-        
+          
+        InitializerBuilder.buildInitializer( key, value );   
     }
 
     removeAttribute( key )
     {
         this.attributes.delete( key );
 
-        let contextCodeString = Utils.getVariable( "TestContext" );
-        let initializerContent = InitializerBuilder.getInitializerContent( contextCodeString );
-      
-        let removalPattern = new RegExp( `\\s*this\\.setAttribute\\(\\s*"${ key }",.*\\);`, "gm" );
-        let initializerNewContent = initializerContent.replace( removalPattern, "" );
-        
-
-        Utils.setGlobalVariable( "TestContext", 
-                                 contextCodeString.replace( initializerContent, 
-                                                            `${ initializerNewContent }` ) );
+        InitializerBuilder.buildInitializer( key ); 
     }
 
     clearAttributes()
     {
         this.attributes.clear();
 
-        let contextCodeString = Utils.getVariable( "TestContext" );
-        let initializerContent = InitializerBuilder.getInitializerContent( contextCodeString );
-
-        Utils.setGlobalVariable( "TestContext", 
-                                 contextCodeString.replace( initializerContent, " " ) );
+        InitializerBuilder.buildInitializer();
     }
 }
