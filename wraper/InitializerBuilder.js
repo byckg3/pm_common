@@ -62,7 +62,7 @@ class InitializerBuilder
         let newBodyContent = " ";
         if ( value )
         {
-            value = typeof value === "string" ? `'${ value }'` : value;
+            value = ( typeof value === "string" ) ? `'${ value }'` : value;
             let appendantCode = `this.setAttribute( "${ key }", ${ value } );`;
             newBodyContent = `${ initializer.body }\n\t\t${ appendantCode } `;
         }
@@ -71,7 +71,10 @@ class InitializerBuilder
             let removalPattern = new RegExp( `\\s*this\\.setAttribute\\(\\s*"${ key }",.*\\);`, "gm" );
             newBodyContent = initializer.body.replace( removalPattern, "" );     
         }
-       
+        else
+        {
+            
+        }
         return `${ initializer.header }{${ newBodyContent }}`; 
     }
 
