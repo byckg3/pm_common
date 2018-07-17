@@ -5,6 +5,7 @@
 - setup 階段後應該包含所有 test 所需資料，供後續 function 共享使用
 - 持續擴充常用資料
 - 在 class 裡面使用 this.context 可取得 TestContext 物件的 reference
+- addAttribute、removeAttribute 進行跨request的變數存取
 - ex. this.context.responseText 取得回應的 body 字串
 
 ## TestTemplate
