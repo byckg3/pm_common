@@ -1,9 +1,15 @@
 class TestSelector 
 {
-    constructor()
+    constructor( testObj )
     {
+        this.testClass = testObj;
+        this.testContext = testObj.context;
+     
         this.selectors = [];
         this.step = 0;
+
+        this.schedule( [ "common_tests" ] );
+        this.addSelector( this.selectHttpStatus );
     }
 
     clearSelectors() {
@@ -11,15 +17,15 @@ class TestSelector
     }
 
     addSelector(selector) {
-        if (typeof selector === "function") {
+        if ( typeof selector === "function" ) {
             this.selectors.push(selector);
         }
         else if ( typeof selector === "string") {
-            this.addSelector(() => selector);
+            this.selectors.push( () => selector );
         }
     }
 
-    schedule(selectors) // reset selectors
+    schedule( selectors ) // reset selectors
     {
         this.clearSelectors();
 
@@ -28,28 +34,24 @@ class TestSelector
         }
     }
 
-    static selectHttpStatus(context) {
-        let statusText = context.statusText.replace(/ /g, "_").toLowerCase();
-        return "expect_" + statusText + "_" + context.expectedCode;
+    selectHttpStatus() 
+    {   
+        let status = this.testContext.statusText.replace(/ /g, "_").toLowerCase();
+        return "expect_" + status + "_" + this.testContext.expectedCode;
     }
 
-    static selectStartWithTest( testObject )
+    selectTestNameStartsWith( prefix = "test" )
     {
-
+            
     }
-
-    hasNextTest()
+    // methods of iterator
+    hasNext()
     {
         return this.step < this.selectors.length;
     } 
 
-    nextTest()
-    {
-        this.step++;
-    }
-    
-    selectTest( context )
-    {
-        return selectors[ this.step ]( context );
+    next()
+    {   
+        return this.selectors[ this.step++ ].call( this );
     }
 }

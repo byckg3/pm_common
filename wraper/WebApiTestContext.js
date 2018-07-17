@@ -69,8 +69,8 @@ class WebApiTestContext // value object
                     { 
                         configurable : true,
                         enumerable : true,   
-                        get : function() { return this.getAttribute( key ) },
-                        set : function( value ) { this.attributes.set( key, value ) }
+                        get : () => { return this.getAttribute( key ) },
+                        set : ( value ) => { this.attributes.set( key, value ) }
                     }                                  
             );
         }
