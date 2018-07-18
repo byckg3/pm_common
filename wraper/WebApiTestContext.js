@@ -2,6 +2,7 @@ class WebApiTestContext // value object
 {
     constructor() {
         this.attributes = new Map();
+        this.autoClose = false;
         // default expected value
         this.setAttribute( "expectedCode", 200 );
         this.setAttribute( "expectedTime", 5000 );
@@ -9,7 +10,8 @@ class WebApiTestContext // value object
     }
 
     initializer() { }
-    
+
+    terminator() { } 
     // request info
     get requestName() {
         return pm.info.requestName;

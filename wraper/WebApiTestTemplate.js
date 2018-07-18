@@ -12,8 +12,8 @@ class WebApiTestTemplate
 
     common_tests() {
         let cxt = this.context;
-        Tests["Http status code : " + cxt.statusCode ] = cxt.expectedCode === cxt.statusCode;
-        Tests["Response time : " + cxt.responseTime + " ms"] = cxt.responseTime <= cxt.expectedTime;
+        Tests[ `Http status code : ${ cxt.statusCode }` ] = cxt.expectedCode === cxt.statusCode;
+        Tests[ `Response time : ${ cxt.responseTime } ms` ] = cxt.responseTime <= cxt.expectedTime;
     }
 
     run(testResult = Tests) {
@@ -37,6 +37,8 @@ class WebApiTestTemplate
         catch (error) {
             console.log(error.name);
             console.log(error.message);
+            
+            testResult.fail();
         }
         finally {
             this.tearDown();
@@ -53,5 +55,9 @@ class WebApiTestTemplate
 
     tearDown() {
         console.log("tear down : " + this.context.requestName);
+        if ( this.context.autoClose )
+        {
+            this.context.terminator();
+        }
     }
 }
