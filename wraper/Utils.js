@@ -1,6 +1,6 @@
 class Utils {
-    static setGlobalVariable(key, value) {
-        pm.globals.set(key, value);
+    static setGlobalVariable( key, value ) {
+        pm.globals.set( key, JSON.stringify( value ) );
     }
 
     static getGlobalVariable(key) {
@@ -11,13 +11,15 @@ class Utils {
         pm.globals.unset(key);
     }
 
-    static setEnvironmentVariable(key, value) {
-        pm.environment.set(key, value);
-        let json = JSON.parse(pm.environment.get('EnvJSON') ? pm.environment.get('EnvJSON') : '{}');
-        json[key] = true
-        pm.environment.set('EnvJSON', JSON.stringify(json));
+    static hasGlobalVariable( key )
+    {
+        return pm.globals.has( key );
     }
 
+    static setEnvironmentVariable( key, value ) {
+        pm.environment.set( key, JSON.stringify( value ) );
+    }
+    // deprecated
     static setObjectEnvironmentVariable(key, value) {
         this.setEnvironmentVariable(key, JSON.stringify(value));
     }
@@ -34,13 +36,19 @@ class Utils {
         pm.environment.unset(key);
     }
 
+    static hasEnvironmentVariable( key )
+    {
+        return pm.environment.has( key );
+    }
+
     static getVariable(key) {
         return pm.variables.get(key);
     }
 
-    static setVariable(key, value) {
-        pm.variables.set(key, value);
+    static setVariable( key, value ) {
+        pm.variables.set( key, JSON.stringify( value ) );
     }
+
     // 不支援有重複相同屬性名稱的JSON
     static getValueFromJsonString(jsonString, key) {
         let value = null;
