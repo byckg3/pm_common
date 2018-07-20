@@ -7,3 +7,4 @@ function before(target, name, descriptor) {
         console.log("add before list : " + name);
     }
 }
+

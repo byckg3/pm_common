@@ -37,7 +37,7 @@ class WebApiTestTemplate
         catch (error) {
             console.log(error.name);
             console.log(error.message);
-            
+
             testResult.fail();
         }
         finally {
@@ -55,9 +55,9 @@ class WebApiTestTemplate
 
     tearDown() {
         console.log("tear down : " + this.context.requestName);
-        if ( this.context.autoClose )
+        if ( this.context.autoClear )
         {
-            this.context.terminator();
+            this.context.clearAttributes();
         }
     }
 }

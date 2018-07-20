@@ -2,7 +2,7 @@ class WebApiTestContext // value object
 {
     constructor() {
         this.attributes = new Map();
-        this.autoClose = false;
+        this.autoClean = false;
         // default expected value
         this.setAttribute( "expectedCode", 200 );
         this.setAttribute( "expectedTime", 5000 );
@@ -11,7 +11,7 @@ class WebApiTestContext // value object
 
     initializer() { }
 
-    terminator() { } 
+    cleaner() { } 
     // request info
     get requestName() {
         return pm.info.requestName;
@@ -60,8 +60,9 @@ class WebApiTestContext // value object
 
     setAttribute( key, value )
     {
-        this.attributes.set( key, value );
-        if ( this.hasOwnProperty( key ) )
+        this.attributes.set( key, value );  // Map object
+
+        if ( this.hasOwnProperty( key ) )   // Property
         {
             this[ key ] = value;
         }
@@ -72,9 +73,14 @@ class WebApiTestContext // value object
                         configurable : true,
                         enumerable : true,   
                         get : () => { return this.getAttribute( key ) },
-                        set : ( value ) => { this.attributes.set( key, value ) }
+                        set : ( value ) => { this.setAttribute( key, value ) }
                     }                                  
             );
+        }
+
+        if ( Utils.hasGlobalVariable( key ) )  // Postman
+        {
+            Utils.setGlobalVariable( key );
         }
     }
 
