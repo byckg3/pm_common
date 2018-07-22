@@ -97,6 +97,7 @@ class WebApiTestContext // value object
         for ( let eachName of this.getAttributeNames() )
         {
             Utils.clearGlobalVariable( eachName );
+            delete this[ eachName ];
         }
 
         this.attributes.clear();
