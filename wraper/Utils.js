@@ -1,14 +1,38 @@
-class Utils {
-    static setGlobalVariable( key, value ) {
-        pm.globals.set( key, JSON.stringify( value ) );
-    }
-
+class Utils 
+{
     static getGlobalVariable(key) {
         return pm.globals.get(key);
     }
 
+    static getEnvironmentVariable(key) {
+        return pm.environment.get(key);
+    }
+
+    static getVariable(key) {
+        return pm.variables.get(key);
+    }
+
+    static setGlobalVariable( key, value ) {
+        value = this.convertToObject( value );
+        pm.globals.set( key, value );
+    }
+
+    static setEnvironmentVariable( key, value ) {
+        value = this.convertToObject( value );
+        pm.environment.set( key, value );
+    }
+    
+    static setVariable( key, value ) {
+        value = this.convertToObject( value );
+        pm.variables.set( key, value );
+    }
+
     static clearGlobalVariable(key) {
         pm.globals.unset(key);
+    }
+
+    static clearEnvironmentVariable(key) {
+        pm.environment.unset(key);
     }
 
     static hasGlobalVariable( key )
@@ -16,37 +40,28 @@ class Utils {
         return pm.globals.has( key );
     }
 
-    static setEnvironmentVariable( key, value ) {
-        pm.environment.set( key, JSON.stringify( value ) );
-    }
-    // deprecated
-    static setObjectEnvironmentVariable(key, value) {
-        this.setEnvironmentVariable(key, JSON.stringify(value));
-    }
-
-    static getEnvironmentVariable(key) {
-        return pm.environment.get(key);
-    }
-
-    static getObjectEnvironmentVariable(key) {
-        return JSON.parse(this.getEnvironmentVariable(key));
-    }
-
-    static clearEnvironmentVariable(key) {
-        pm.environment.unset(key);
-    }
-
     static hasEnvironmentVariable( key )
     {
         return pm.environment.has( key );
     }
 
-    static getVariable(key) {
-        return pm.variables.get(key);
+    static convertToObject( value )
+    {
+        if ( typeof value === "object" && !Array.isArray( value ) )
+        {
+            return JSON.stringify( value );
+        }
+        return value;
     }
 
-    static setVariable( key, value ) {
-        pm.variables.set( key, JSON.stringify( value ) );
+    // deprecated
+    static setObjectEnvironmentVariable(key, value) {
+        this.setEnvironmentVariable(key, JSON.stringify(value));
+    }
+
+    
+    static getObjectEnvironmentVariable(key) {
+        return JSON.parse(this.getEnvironmentVariable(key));
     }
 
     // 不支援有重複相同屬性名稱的JSON
