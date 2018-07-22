@@ -8,8 +8,6 @@ class WebApiTestContext // value object
     }
 
     initializer() { }
-
-    cleaner() { } 
     // request info
     get requestName() {
         return pm.info.requestName;
@@ -56,56 +54,47 @@ class WebApiTestContext // value object
         return this.attributes.get( key ); 
     }
 
+    getAttributeNames()
+    {
+        return this.attributes.keys();     
+    }
+
     setAttribute( key, value )
     {
         this.attributes.set( key, value );  // Map object
 
-        if ( this.hasOwnProperty( key ) )   // Property
-        {
-            this[ key ] = value;
-        }
-        else
-        {
-            Object.defineProperty( this, key,  
-                    { 
-                        configurable : true,
-                        enumerable : true,   
-                        get : () => { return this.getAttribute( key ) },
-                        set : ( value ) => { this.setAttribute( key, value ) }
-                    }                                  
-            );
-        }
+        Object.defineProperty( this, key,  
+                { 
+                    configurable : true,
+                    enumerable : true,   
+                    get : () => { return this.getAttribute( key ) },
+                    set : ( value ) => { this.setAttribute( key, value ) }
+                }                                  
+        );
+        
+        Utils.setGlobalVariable( key, value );
 
-        if ( Utils.hasGlobalVariable( key ) )  // Postman
-        {
-            Utils.setGlobalVariable( key );
-        }
+        InitializerBuilder.buildInitializer( key, value );
     }
 
-    deleteAttribute( key )
+    removeAttribute( key )
     {
         this.attributes.delete( key );
+
         delete this[ key ];
-    }
 
-    setGlobalAttribute( key, value )
-    {
-        this.setAttribute( key, value );
-          
-        InitializerBuilder.buildInitializer( key, value );   
-    }
-
-    removeGlobalAttribute( key )
-    {
-        this.attributes.delete( key );
-
-        InitializerBuilder.buildInitializer( key ); 
+        InitializerBuilder.buildInitializer( key );
     }
 
     clearAttributes()
     {
-        this.attributes.clear();
+        for ( let eachName of this.getAttributeNames() )
+        {
+            Utils.clearGlobalVariable( eachName )
+        }
 
+        this.attributes.clear();
+        
         InitializerBuilder.buildInitializer();
     }
 }
