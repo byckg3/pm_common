@@ -38,15 +38,19 @@ class WebApiTestContext // value object
         return pm.response.json();
     }
     // others
-    toString() {
-
-        let expectedValues = "";
-        for (let property in this) {
-            if (property.includes( "expected" )) {
-                expectedValues += ( property + " : " + this[ property ] + "\t" );
-            }
+    toString() 
+    {
+        let displayAttributes;
+        for ( let [ key, value ] of this.attributes.entries() )
+        {
+            displayAttributes += `${ key } : ${ value } `
         }
-        return expectedValues;
+        return displayAttributes;
+    }
+
+    hasAttribute( key )
+    {
+        return this.attributes.has( key ); 
     }
 
     getAttribute( key )
@@ -83,6 +87,8 @@ class WebApiTestContext // value object
 
         delete this[ key ];
 
+        Utils.clearGlobalVariable( key );
+
         InitializerBuilder.buildInitializer( key );
     }
 
@@ -90,11 +96,11 @@ class WebApiTestContext // value object
     {
         for ( let eachName of this.getAttributeNames() )
         {
-            Utils.clearGlobalVariable( eachName )
+            Utils.clearGlobalVariable( eachName );
         }
 
         this.attributes.clear();
-        
+
         InitializerBuilder.buildInitializer();
     }
 }
