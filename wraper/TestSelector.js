@@ -37,7 +37,7 @@ class TestSelector
     selectHttpStatus() 
     {   
         let status = this.testContext.statusText.replace(/ /g, "_").toLowerCase();
-        return "expect_" + status + "_" + this.testContext.expectedCode;
+        return "expect_" + status + "_" + this.testClass.expectedCode;
     }
 
     selectTestNameStartsWith( prefix = "test" )

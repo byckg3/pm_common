@@ -4,6 +4,9 @@ class WebApiTestTemplate
     {
         this.context = context;
         this.testSelector = new TestSelector( this ); 
+        // default expected value
+        this.expectedCode = 200;
+        this.expectedResponseTime = 5000;
     }
 
     setUp() {
@@ -12,8 +15,8 @@ class WebApiTestTemplate
 
     common_tests() {
         let cxt = this.context;
-        Tests[ `Http status code : ${ cxt.statusCode }` ] = cxt.expectedCode === cxt.statusCode;
-        Tests[ `Response time : ${ cxt.responseTime } ms` ] = cxt.responseTime <= cxt.expectedTime;
+        Tests[ `Http status code : ${ cxt.statusCode }` ] = cxt.statusCode === this.expectedCode;
+        Tests[ `Response time : ${ cxt.responseTime } ms` ] = cxt.responseTime <= this.expectedResponseTime;
     }
 
     run(testResult = Tests) {

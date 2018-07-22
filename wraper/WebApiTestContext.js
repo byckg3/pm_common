@@ -2,10 +2,8 @@ class WebApiTestContext // value object
 {
     constructor() {
         this.attributes = new Map();
-        this.autoClean = false;
-        // default expected value
-        this.setAttribute( "expectedCode", 200 );
-        this.setAttribute( "expectedTime", 5000 );
+        this.autoClear = false;
+        
         this.initializer();
     }
 
@@ -90,14 +88,14 @@ class WebApiTestContext // value object
         delete this[ key ];
     }
 
-    addAttribute( key, value )
+    setGlobalAttribute( key, value )
     {
         this.setAttribute( key, value );
           
         InitializerBuilder.buildInitializer( key, value );   
     }
 
-    removeAttribute( key )
+    removeGlobalAttribute( key )
     {
         this.attributes.delete( key );
 
