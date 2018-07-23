@@ -83,7 +83,7 @@ class InitializerBuilder
 
     static removeInitializerBody( initializerBody, key )
     {
-        let removalPattern = new RegExp( `\\s*this\\.setAttribute\\(\\s*"${ key }",.*\\);`, "gm" );
+        let removalPattern = new RegExp( `\\s*this\\.restoreAttribute\\(\\s*"${ key }"\\s*\\);`, "gm" );
         return initializerBody.replace( removalPattern, "" );     
     }
 
