@@ -27,7 +27,8 @@ class WebApiTestTemplate
             {   
                 let calleeName = this.testSelector.next();
 
-                if ( (calleeName in this) && typeof this[ calleeName ] === "function") {
+                if ( this.isCallableFunction( calleeName ) ) 
+                {
                     console.log( "Executing : " + calleeName);
                     this[ calleeName ]();
                 }
@@ -62,5 +63,10 @@ class WebApiTestTemplate
         {
             this.context.clearAttributes();
         }
+    }
+
+    isCallableFunction( calleeName )
+    {
+        return ( calleeName in this ) && ( typeof this[ calleeName ] === "function" );
     }
 }
