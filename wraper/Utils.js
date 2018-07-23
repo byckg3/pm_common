@@ -4,12 +4,24 @@ class Utils
         return pm.globals.get(key);
     }
 
+    static getGlobalObject( key ) {
+        return JSON.parse( this.getGlobalVariable( key ) );
+    }
+
     static getEnvironmentVariable(key) {
         return pm.environment.get(key);
     }
 
+    static getEnvironmentObject( key ) {
+        return JSON.parse( this.getEnvironmentVariable( key ) );
+    }
+
     static getVariable(key) {
         return pm.variables.get(key);
+    }
+
+    static getObject( key ) {
+        return JSON.parse( this.getVariable( key ) );
     }
 
     static setGlobalVariable( key, value ) {
@@ -27,11 +39,11 @@ class Utils
         pm.variables.set( key, value );
     }
 
-    static clearGlobalVariable(key) {
+    static removeGlobalVariable(key) {
         pm.globals.unset(key);
     }
 
-    static clearEnvironmentVariable(key) {
+    static removeEnvironmentVariable(key) {
         pm.environment.unset(key);
     }
 
@@ -58,8 +70,7 @@ class Utils
     static setObjectEnvironmentVariable(key, value) {
         this.setEnvironmentVariable(key, JSON.stringify(value));
     }
-
-    
+    // deprecated
     static getObjectEnvironmentVariable(key) {
         return JSON.parse(this.getEnvironmentVariable(key));
     }

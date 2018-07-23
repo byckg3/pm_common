@@ -2,8 +2,8 @@ class InitializerBuilder
 {
     static parseInitializer( codeString )
     {
-        let regExp = /initializer\s*\([\s\w,.]*\)\s*{/;
-        let result = regExp.exec( codeString );
+        let headerRegExp = /initializer\s*\([\s\w,.]*\)\s*{/;
+        let result = headerRegExp.exec( codeString );
         let start = result.index;
         if ( start === -1 )
         {
@@ -62,29 +62,39 @@ class InitializerBuilder
         let newBodyContent = " ";
         if ( value )
         {
-            value = ( typeof value === "string" ) ? `'${ value }'` : value;
-            let appendantCode = `this.setAttribute( "${ key }", ${ value } );`;
-            newBodyContent = `${ initializer.body }\n\t\t${ appendantCode } `;
+            newBodyContent = this.setInitializerBody( initializer.body, key, value );
         }
         else if ( key )
         {
-            let removalPattern = new RegExp( `\\s*this\\.setAttribute\\(\\s*"${ key }",.*\\);`, "gm" );
-            newBodyContent = initializer.body.replace( removalPattern, "" );     
+            newBodyContent = this.removeInitializerBody(  initializer.body, key );
         }
-        else
-        {
-            
-        }
+        
         return `${ initializer.header }{${ newBodyContent }}`; 
+    }
+
+    static setInitializerBody( initializerBody, key, value )
+    {
+        initializerBody = this.removeInitializerBody( initializerBody, key );
+       
+        value = ( typeof value === "string" ) ? `'${ value }'` : value;
+        let appendantCode = `this.setAttribute( "${ key }", ${ value } );`;
+    
+        return `${ initializerBody }\n\t\t${ appendantCode } `;
+    }
+
+    static removeInitializerBody( initializerBody, key )
+    {
+        let removalPattern = new RegExp( `\\s*this\\.setAttribute\\(\\s*"${ key }",.*\\);`, "gm" );
+        return initializerBody.replace( removalPattern, "" );     
     }
 
     static buildInitializer( ...parameters )
     {
         let contextCodeString = Utils.getVariable( "TestContext" );
-
         let initializer = this.parseInitializer( contextCodeString );
+
         let newContent = this.createNewInitializer( initializer, ...parameters )
-        console.log( `newContent : ${ newContent }` );
+        console.log( `new : ${ newContent }`);
         Utils.setGlobalVariable( "TestContext", 
                                  contextCodeString.replace( initializer.content, newContent ) );
     }
