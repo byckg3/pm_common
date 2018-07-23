@@ -3,11 +3,12 @@ class WebApiTestContext // value object
     constructor() {
         this.attributes = new Map();
         this.autoClear = false;
-        
+    
         this.initializer();
     }
 
     initializer() { }
+
     // request info
     get requestName() {
         return pm.info.requestName;
@@ -38,21 +39,6 @@ class WebApiTestContext // value object
         return pm.response.json();
     }
     // others
-    toString() 
-    {
-        let displayAttributes;
-        for ( let [ key, value ] of this.attributes.entries() )
-        {
-            displayAttributes += `${ key } : ${ value } `
-        }
-        return displayAttributes;
-    }
-
-    hasAttribute( key )
-    {
-        return this.attributes.has( key ); 
-    }
-
     getAttribute( key )
     {
         return this.attributes.get( key ); 
@@ -60,13 +46,13 @@ class WebApiTestContext // value object
 
     getAttributeNames()
     {
-        return this.attributes.keys();     
+        return this.attributes.keys();
     }
 
     setAttribute( key, value )
     {
-        this.attributes.set( key, value );  // Map object
-
+        this.attributes.set( key, value );
+  
         Object.defineProperty( this, key,  
                 { 
                     configurable : true,
@@ -78,7 +64,7 @@ class WebApiTestContext // value object
         
         Utils.setGlobalVariable( key, value );
 
-        InitializerBuilder.buildInitializer( key, value );
+        InitializerBuilder.buildInitializer( key, value ); 
     }
 
     removeAttribute( key )
@@ -87,20 +73,30 @@ class WebApiTestContext // value object
 
         delete this[ key ];
 
-        Utils.clearGlobalVariable( key );
+        Utils.removeGlobalVariable( key );
 
         InitializerBuilder.buildInitializer( key );
     }
 
     clearAttributes()
     {
-        for ( let eachName of this.getAttributeNames() )
+        for ( let eachName of this.getAttributeNames() ) 
         {
-            Utils.clearGlobalVariable( eachName );
+            delete this[ eachName ];
+            Utils.removeGlobalVariable( eachName );
         }
 
         this.attributes.clear();
 
         InitializerBuilder.buildInitializer();
+    }
+
+    toString() 
+    {
+        let displayedMessage = "";
+        for ( let [ key, value ] of this.attributes.entries() ) {
+            displayedMessage += `${ key} : ${ value }\t`;
+          }
+        return displayedMessage;
     }
 }

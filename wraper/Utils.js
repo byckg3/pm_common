@@ -39,11 +39,11 @@ class Utils
         pm.variables.set( key, value );
     }
 
-    static clearGlobalVariable(key) {
+    static removeGlobalVariable(key) {
         pm.globals.unset(key);
     }
 
-    static clearEnvironmentVariable(key) {
+    static removeEnvironmentVariable(key) {
         pm.environment.unset(key);
     }
 
