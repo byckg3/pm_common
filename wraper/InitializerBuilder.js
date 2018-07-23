@@ -62,7 +62,7 @@ class InitializerBuilder
         let newBodyContent = " ";
         if ( value )
         {
-            newBodyContent = this.setInitializerBody( initializer.body, key, value );
+            newBodyContent = this.setInitializerBody( initializer.body, key );
         }
         else if ( key )
         {
@@ -76,8 +76,7 @@ class InitializerBuilder
     {
         initializerBody = this.removeInitializerBody( initializerBody, key );
        
-        value = ( typeof value === "string" ) ? `'${ value }'` : value;
-        let appendantCode = `this.setAttribute( "${ key }", ${ value } );`;
+        let appendantCode = `this.restoreAttribute( "${ key }" );`;
     
         return `${ initializerBody }\n\t\t${ appendantCode } `;
     }

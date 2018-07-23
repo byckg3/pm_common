@@ -52,7 +52,6 @@ class WebApiTestContext // value object
     setAttribute( key, value )
     {
         this.attributes.set( key, value );
-  
         Object.defineProperty( this, key,  
                 { 
                     configurable : true,
@@ -61,10 +60,30 @@ class WebApiTestContext // value object
                     set : ( value ) => { this.setAttribute( key, value ) }
                 }                                  
         );
-        
-        Utils.setGlobalVariable( key, value );
+    }
 
+    setGlobalAttribute( key, value )
+    {
+        this.setAttribute( key, value );
+
+        Utils.setGlobalVariable( key, value );
         InitializerBuilder.buildInitializer( key, value ); 
+    }
+
+    setEnvironmentAttribute( key, value )
+    {
+        this.setAttribute( key, value );
+
+        Utils.setEnvironmentVariable( key, value );
+        InitializerBuilder.buildInitializer( key, value ); 
+    }
+
+    restoreAttribute( key )
+    {
+        let value = Utils.getVariable( key );
+        this.setAttribute( key, value );
+
+        return value;
     }
 
     removeAttribute( key )
