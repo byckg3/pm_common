@@ -41,7 +41,6 @@ class Utils
     {
         return pm.environment.has( key );
     }
-
     // deprecated
     static setObjectEnvironmentVariable(key, value) {
         this.setEnvironmentVariable(key, JSON.stringify(value));
