@@ -65,17 +65,15 @@ class WebApiTestContext // value object
     setGlobalAttribute( key, value )
     {
         this.setAttribute( key, value );
-
         Utils.setGlobalVariable( key, value );
-        InitializerBuilder.buildInitializer( key, value ); 
+        InitializerBuilder.buildInitializer( key, value );    
     }
 
     setEnvironmentAttribute( key, value )
     {
         this.setAttribute( key, value );
-
         Utils.setEnvironmentVariable( key, value );
-        InitializerBuilder.buildInitializer( key, value ); 
+        InitializerBuilder.buildInitializer( key, value );
     }
 
     restoreAttribute( key )

@@ -93,8 +93,8 @@ class InitializerBuilder
         let initializer = this.parseInitializer( contextCodeString );
 
         let newContent = this.createNewInitializer( initializer, ...parameters )
-        console.log( `new : ${ newContent }`);
         Utils.setGlobalVariable( "TestContext", 
                                  contextCodeString.replace( initializer.content, newContent ) );
+        return newContent;
     }
 }
