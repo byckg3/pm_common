@@ -3,9 +3,10 @@ class RequestDispatcher {
         postman.setNextRequest(requestName);
     }
 
-    static repeatedRequest(requestNameOrId, expectedTimes, nextRequestNameOrId) {
+    static repeatedRequest( testContext, expectedTimes, nextRequestName ) {
         let initial = 1;
-        let times = Utils.getEnvironmentVariable(requestNameOrId); // requestNmae or requestId 當作 key
+        let requestId = testContext.requestId; // requestId 當作 key, 執行次數為 value
+        let times = testContext.getAttribute( requestId ); 
 
         if ( times === undefined) {
             times = initial;
@@ -14,28 +15,28 @@ class RequestDispatcher {
             times = parseInt(times, 10) + 1;
         }
         console.log( "Repeated times : " +  times );
-        pm.environment.set(requestNameOrId, times);
+        testContex.setEnvironmentAttribute( requestId, times );
 
-        if (times < expectedTimes) {
-            this.setNextRequest(requestNameOrId);
-            console.log("Next Request : " + requestNameOrId);
+        if ( times < expectedTimes ) {
+            this.setNextRequest( requestId );
+            console.log("Next Request : " + testContext.requestName );
         }
         else {
-            Utils.removeEnvironmentVariable(requestNameOrId);
-            if (nextRequestNameOrId !== undefined) {
-                this.setNextRequest(nextRequestNameOrId);
-                console.log("Next Request : " + nextRequestNameOrId);
+            testContex.removeAttribute( requestId );
+            if ( nextRequestName !== undefined ) {
+                this.setNextRequest( nextRequestName );
+                console.log("Next Request : " + nextRequestName );
             }
         }
     }
 
-    static getCurrentRepetition(requestName) {
-        let times = pm.variables.get(requestName);
+    static getCurrentRepetition( testContext ) {
+        let times = testContext.getAttribute( testContext.requestId );
         if (times === undefined) {
             return 0;
         }
         else {
-            return parseInt(times, 10);
+            return parseInt( times, 10 );
         }
     }
 
