@@ -5,9 +5,9 @@ class RequestDispatcher {
 
     static repeatedRequest(requestNameOrId, expectedTimes, nextRequestNameOrId) {
         let initial = 1;
-        let times = pm.environment.get(requestNameOrId); // requestNmae or requestId 當作 key
+        let times = Utils.getEnvironmentVariable(requestNameOrId); // requestNmae or requestId 當作 key
 
-        if (times === undefined) {
+        if ( times === undefined) {
             times = initial;
         }
         else {
@@ -21,7 +21,7 @@ class RequestDispatcher {
             console.log("Next Request : " + requestNameOrId);
         }
         else {
-            pm.environment.unset(requestNameOrId);
+            Utils.removeEnvironmentVariable(requestNameOrId);
             if (nextRequestNameOrId !== undefined) {
                 this.setNextRequest(nextRequestNameOrId);
                 console.log("Next Request : " + nextRequestNameOrId);

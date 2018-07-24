@@ -1,8 +1,8 @@
 class TestSelector 
 {
-    constructor( testObj )
+    constructor( testObject )
     {
-        this.testClass = testObj;
+        this.testClass = testObject;
         this.testContext = testObj.context;
      
         this.selectors = [];

@@ -3,7 +3,7 @@ class WebApiTestContext // value object
     constructor() {
         this.attributes = new Map();
         this.autoClear = false;
-    
+       
         this.initializer();
     }
 
@@ -92,7 +92,7 @@ class WebApiTestContext // value object
 
         delete this[ key ];
 
-        Utils.removeGlobalVariable( key );
+        Utils.removeVariable( key );
 
         InitializerBuilder.buildInitializer( key );
     }
@@ -102,7 +102,7 @@ class WebApiTestContext // value object
         for ( let eachName of this.getAttributeNames() ) 
         {
             delete this[ eachName ];
-            Utils.removeGlobalVariable( eachName );
+            Utils.removeVariable( eachName );
         }
 
         this.attributes.clear();

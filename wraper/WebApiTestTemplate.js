@@ -1,9 +1,9 @@
 class WebApiTestTemplate 
 {
-    constructor(context) 
+    constructor() 
     {
-        this.context = context;
-        this.testSelector = new TestSelector( this ); 
+        this.context = TestFactory.getTestContext();
+        this.testSelector = TestFactory.getTestSelector( this ); 
         // default expected value
         this.expectedCode = 200;
         this.expectedResponseTime = 5000;
@@ -54,7 +54,7 @@ class WebApiTestTemplate
     }
 
     unexpected() {
-        Tests["unexpected condition. " + this.context] = false;
+        Tests[ "unexpected condition. " + this.context ] = false;
     }
 
     tearDown() {
