@@ -57,9 +57,7 @@ pm_common =
 var Utils = eval( "(" + pm.variables.get( "Utils" ) + ")" );
 var RequestDispatcher = eval( "(" + Utils.getVariable( "RequestDispatcher" ) + ")" );
 var InitializerBuilder = eval( "(" + Utils.getVariable( "InitializerBuilder" ) + ")" );
-var TestSelector = eval( "(" + Utils.getVariable( "TestSelector" ) + ")" );
 var Tests = new ( eval( "(" + Utils.getVariable( "Tests" ) + ")" ) )();
 var TestFactory = new ( eval( "(" + Utils.getVariable( "TestFactory" ) + ")" ) )();
-var TestContext = eval( "(" + Utils.getVariable( "TestContext" ) + ")" );
 var TestTemplate = eval( "(" + Utils.getVariable( "TestTemplate" ) + ")" );
 ```
