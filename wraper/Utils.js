@@ -8,8 +8,8 @@ class Utils
         return pm.environment.get(key);
     }
 
-    static getVariable(key) {
-        return pm.variables.get(key);
+    static getVariable( key ) {
+        return pm.variables.get( key );
     }
 
     static setGlobalVariable( key, value ) {
@@ -20,7 +20,8 @@ class Utils
         pm.environment.set( key, value );
     }
     
-    static setVariable( key, value ) {
+    static setVariable( key, value ) 
+    {
         pm.variables.set( key, value );
     }
 
@@ -32,6 +33,22 @@ class Utils
         pm.environment.unset(key);
     }
 
+    static removeVariable( key ) 
+    {
+        if ( pm.variables.has( key ) )
+        {
+            pm.variables.unset(key);
+        }
+        else if ( this.hasEnvironmentVariable( key ) )
+        {
+            this.removeEnvironmentVariable( key )
+        }
+        else if ( this.hasGlobalVariable( key ) )
+        {
+            this.removeGlobalVariable( key );
+        }
+    }
+
     static hasGlobalVariable( key )
     {
         return pm.globals.has( key );
@@ -40,6 +57,23 @@ class Utils
     static hasEnvironmentVariable( key )
     {
         return pm.environment.has( key );
+    }
+
+    static hasVariable( key )
+    {
+        if ( pm.variables.has( key ) )
+        {
+            return true;
+        }
+        if ( this.hasEnvironmentVariable( key ) )
+        {
+            return true;
+        }
+        if ( this.hasGlobalVariable( key ) )
+        {
+            return true;
+        }
+        return false;
     }
     // deprecated
     static setObjectEnvironmentVariable(key, value) {
