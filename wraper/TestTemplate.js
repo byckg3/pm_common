@@ -3,7 +3,8 @@ class TestTemplate
     constructor() 
     {
         this.context = new TestContext();
-        this.testSelector = new TestSelector( this ); 
+        this.testSelector = new TestSelector( this );
+        this.testResult = Tests;
         // default expected value
         this.expectedCode = 200;
         this.expectedResponseTime = 5000;
@@ -19,7 +20,7 @@ class TestTemplate
         Tests[ `Response time : ${ cxt.responseTime } ms` ] = cxt.responseTime <= this.expectedResponseTime;
     }
 
-    run(testResult = Tests) {
+    run() {
         try {
             this.setUp();
             
@@ -42,13 +43,13 @@ class TestTemplate
             console.log(error.name);
             console.log(error.message);
 
-            testResult.fail();
+            this.testResult.fail();
         }
         finally {
             this.tearDown();
-            if ( testResult )
+            if ( this.testResult )
             {
-                testResult.output();
+                this.testResult.output();
             }   
         }
     }

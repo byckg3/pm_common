@@ -15,14 +15,14 @@ class RequestDispatcher {
             times = parseInt(times, 10) + 1;
         }
         console.log( "Repeated times : " +  times );
-        testContex.setEnvironmentAttribute( requestId, times );
+        testContext.setEnvironmentAttribute( requestId, times );
 
         if ( times < expectedTimes ) {
             this.setNextRequest( requestId );
             console.log("Next Request : " + testContext.requestName );
         }
         else {
-            testContex.removeAttribute( requestId );
+            testContext.removeAttribute( requestId );
             if ( nextRequestName !== undefined ) {
                 this.setNextRequest( nextRequestName );
                 console.log("Next Request : " + nextRequestName );
