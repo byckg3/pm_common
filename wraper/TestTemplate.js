@@ -1,9 +1,9 @@
-class WebApiTestTemplate 
+class TestTemplate 
 {
     constructor() 
     {
-        this.context = TestFactory.getTestContext();
-        this.testSelector = TestFactory.getTestSelector( this ); 
+        this.context = new TestContext();
+        this.testSelector = new TestSelector( this ); 
         // default expected value
         this.expectedCode = 200;
         this.expectedResponseTime = 5000;

@@ -1,4 +1,4 @@
-class WebApiTestContext // value object
+class TestContext
 {
     constructor() {
         this.attributes = new Map();
