@@ -34,7 +34,7 @@ class TestTemplate
                     this[ calleeName ]();
                 }
                 else {
-                    console.log( "unexpected condition : no matched function");
+                    console.log( "unexpected condition : no matched method");
                     this.unexpected();
                 }
             }
