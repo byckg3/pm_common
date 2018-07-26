@@ -15,7 +15,7 @@ class Tests {
         return result;
     }
 
-    assertEquals(expected, actual, message, compare) {
+    assertEquals( message, expected, actual, compare) {
         let result;
         
         if (typeof compare === "function") {
@@ -27,18 +27,14 @@ class Tests {
 
         this.results.set(message, result);
 
-        if (!result) {
-            let error = new Error(message);
-            error.name = "AssertionError";
-            throw error;
-        }
+        return this;
     }
 
-    assertFalse(booleanExpression, message) {
-        this.assertEquals(false, booleanExpression, message);
+    assertFalse( message, booleanExpression) {
+        this.assertEquals( message, false, booleanExpression);
     }
 
-    assertTrue(booleanExpression, message) {
+    assertTrue( message, booleanExpression) {
         this.assertEquals(true, booleanExpression, message);
     }
 
