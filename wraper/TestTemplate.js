@@ -40,10 +40,9 @@ class TestTemplate
             }
         }
         catch (error) {
-            console.log(error.name);
-            console.log(error.message);
-
-            this.testCollection.fail();
+            let errMsg = `${ error.name } : ${ error.message }`;
+            console.log(errMsg);       
+            this.testCollection.fail( errMsg );
         }
         finally {
             this.tearDown();
