@@ -37,7 +37,7 @@ class Tests {
         return result;
     }
 
-    assertEquals( message, expected, actual,  compare) {
+    assertEquals( message, expected, actual, compare) {
         let result;
         
         if (typeof compare === "function") {
@@ -53,12 +53,25 @@ class Tests {
         return this;
     }
 
+    assertSame( message, expectedObject, actualObject )
+    {
+        let expected = JSON.stringify( expectedObject );
+        let actual = JSON.stringify( actualObject );
+
+        this.assertEquals( message, expected, actual );
+    }
+
     assertFalse( message, booleanExpression ) {
         this.assertEquals( message, false, booleanExpression );
     }
 
     assertTrue( message, booleanExpression) {
         this.assertEquals( message, true, booleanExpression );
+    }
+
+    fail( message = "test fails" )
+    {
+        this.assertEquals( message, true, false );
     }
 
     results() {
