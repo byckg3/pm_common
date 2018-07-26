@@ -29,9 +29,20 @@ class TestFactory
     {
         if ( !this.testResult )
         {
-            this.testResult = new ( eval( "(" + Utils.getVariable( "Tests" ) + ")" ) )();
+            let TestResult = eval( "(" + Utils.getVariable( "Tests" ) + ")" );
+
+            this.testResult = new TestResult();
         }
-        return this.testResult;
+
+        const proxyHandler = { 
+            set( target, key, value )
+            {
+                target.addTestResult( key, value );
+                return Reflect.set( target, key, value );
+            }
+        };
+
+        return new Proxy( this.testResult, proxyHandler );
     }
 
     createTestClass( className )

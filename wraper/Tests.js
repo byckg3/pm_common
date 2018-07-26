@@ -1,12 +1,34 @@
 class Tests {
     constructor() {
         this.results = new Map();
-        this.pass = 0; // counter
-        this.fail = 0; // counter
+        this.passedResults = 0; // counter
+        this.failedResults = 0; // counter
     }
-    // 以 message 回傳指定的 test result
-    getTestResult(message) {
-        let result = results.get(message);
+
+    get total()
+    {
+        return this.passedResults + this.failedResults;
+    }
+
+    get passRate()
+    {
+        return this.passedResults / this.total;
+    }
+
+    increaseCounter( booleanExpression )
+    {
+        if ( booleanExpression )
+        {
+            this.passedResults++;
+        }
+        else
+        {
+            this.failedResults++;
+        }
+    }
+    // 以 message 回傳指定 test result
+    getTestResult( message ) {
+        let result = this.results.get(message);
 
         if (typeof result === "undefined") {
             result = this[message];
@@ -15,7 +37,17 @@ class Tests {
         return result;
     }
 
-    assertEquals(expected, actual, message, compare) {
+    addTestResult( message, result )
+    {
+        result = result || false;
+    
+        this.results.set( message, result );
+        increaseCounter( result );
+    }
+
+    
+
+    assertEquals( message, expected, actual,  compare) {
         let result;
         
         if (typeof compare === "function") {
@@ -26,12 +58,9 @@ class Tests {
         }
 
         this.results.set(message, result);
+        increaseCounter( result );
 
-        if (!result) {
-            let error = new Error(message);
-            error.name = "AssertionError";
-            throw error;
-        }
+        return this;
     }
 
     assertFalse(booleanExpression, message) {
@@ -42,18 +71,10 @@ class Tests {
         this.assertEquals(true, booleanExpression, message);
     }
 
-    fail(message = "test fail") {
-        this.results.set(message, false);
-    }
-
-    pass(message = "test pass") {
-        this.results.set(message, true);
-    }
-
     output() {
-        if (this.results.size > 0) {
-            for (let [msg, value] of this.results.entries()) {
-                tests[msg] = value; // pm syntax
+        if ( this.results.size > 0) {
+            for ( let [msg, value] of this.results.entries()) {
+                tests[ msg ] = value; // pm syntax
             }
         }
         for (let pName of Object.keys(this)) // Object.keys() => array

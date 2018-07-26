@@ -2,9 +2,6 @@ class TestSelector
 {
     constructor( testObject )
     {
-        this.testClass = testObject;
-        this.testContext = testObj.context;
-     
         this.selectors = [];
         this.step = 0;
 
@@ -34,10 +31,10 @@ class TestSelector
         }
     }
 
-    selectHttpStatus() 
+    selectHttpStatus( testClass ) 
     {   
-        let status = this.testContext.statusText.replace(/ /g, "_").toLowerCase();
-        return "expect_" + status + "_" + this.testClass.expectedCode;
+        let status = testClass.context.statusText.replace(/ /g, "_").toLowerCase();
+        return "expect_" + status + "_" + testClass.expectedCode;
     }
 
     selectTestNameStartsWith( prefix = "test" )
@@ -50,8 +47,8 @@ class TestSelector
         return this.step < this.selectors.length;
     } 
 
-    next()
+    next( testClass )
     {   
-        return this.selectors[ this.step++ ].call( this );
+        return this.selectors[ this.step++ ]( testClass );
     }
 }
