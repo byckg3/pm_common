@@ -59,6 +59,7 @@ var Utils = eval( "(" + pm.variables.get( "Utils" ) + ")" );
 var RequestDispatcher = eval( "(" + Utils.getVariable( "RequestDispatcher" ) + ")" );
 var InitializerBuilder = eval( "(" + Utils.getVariable( "InitializerBuilder" ) + ")" );
 var TestSelector = eval( "(" + Utils.getVariable( "TestSelector" ) + ")" );
+var TestFactory = new ( eval( "(" + Utils.getVariable( "TestFactory" ) + ")" ) )();
 var Tests = new ( eval( "(" + Utils.getVariable( "Tests" ) + ")" ) )();
 var TestContext = eval( "(" + Utils.getVariable( "TestContext" ) + ")" );
 var TestTemplate = eval( "(" + Utils.getVariable( "TestTemplate" ) + ")" );
