@@ -15,7 +15,7 @@ class Tests {
         return this.passedResults / this.total;
     }
 
-    increaseCounter( booleanExpression )
+    increaseResult( booleanExpression )
     {
         if ( booleanExpression )
         {
@@ -37,17 +37,7 @@ class Tests {
         return result;
     }
 
-    addTestResult( message, result )
-    {
-        result = result || false;
-    
-        this.results.set( message, result );
-        increaseCounter( result );
-    }
-
-    
-
-    assertEquals( message, expected, actual,  compare) {
+    assertEquals( message, expected, actual, compare) {
         let result;
         
         if (typeof compare === "function") {
@@ -57,21 +47,34 @@ class Tests {
             result = expected === actual;
         }
 
-        this.results.set(message, result);
-        increaseCounter( result );
+        this.results.set( message, result );
+        increaseResult( result );
 
         return this;
     }
 
-    assertFalse(booleanExpression, message) {
-        this.assertEquals(false, booleanExpression, message);
+    assertSame( message, expectedObject, actualObject )
+    {
+        let expected = JSON.stringify( expectedObject );
+        let actual = JSON.stringify( actualObject );
+
+        this.assertEquals( message, expected, actual );
     }
 
-    assertTrue(booleanExpression, message) {
-        this.assertEquals(true, booleanExpression, message);
+    assertFalse( message, booleanExpression ) {
+        this.assertEquals( message, false, booleanExpression );
     }
 
-    output() {
+    assertTrue( message, booleanExpression) {
+        this.assertEquals( message, true, booleanExpression );
+    }
+
+    fail( message = "test fails" )
+    {
+        this.assertEquals( message, true, false );
+    }
+
+    results() {
         if ( this.results.size > 0) {
             for ( let [msg, value] of this.results.entries()) {
                 tests[ msg ] = value; // pm syntax
