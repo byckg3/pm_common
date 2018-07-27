@@ -1,4 +1,4 @@
-class Tests {
+class TestCollector {
     constructor() {
         this.results = new Map();
         this.passedResults = 0; // counter
@@ -37,6 +37,13 @@ class Tests {
         return result;
     }
 
+    addTestResult( message, result )
+    {
+        this.results.set( message, result );
+
+        return this;
+    }
+
     assertEquals( message, expected, actual, compare) {
         let result;
         
@@ -50,6 +57,12 @@ class Tests {
         this.results.set( message, result );
         increaseResult( result );
 
+        if ( !result ) {
+            let error = new Error( message );
+            error.name = "AssertionError";
+            throw error;
+        }
+
         return this;
     }
 
@@ -59,6 +72,19 @@ class Tests {
         let actual = JSON.stringify( actualObject );
 
         this.assertEquals( message, expected, actual );
+    }
+
+    assertPartOfSame( message, expectedObject, actualObject )
+    {
+        let result = true;
+
+        for ( let eachProperty in expectedObject ) {
+            let partOfResult = JSON.stringify( expectedObject[ eachProperty ]) === JSON.stringify( actualObject[ eachProperty ] );
+            result = result && partOfResult;
+
+            this.addTestResult( `Test ${ eachProperty }`, partOfResult );
+        }
+        this.assertTrue( message, result );
     }
 
     assertFalse( message, booleanExpression ) {
