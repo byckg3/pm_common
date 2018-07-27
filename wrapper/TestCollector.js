@@ -74,7 +74,7 @@ class TestCollector {
         this.assertEquals( message, expected, actual );
     }
 
-    assertPartOfSame( message, expectedObject, actualObject )
+    assertContains( message, actualObject, expectedObject ) // actualObject contains expectedObject
     {
         let result = true;
 

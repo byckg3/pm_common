@@ -4,8 +4,15 @@ class TestFactory
     {
         this.testContext = null;
         this.testSelector = null;
-        this.testResult = null;
+        this.testCollector = null;
+
+        this.testContextInstance = null;
+        this.testSelectorInstance = null;
+        this.testCollectorInstance = null;
+
+        this.accessController = null;
     }
+
 
     getTestContext()
     {
@@ -13,7 +20,13 @@ class TestFactory
         {
             this.testContext = eval( "(" + Utils.getVariable( "TestContext" ) + ")" );
         }
-        return new this.testContext();
+
+        if ( !this.testContextInstance )
+        {
+            this.testContextInstance = new Proxy( new this.testContext(), this.accessController );
+        }
+
+        return this.testContextInstance;
     }
 
     getTestSelector( testClass )
@@ -22,27 +35,34 @@ class TestFactory
         {
             this.testSelector = eval( "(" + Utils.getVariable( "TestSelector" ) + ")" );
         }
-        return new this.testSelector( testClass );
+
+        if ( !this.testSelectorInstance )
+        {
+            this.testSelectorInstance = new Proxy( new this.testSelector(), this.accessController );
+        }
+        return new this.testSelectorInstance( testClass );
     }
 
-    getTestResult()
+    getTestCollector()
     {
-        if ( !this.testResult )
+        if ( !this.testCollector )
         {
-            let TestResult = eval( "(" + Utils.getVariable( "Tests" ) + ")" );
-
-            this.testResult = new TestResult();
+            this.testCollector = eval( "(" + Utils.getVariable( "Tests" ) + ")" );
         }
 
-        const proxyHandler = { 
-            set( target, key, value )
-            {
-                target.addTestResult( key, value );
-                return Reflect.set( target, key, value );
-            }
-        };
-
-        return new Proxy( this.testResult, proxyHandler );
+        if ( !this.testCollectorInstance )
+        {
+            const proxyHandler = { 
+                set( target, key, value )
+                {
+                    target.addTestResult( key, value );
+                    return Reflect.set( target, key, value );
+                }
+            };
+            this.testCollectorInstance = new Proxy( new this.testCollector(), proxyHandler );
+        }
+        
+        return this.testCollectorInstance; 
     }
 
     createTestClass( className )

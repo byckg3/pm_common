@@ -4,7 +4,7 @@ class TestTemplate
     {
         this.context = new TestContext();
         this.testSelector = new TestSelector( this );
-        this.testCollection = Tests;
+        this.testCollector = Tests;
         // default expected value
         this.expectedCode = 200;
         this.expectedResponseTime = 5000;
@@ -42,13 +42,13 @@ class TestTemplate
         catch (error) {
             let errMsg = `${ error.name } : ${ error.message }`;
             console.log(errMsg);       
-            this.testCollection.fail( errMsg );
+            this.testCollector.fail( errMsg );
         }
         finally {
             this.tearDown();
-            if ( this.testCollection )
+            if ( this.testCollector )
             {
-                this.testCollection.results();
+                this.testCollector.results();
             }   
         }
     }
