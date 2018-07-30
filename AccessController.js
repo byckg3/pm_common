@@ -6,8 +6,8 @@ class AccessController
             get( target, key )
             {
                 if ( key.startsWith( "_" ) )
-                {
-                    throw new Error( `Property ${ key } is inaccessible.` );
+                {       
+                    throw new Error( `Property : ${ key } is inaccessible.` );
                 }
                 return Reflect.get( target, key );
             },
@@ -16,7 +16,7 @@ class AccessController
             {
                 if ( key.startsWith( "_" ) )
                 {
-                    throw new Error( `Property ${ key } is inaccessible.` );
+                    throw new Error( `Property : ${ key } is inaccessible.` );
                 }
                 return Reflect.set( target, key, value );
             },
