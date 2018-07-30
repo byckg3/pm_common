@@ -3,7 +3,7 @@ class TestTemplate
     constructor( context, selector, collector ) 
     {
         this.context = context;
-        this.testSelector = selector;
+        this.selector = selector;
         this.testCollector = collector;
         // default expected value
         this.expectedCode = 200;
@@ -18,16 +18,16 @@ class TestTemplate
     {
 		let cxt = this.context;
 		this.testCollector.addTestResult( `Http status code : ${ cxt.statusCode }`, cxt.statusCode === this.expectedCode )
-		                  .addTestResult( `Response time : ${ cxt.responseTime } ms`, cxt.responseTime <= this.expectedResponseTime );
+                          .addTestResult( `Response time : ${ cxt.responseTime } ms`, cxt.responseTime <= this.expectedResponseTime );
 	}
 
 	run() {
 		try {
 			this.setUp();
             
-			while ( this.testSelector.hasNext() ) 
+			while ( this.selector.hasNext() ) 
 			{   
-				let calleeName = this.testSelector.next(  this );
+				let calleeName = this.selector.next(  this );
 
                 if ( this.isCallableFunction( calleeName ) ) 
                 {

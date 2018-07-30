@@ -6,7 +6,7 @@ class TestManager
         this.testSelector = null;
         this.testCollector = null;
        
-        this.accessController = {};
+        this.accessController =  new ( eval( "(" + Utils.getVariable( "AccessController" ) + ")" ) )();
     }
 
 
@@ -42,6 +42,7 @@ class TestManager
             const proxyHandler = { 
                 set( target, key, value )
                 {
+                    //console.log( key + "called" );
                     target.addTestResult( key, value );
                     return Reflect.set( target, key, value );
                 }
@@ -52,21 +53,19 @@ class TestManager
         return this.testCollector; 
     }
 
-    createTestClass( className )
-    {
-        let testClass = eval( `new ${ className }();` );
-        return testClass;
-    }
-
-    executeTests( className )
+    createTestClass( testClass )
     {
         let context = this.getTestContext();
         let selector = this.getTestSelector();
         let collector = this.getTestCollector();
      
-        let testClass = eval( `new ${ className }( context, selector, collector );` );
-        
-        testClass.run();
+        return new testClass( context, selector, collector );
+    }
+
+    executeTests( testClass )
+    {
+        let testObject = this.createTestClass( testClass );
+        testObject.run();
     }
 }
 

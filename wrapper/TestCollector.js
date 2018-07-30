@@ -1,31 +1,8 @@
 class TestCollector {
     constructor() {
         this._results = new Map();
-        this.passedResults = 0; // counter
-        this.failedResults = 0; // counter
     }
 
-    get total()
-    {
-        return this.passedResults + this.failedResults;
-    }
-
-    get passRate()
-    {
-        return this.passedResults / this.total;
-    }
-
-    increaseResult( booleanExpression )
-    {
-        if ( booleanExpression )
-        {
-            this.passedResults++;
-        }
-        else
-        {
-            this.failedResults++;
-        }
-    }
     // 以 message 回傳指定 test result
     getTestResult( message ) {
         let result = this._results.get(message);
@@ -38,9 +15,8 @@ class TestCollector {
     }
 
     addTestResult( message, result )
-    {
+    {   
         this._results.set( message, result );
-        this.increaseResult( result );
 
         return this;
     }
