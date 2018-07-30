@@ -1,6 +1,6 @@
 class TestSelector 
 {
-    constructor( testObject )
+    constructor()
     {
         this.selectors = [];
         this.step = 0;

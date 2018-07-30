@@ -39,6 +39,11 @@ class TestContext
         return pm.response.json();
     }
     // others
+    hasAttribute( key )
+    {
+        return this.attributes.has( key );
+    }
+
     getAttribute( key )
     {
         return this.attributes.get( key ); 

@@ -1,6 +1,6 @@
 class TestCollector {
     constructor() {
-        this.results = new Map();
+        this._results = new Map();
         this.passedResults = 0; // counter
         this.failedResults = 0; // counter
     }
@@ -28,7 +28,7 @@ class TestCollector {
     }
     // 以 message 回傳指定 test result
     getTestResult( message ) {
-        let result = this.results.get(message);
+        let result = this._results.get(message);
 
         if (typeof result === "undefined") {
             result = this[message];
@@ -39,7 +39,8 @@ class TestCollector {
 
     addTestResult( message, result )
     {
-        this.results.set( message, result );
+        this._results.set( message, result );
+        this.increaseResult( result );
 
         return this;
     }
@@ -54,12 +55,12 @@ class TestCollector {
             result = expected === actual;
         }
 
-        this.results.set( message, result );
-        increaseResult( result );
-
+        this.addTestResult( message, result );
+        
         if ( !result ) {
             let error = new Error( message );
-            error.name = "AssertionError";
+            error.name = "Assertion Error";
+
             throw error;
         }
 
@@ -79,11 +80,12 @@ class TestCollector {
         let result = true;
 
         for ( let eachProperty in expectedObject ) {
-            let partOfResult = JSON.stringify( expectedObject[ eachProperty ]) === JSON.stringify( actualObject[ eachProperty ] );
+            let partOfResult = JSON.stringify( expectedObject[ eachProperty ] ) === JSON.stringify( actualObject[ eachProperty ] );
             result = result && partOfResult;
 
             this.addTestResult( `Test ${ eachProperty }`, partOfResult );
         }
+
         this.assertTrue( message, result );
     }
 
@@ -101,8 +103,8 @@ class TestCollector {
     }
 
     results() {
-        if ( this.results.size > 0) {
-            for ( let [msg, value] of this.results.entries()) {
+        if ( this._results.size > 0) {
+            for ( let [msg, value] of this._results.entries()) {
                 tests[ msg ] = value; // pm syntax
             }
         }
