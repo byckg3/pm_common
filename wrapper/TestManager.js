@@ -20,7 +20,7 @@ class TestManager
     {
         if ( !this.accessController )
         {
-            this.accessController =  new ( eval( controllerCodeString ) )();
+            this.accessController =  new ( eval( this.controllerCodeString ) )();
         }
         if ( !this.testContext )
         {
@@ -35,7 +35,7 @@ class TestManager
     {
         if ( !this.accessController )
         {
-            this.accessController =  new ( eval( controllerCodeString ) )();
+            this.accessController =  new ( eval( this.controllerCodeString ) )();
         }
         if ( !this.testSelector )
         {
@@ -50,7 +50,7 @@ class TestManager
     {
         if ( !this.accessController )
         {
-            this.accessController =  new ( eval( controllerCodeString ) )();
+            this.accessController =  new ( eval( this.controllerCodeString ) )();
         }
         if ( !this.testCollector )
         {
@@ -81,7 +81,7 @@ class TestManager
     executeTests( TestClass )
     {
         const testObject = this.createTestObject( TestClass );
-        
+
         testObject.run();
     }
 }
