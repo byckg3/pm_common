@@ -16,7 +16,7 @@ class TestManager
         {
             let TestContext = eval( "(" + Utils.getVariable( "TestContext" ) + ")" );
            
-            this.testContext = new Proxy( new TestContext(), this.accessController );
+            this.testContext = new Proxy( new TestContext(), this.accessController.privateModifier );
         }
        
         return this.testContext;
@@ -28,7 +28,7 @@ class TestManager
         {
             let TestSelector = eval( "(" + Utils.getVariable( "TestSelector" ) + ")" );
        
-            this.testSelector = new Proxy( new TestSelector(), this.accessController );
+            this.testSelector = new Proxy( new TestSelector(), this.accessController.privateModifier );
         }
         return this.testSelector;
     }
@@ -47,13 +47,13 @@ class TestManager
                     return Reflect.set( target, key, value );
                 }
             };
-            this.testCollector = new Proxy( new TestCollector(), proxyHandler) ;
+            this.testCollector = new Proxy( new TestCollector(), proxyHandler );
         }
         
         return this.testCollector; 
     }
 
-    createTestClass( testClass )
+    createTestObject( testClass )
     {
         let context = this.getTestContext();
         let selector = this.getTestSelector();
@@ -64,7 +64,7 @@ class TestManager
 
     executeTests( testClass )
     {
-        let testObject = this.createTestClass( testClass );
+        let testObject = this.createTestObject( testClass );
         testObject.run();
     }
 }

@@ -2,7 +2,7 @@ class AccessController
 {
     constructor()
     {
-        this.accessController = { 
+        this.privateModifier = { 
             get( target, key )
             {
                 if ( key.startsWith( "_" ) )
@@ -68,9 +68,7 @@ class AccessController
                     return undefined;
                 }
                 return Reflect.getOwnPropertyDescriptor( target, key );
-            },
-
-           
+            }   
         };
     }
 }
