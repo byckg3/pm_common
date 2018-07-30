@@ -21,7 +21,7 @@ class AccessController
                 return Reflect.set( target, key, value );
             },
 
-            has()
+            has( target, key )
             {
                 if ( key.startsWith( "_" ) )
                 {
