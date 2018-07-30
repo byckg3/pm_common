@@ -21,19 +21,22 @@ class AccessController
                 return Reflect.set( target, key, value );
             },
 
-            has()
+            deleteProperty( target, key )
+            {
+                if ( key.startsWith( "_" ) )
+                {
+                    throw new Error( `Property : ${ key } is inaccessible.` );
+                }
+                return Reflect.deleteProperty( target, key );
+            },
+
+            has( target, key )
             {
                 if ( key.startsWith( "_" ) )
                 {
                     return false;
                 }
                 return Reflect.has( target, key );
-            },
-
-            deleteProperty( target, key )
-            {
-
-                return Reflect.deleteProperty( target, key );
             },
 
             defineProperty( target, key, descriptor )
