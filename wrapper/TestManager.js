@@ -4,7 +4,7 @@ class TestManager
     {
         this.testContext = null;
         this.testSelector = null;
-        this.testCollector = null;
+        this.testReporter = null;
         this.testTemplate = null;
         this.accessController = null;
 
@@ -46,15 +46,15 @@ class TestManager
         return this.testSelector;
     }
 
-    getTestCollector()
+    getTestReporter()
     {
         if ( !this.accessController )
         {
             this.accessController =  new ( eval( this.controllerCodeString ) )();
         }
-        if ( !this.testCollector )
+        if ( !this.testReporter )
         {
-            const TestCollector = eval( this.collectorCodeString );
+            const TestReporter = eval( this.collectorCodeString );
        
             const proxyHandler = { 
                 set( target, key, value )
@@ -64,16 +64,16 @@ class TestManager
                     return Reflect.set( target, key, value );
                 }
             };
-            this.testCollector = new Proxy( new TestCollector(), proxyHandler );
+            this.testReporter = new Proxy( new TestReporter(), proxyHandler );
         }  
-        return this.testCollector; 
+        return this.testReporter; 
     }
 
     createTestObject( TestClass )
     {
         const context = this.getTestContext();
         const selector = this.getTestSelector();
-        const collector = this.getTestCollector();
+        const collector = this.getTestReporter();
      
         return new TestClass( context, selector, collector );
     }

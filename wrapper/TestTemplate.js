@@ -1,10 +1,10 @@
 class TestTemplate 
 {
-    constructor( context, selector, collector ) 
+    constructor( context, selector, reporter ) 
     {
         this.context = context;
         this.selector = selector;
-        this.testCollector = collector;
+        this.testReporter = reporter;
         // default expected value
         this.expectedCode = 200;
         this.expectedResponseTime = 5000;
@@ -17,8 +17,8 @@ class TestTemplate
     common_tests() 
     {
 		const cxt = this.context;
-		this.testCollector.addTestResult( `Http status code : ${ cxt.statusCode }`, cxt.statusCode === this.expectedCode )
-                          .addTestResult( `Response time : ${ cxt.responseTime } ms`, cxt.responseTime <= this.expectedResponseTime );
+		this.testReporter.addTestResult( `Http status code : ${ cxt.statusCode }`, cxt.statusCode === this.expectedCode )
+                         .addTestResult( `Response time : ${ cxt.responseTime } ms`, cxt.responseTime <= this.expectedResponseTime );
 	}
 
 	run() {
@@ -43,13 +43,13 @@ class TestTemplate
         catch (error) {
             const errMsg = `${ error.name } : ${ error.message }`;
             console.log(errMsg);       
-            this.testCollector.fail( errMsg );
+            this.testReporter.fail( errMsg );
         }
         finally {
             this.tearDown();
-            if ( this.testCollector )
+            if ( this.testReporter )
             {   
-                this.testCollector.results();
+                this.testReporter.results();
             }   
         }
     }
