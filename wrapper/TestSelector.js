@@ -37,7 +37,7 @@ class TestSelector
         return "expect_" + status + "_" + testClass.expectedCode;
     }
 
-    selectTestNameStartsWith( prefix = "test" )
+    selectMethodNameInclude( prefix = "test" )
     {
             
     }

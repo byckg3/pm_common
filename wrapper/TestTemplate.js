@@ -16,7 +16,7 @@ class TestTemplate
 
     common_tests() 
     {
-		let cxt = this.context;
+		const cxt = this.context;
 		this.testCollector.addTestResult( `Http status code : ${ cxt.statusCode }`, cxt.statusCode === this.expectedCode )
                           .addTestResult( `Response time : ${ cxt.responseTime } ms`, cxt.responseTime <= this.expectedResponseTime );
 	}
@@ -41,7 +41,7 @@ class TestTemplate
             }
         }
         catch (error) {
-            let errMsg = `${ error.name } : ${ error.message }`;
+            const errMsg = `${ error.name } : ${ error.message }`;
             console.log(errMsg);       
             this.testCollector.fail( errMsg );
         }

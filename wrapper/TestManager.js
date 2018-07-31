@@ -5,28 +5,41 @@ class TestManager
         this.testContext = null;
         this.testSelector = null;
         this.testCollector = null;
-       
-        this.accessController =  new ( eval( "(" + Utils.getVariable( "AccessController" ) + ")" ) )();
-    }
+        this.testTemplate = null;
+        this.accessController = null;
 
+        this.contextCodeString = `( ${ Utils.getVariable( "TestContext" ) } )`;
+        this.selectorCodeString = `( ${ Utils.getVariable( "TestSelector" ) } )`;
+        this.collectorCodeString = `( ${ Utils.getVariable( "Tests" ) } )`;
+        this.templateCodeString = ``;
+        
+        this.controllerCodeString = `( ${ Utils.getVariable( "AccessController" ) } )`;
+    }
 
     getTestContext()
     {
+        if ( !this.accessController )
+        {
+            this.accessController =  new ( eval( this.controllerCodeString ) )();
+        }
         if ( !this.testContext )
         {
-            let TestContext = eval( "(" + Utils.getVariable( "TestContext" ) + ")" );
-           
+            const TestContext = eval( this.contextCodeString );
+
             this.testContext = new Proxy( new TestContext(), this.accessController.privateModifier );
-        }
-       
+        } 
         return this.testContext;
     }
 
     getTestSelector()
     {
+        if ( !this.accessController )
+        {
+            this.accessController =  new ( eval( this.controllerCodeString ) )();
+        }
         if ( !this.testSelector )
         {
-            let TestSelector = eval( "(" + Utils.getVariable( "TestSelector" ) + ")" );
+            const TestSelector = eval( this.selectorCodeString );
        
             this.testSelector = new Proxy( new TestSelector(), this.accessController.privateModifier );
         }
@@ -35,9 +48,13 @@ class TestManager
 
     getTestCollector()
     {
+        if ( !this.accessController )
+        {
+            this.accessController =  new ( eval( this.controllerCodeString ) )();
+        }
         if ( !this.testCollector )
         {
-            let TestCollector = eval( "(" + Utils.getVariable( "Tests" ) + ")" );
+            const TestCollector = eval( this.collectorCodeString );
        
             const proxyHandler = { 
                 set( target, key, value )
@@ -48,23 +65,23 @@ class TestManager
                 }
             };
             this.testCollector = new Proxy( new TestCollector(), proxyHandler );
-        }
-        
+        }  
         return this.testCollector; 
     }
 
-    createTestObject( testClass )
+    createTestObject( TestClass )
     {
-        let context = this.getTestContext();
-        let selector = this.getTestSelector();
-        let collector = this.getTestCollector();
+        const context = this.getTestContext();
+        const selector = this.getTestSelector();
+        const collector = this.getTestCollector();
      
-        return new testClass( context, selector, collector );
+        return new TestClass( context, selector, collector );
     }
 
-    executeTests( testClass )
+    executeTests( TestClass )
     {
-        let testObject = this.createTestObject( testClass );
+        const testObject = this.createTestObject( TestClass );
+
         testObject.run();
     }
 }

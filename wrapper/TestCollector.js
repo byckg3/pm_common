@@ -45,8 +45,8 @@ class TestCollector {
 
     assertSame( message, expectedObject, actualObject )
     {
-        let expected = JSON.stringify( expectedObject );
-        let actual = JSON.stringify( actualObject );
+        const expected = JSON.stringify( expectedObject );
+        const actual = JSON.stringify( actualObject );
 
         this.assertEquals( message, expected, actual );
     }
