@@ -82,7 +82,41 @@ class TestManager
     {
         const testObject = this.createTestObject( TestClass );
 
-        testObject.run();
+        this.run( testObject );
+    }
+
+    run( testObject ) 
+    {
+		try {
+			testObject.setUp();
+            
+			while ( testObject.selector.hasNext() ) 
+			{   
+				let calleeName = testObject.selector.next(  testObject );
+
+                if ( ( calleeName in testObject ) && ( typeof testObject[ calleeName ] === "function" ) ) 
+                {
+                    console.log( "Executing : " + calleeName);
+                    testObject[ calleeName ]();
+                }
+                else {
+                    console.log( "unexpected condition : no matched method");
+                    this.unexpected();
+                }
+            }
+        }
+        catch (error) {
+            const errMsg = `${ error.name } : ${ error.message }`;
+            console.log(errMsg);       
+            testObject.testReporter.fail( errMsg );
+        }
+        finally {
+            testObject.tearDown();
+            if ( testObject.testReporter )
+            {   
+                testObject.testReporter.results();
+            }   
+        }
     }
 }
 
