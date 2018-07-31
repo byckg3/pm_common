@@ -11,7 +11,7 @@ class TestManager
         this.contextCodeString = `( ${ Utils.getVariable( "TestContext" ) } )`;
         this.selectorCodeString = `( ${ Utils.getVariable( "TestSelector" ) } )`;
         this.collectorCodeString = `( ${ Utils.getVariable( "Tests" ) } )`;
-        this.templateCodeString = ``;
+        this.templateCodeString = `()`;
         
         this.controllerCodeString = `( ${ Utils.getVariable( "AccessController" ) } )`;
     }
@@ -75,7 +75,14 @@ class TestManager
         const selector = this.getTestSelector();
         const collector = this.getTestCollector();
      
-        return new TestClass( context, selector, collector );
+        const proxyHandler = { 
+            ownKeys( target )
+            {
+                return Reflect.ownKeys( target );
+            }
+        };
+        const obj = new TestClass( context, selector, collector );
+        return new Proxy( obj, proxyHandler );
     }
 
     executeTests( TestClass )
