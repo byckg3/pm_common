@@ -38,12 +38,12 @@ class TestManager
     }
 
     getTestReporter()
-    {
+    {   
         if ( !this.testReporter )
         {
             const TestReporter = eval( this.reporterCodeString );  
             this.testReporter = new TestReporter();
-        }  
+        } 
         return this.testReporter; 
     }
 
@@ -51,16 +51,16 @@ class TestManager
     {
         if ( !this.testAsserter )
         {
-            const manager = this;
+            const reporter = this.getTestReporter();
             const Asserter = eval( this.asserterCodeString );
             const proxyHandler = { 
                 set( target, key, value )
                 {
-                    manager.getTestReporter().addTestResult( key, value );
+                    target.testReporter.addTestResult( key, value );
                     return Reflect.set( target, key, value );
                 }
             };
-            this.testAsserter = new Proxy( new Asserter(), proxyHandler );
+            this.testAsserter = new Proxy( new Asserter( reporter ), proxyHandler );
         }
         return this.testAsserter;
     }
@@ -120,7 +120,7 @@ class TestManager
         catch (error) {
             const errMsg = `${ error.name } : ${ error.message }`;
             console.log(errMsg);       
-            testObject.testReporter.fail( errMsg );
+            testObject.testReporter.addTestResult( errMsg, false );
         }
         finally {
             testObject.tearDown();

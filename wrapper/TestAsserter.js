@@ -1,5 +1,9 @@
 class TestAsserter
 {
+    constructor( reporter )
+    {
+        this.testReporter = reporter;
+    }
     assertEquals( expected, actual, message, compare) 
     {
         let result;
@@ -62,13 +66,13 @@ class TestAsserter
 
     report( message, result )
     {
-        if ( TestManager )
+        if ( this.testReporter )
         {   
-            TestManager.getTestReporter().addTestResult( message, result );
+            this.testReporter.addTestResult( message, result );
         }
         else
         {
-            let error = new Error( "TestManager doesn't exist" );
+            let error = new Error( "TestReporter doesn't exist" );
             error.name = "Initialization Error";
 
             throw error;
