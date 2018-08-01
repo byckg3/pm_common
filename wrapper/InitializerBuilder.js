@@ -62,7 +62,7 @@ class InitializerBuilder
         let newBodyContent = " ";
         if ( value )
         {
-            newBodyContent = this.setInitializerBody( initializer.body, key );
+            newBodyContent = this.setInitializerBody( initializer.body, key, value );
         }
         else if ( key )
         {
@@ -76,14 +76,22 @@ class InitializerBuilder
     {
         initializerBody = this.removeInitializerBody( initializerBody, key );
        
-        let appendantCode = `this.restoreAttribute( "${ key }" );`;
+        if ( typeof value === "string" )
+        {
+            value = `'${ value }'`;
+        }
+        else if ( typeof value === "object" )
+        {
+            value = JSON.stringify( value );
+        }
+        let appendantCode = `this.restoreAttribute( "${ key }", ${ value } );`;
     
         return `${ initializerBody }\n\t\t${ appendantCode } `;
     }
 
     static removeInitializerBody( initializerBody, key )
     {
-        let removalPattern = new RegExp( `\\s*this\\.restoreAttribute\\(\\s*"${ key }"\\s*\\);`, "gm" );
+        let removalPattern = new RegExp( `\\s*this\\.restoreAttribute\\(\\s*["']${ key }["']\\s*,.*\\);`, "gm" );
         return initializerBody.replace( removalPattern, "" );     
     }
 
