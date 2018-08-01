@@ -22,7 +22,6 @@ class TestManager
         if ( !this.testContext )
         {
             const TestContext = eval( this.contextCodeString );
-
             this.testContext = new TestContext();
         } 
         return this.testContext;
@@ -32,8 +31,7 @@ class TestManager
     {
         if ( !this.testSelector )
         {
-            const TestSelector = eval( this.selectorCodeString );
-       
+            const TestSelector = eval( this.selectorCodeString );       
             this.testSelector = new TestSelector();
         }
         return this.testSelector;
@@ -43,8 +41,7 @@ class TestManager
     {
         if ( !this.testReporter )
         {
-            const TestReporter = eval( this.reporterCodeString );
-       
+            const TestReporter = eval( this.reporterCodeString );  
             this.testReporter = new TestReporter();
         }  
         return this.testReporter; 
@@ -63,9 +60,19 @@ class TestManager
                     return Reflect.set( target, key, value );
                 }
             };
-            this.asserter = new Proxy( new Asserter(), proxyHandler );
+            this.testAsserter = new Proxy( new Asserter(), proxyHandler );
         }
-        return this.asserter;
+        return this.testAsserter;
+    }
+
+    getTestTemplate()
+    {
+        if ( !this.testTemplate )
+        {
+            const TestTemplate = eval( this.templateCodeString );
+            this.testTemplate = new TestTemplate();
+        }
+        return this.testTemplate;
     }
 
     createTestObject( TestClass )
@@ -87,7 +94,6 @@ class TestManager
     executeTests( TestClass )
     {
         const testObject = this.createTestObject( TestClass );
-
         this.run( testObject );
     }
 
