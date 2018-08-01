@@ -18,7 +18,7 @@ class TestTemplate
     {
 		const cxt = this.context;
 		this.testReporter.addTestResult( `Http status code : ${ cxt.statusCode }`, cxt.statusCode === this.expectedCode )
-                         .addTestResult( `Response time : ${ cxt.responseTime } ms`, cxt.responseTime <= this.expectedResponseTime );
+                         .addTestResult( `Response time : ${ cxt.responseTime } ms`, cxt.responseTime <= this.expectedResponseTime );               
 	}
 
 	tearDown() {

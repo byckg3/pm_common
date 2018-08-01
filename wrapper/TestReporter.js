@@ -2,7 +2,6 @@ class TestReporter {
     constructor() {
         this._results = new Map();
     }
-
     // 以 message 回傳指定 test result
     getTestResult( message ) {
         let result = this._results.get(message);

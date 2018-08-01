@@ -1,6 +1,6 @@
-class Assertions
+class TestAsserter
 {
-    static assertEquals( expected, actual, message, compare) 
+    assertEquals( expected, actual, message, compare) 
     {
         let result;
         
@@ -23,7 +23,7 @@ class Assertions
         return this;
     }
 
-    static assertSame( expectedObject, actualObject, message )
+    assertSame( expectedObject, actualObject, message )
     {
         const expected = JSON.stringify( expectedObject );
         const actual = JSON.stringify( actualObject );
@@ -31,7 +31,7 @@ class Assertions
         this.assertEquals( expected, actual, message );
     }
 
-    static assertContains( actualObject, expectedObject, message ) // actualObject contains expectedObject
+    assertContains( actualObject, expectedObject, message ) // actualObject contains expectedObject
     {
         let result = true;
 
@@ -45,22 +45,22 @@ class Assertions
         this.assertTrue( result, message );
     }
 
-    static assertFalse( result, message ) 
+    assertFalse( result, message ) 
     {
         this.assertEquals( false, result, message );
     }
 
-    static assertTrue( result, message ) 
+    assertTrue( result, message ) 
     {
         this.assertEquals( true, result, message );
     }
 
-    static fail( message )
+    fail( message )
     {
         this.assertEquals( true, false, message );
     }
 
-    static report( message, result )
+    report( message, result )
     {
         if ( TestManager )
         {   

@@ -5,68 +5,67 @@ class TestManager
         this.testContext = null;
         this.testSelector = null;
         this.testReporter = null;
+        this.testAsserter = null;
         this.testTemplate = null;
-        this.accessController = null;
-
+        
         this.contextCodeString = `( ${ Utils.getVariable( "TestContext" ) } )`;
         this.selectorCodeString = `( ${ Utils.getVariable( "TestSelector" ) } )`;
-        this.collectorCodeString = `( ${ Utils.getVariable( "Tests" ) } )`;
-        this.templateCodeString = `()`;
-        
-        this.controllerCodeString = `( ${ Utils.getVariable( "AccessController" ) } )`;
+        this.reporterCodeString = `( ${ Utils.getVariable( "TestReporter" ) } )`;
+        this.asserterCodeString = `( ${ Utils.getVariable( "TestAsserter" ) } )`;
+        this.templateCodeString = `( ${ Utils.getVariable( "TestTemplate" ) } )`;   
+        //this.accessController = null;
+        //this.controllerCodeString = `( ${ Utils.getVariable( "AccessController" ) } )`;
     }
 
     getTestContext()
     {
-        if ( !this.accessController )
-        {
-            this.accessController =  new ( eval( this.controllerCodeString ) )();
-        }
         if ( !this.testContext )
         {
             const TestContext = eval( this.contextCodeString );
 
-            this.testContext = new Proxy( new TestContext(), this.accessController.privateModifier );
+            this.testContext = new TestContext();
         } 
         return this.testContext;
     }
 
     getTestSelector()
     {
-        if ( !this.accessController )
-        {
-            this.accessController =  new ( eval( this.controllerCodeString ) )();
-        }
         if ( !this.testSelector )
         {
             const TestSelector = eval( this.selectorCodeString );
        
-            this.testSelector = new Proxy( new TestSelector(), this.accessController.privateModifier );
+            this.testSelector = new TestSelector();
         }
         return this.testSelector;
     }
 
     getTestReporter()
     {
-        if ( !this.accessController )
-        {
-            this.accessController =  new ( eval( this.controllerCodeString ) )();
-        }
         if ( !this.testReporter )
         {
-            const TestReporter = eval( this.collectorCodeString );
+            const TestReporter = eval( this.reporterCodeString );
        
+            this.testReporter = new TestReporter();
+        }  
+        return this.testReporter; 
+    }
+
+    getTestAsserter()
+    {
+        if ( !this.testAsserter )
+        {
+            const manager = this;
+            const Asserter = eval( this.asserterCodeString );
             const proxyHandler = { 
                 set( target, key, value )
                 {
-                    //console.log( key + "called" );
-                    target.addTestResult( key, value );
+                    manager.getTestReporter().addTestResult( key, value );
                     return Reflect.set( target, key, value );
                 }
             };
-            this.testReporter = new Proxy( new TestReporter(), proxyHandler );
-        }  
-        return this.testReporter; 
+            this.asserter = new Proxy( new Asserter(), proxyHandler );
+        }
+        return this.asserter;
     }
 
     createTestObject( TestClass )
