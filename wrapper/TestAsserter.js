@@ -2,7 +2,7 @@ class TestAsserter
 {
     constructor( reporter )
     {
-        this.testReporter = reporter;
+        this.reporter = reporter;
     }
     assertEquals( expected, actual, message, compare) 
     {
@@ -35,17 +35,17 @@ class TestAsserter
         this.assertEquals( expected, actual, message );
     }
 
-    assertContains( actualObject, expectedObject, message ) // actualObject contains expectedObject
+    assertContains( largerObject, smallerObject, message ) // largerObject contains smallerObject
     {
         let result = true;
 
-        for ( let eachProperty in expectedObject ) {
-            let partOfResult = JSON.stringify( expectedObject[ eachProperty ] ) === JSON.stringify( actualObject[ eachProperty ] );
+        for ( let eachProperty in smallerObject ) 
+        {
+            let partOfResult = JSON.stringify( smallerObject[ eachProperty ] ) === JSON.stringify( largerObject[ eachProperty ] );
             result = result && partOfResult;
 
-            this.addTestResult( `Test ${ eachProperty }`, partOfResult );
+            this.report( `Test ${ eachProperty }`, partOfResult );
         }
-
         this.assertTrue( result, message );
     }
 
@@ -66,13 +66,13 @@ class TestAsserter
 
     report( message, result )
     {
-        if ( this.testReporter )
+        if ( this.reporter )
         {   
-            this.testReporter.addTestResult( message, result );
+            this.reporter.addTestResult( message, result );
         }
         else
         {
-            let error = new Error( "TestReporter doesn't exist" );
+            const error = new Error( "TestReporter doesn't exist" );
             error.name = "Initialization Error";
 
             throw error;

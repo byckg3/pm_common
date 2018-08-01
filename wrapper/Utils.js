@@ -126,7 +126,7 @@ class Utils
         // array 有值才會組字串
         return query_list.length > 0 ? `?${query_list.join('&')}` : '';
     }
-    
+    // deprecated
     static testCurRequestBodyWithObject(CurRequestBdoy, post_request_json_body) {
         for (let i in post_request_json_body) {
             Tests[`Test ${i}`] = JSON.stringify(post_request_json_body[i]) === JSON.stringify(CurRequestBdoy[i]);
