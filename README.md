@@ -58,7 +58,6 @@ var Utils = eval( "(" + pm.variables.get( "Utils" ) + ")" );
 var TestManager = new ( eval( "(" + Utils.getVariable( "TestManager" ) + ")" ) )();
 var RequestDispatcher = eval( "(" + Utils.getVariable( "RequestDispatcher" ) + ")" );
 var InitializerBuilder = eval( "(" + Utils.getVariable( "InitializerBuilder" ) + ")" );
-var Assertions = eval( "(" + Utils.getVariable( "Assertions" ) + ")" );
 var TestTemplate = eval( "(" + Utils.getVariable( "TestTemplate" ) + ")" );
-var Tests = TestManager.getTestReporter();
+var Tests = TestManager.getTestAsserter();
 ```
