@@ -52,8 +52,7 @@ class InitializerBuilder
                     break;
                 }
             }
-        }
-      
+        }   
         return string.slice( start, end );
     }
 
@@ -67,8 +66,7 @@ class InitializerBuilder
         else if ( key )
         {
             newBodyContent = this.removeInitializerBody(  initializer.body, key );
-        }
-        
+        }      
         return `${ initializer.header }{${ newBodyContent }}`; 
     }
 

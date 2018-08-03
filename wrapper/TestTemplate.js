@@ -4,7 +4,7 @@ class TestTemplate
     {
         this.context = context;
         this.selector = selector;
-        this.testReporter = reporter;
+        this.reporter = reporter;
         // default expected value
         this.expectedCode = 200;
         this.expectedResponseTime = 5000;
@@ -17,8 +17,8 @@ class TestTemplate
     common_tests() 
     {
 		const cxt = this.context;
-		this.testReporter.addTestResult( `Http status code : ${ cxt.statusCode }`, cxt.statusCode === this.expectedCode )
-                         .addTestResult( `Response time : ${ cxt.responseTime } ms`, cxt.responseTime <= this.expectedResponseTime );               
+		this.reporter.addTestResult( `Http status code : ${ cxt.statusCode }`, cxt.statusCode === this.expectedCode )
+                     .addTestResult( `Response time : ${ cxt.responseTime } ms`, cxt.responseTime <= this.expectedResponseTime );               
 	}
 
 	tearDown() {

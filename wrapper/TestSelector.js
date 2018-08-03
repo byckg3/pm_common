@@ -31,10 +31,10 @@ class TestSelector
         }
     }
 
-    selectHttpStatus( testClass ) 
+    selectHttpStatus( testObject ) 
     {   
-        let status = testClass.context.statusText.replace(/ /g, "_").toLowerCase();
-        return "expect_" + status + "_" + testClass.expectedCode;
+        let status = testObject.context.statusText.replace(/ /g, "_").toLowerCase();
+        return "expect_" + status + "_" + testObject.expectedCode;
     }
 
     selectMethodNameInclude( prefix = "test" )
@@ -47,8 +47,8 @@ class TestSelector
         return this.step < this.selectors.length;
     } 
 
-    next( testClass )
+    next( testObject )
     {   
-        return this.selectors[ this.step++ ]( testClass );
+        return this.selectors[ this.step++ ]( testObject );
     }
 }

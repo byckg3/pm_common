@@ -18,9 +18,9 @@ class TestManager
     }
 
     getTestContext()
-    {
+    {   
         if ( !this.testContext )
-        {
+        {   
             const TestContext = eval( this.contextCodeString );
             this.testContext = new TestContext();
         } 
@@ -56,7 +56,7 @@ class TestManager
             const proxyHandler = { 
                 set( target, key, value )
                 {
-                    target.testReporter.addTestResult( key, value );
+                    target.reporter.addTestResult( key, value );
                     return Reflect.set( target, key, value );
                 }
             };
@@ -68,7 +68,7 @@ class TestManager
     getTestTemplate()
     {
         if ( !this.testTemplate )
-        {
+        {                         
             const TestTemplate = eval( this.templateCodeString );
             this.testTemplate = new TestTemplate();
         }
@@ -76,18 +76,18 @@ class TestManager
     }
 
     createTestObject( TestClass )
-    {
+    {   
         const context = this.getTestContext();
         const selector = this.getTestSelector();
-        const collector = this.getTestReporter();
-     
+        const reporter = this.getTestReporter();
+        
         const proxyHandler = { 
             ownKeys( target )
             {
                 return Reflect.ownKeys( target );
             }
         };
-        const obj = new TestClass( context, selector, collector );
+        const obj = new TestClass( context, selector, reporter );
         return new Proxy( obj, proxyHandler );
     }
 
@@ -104,7 +104,7 @@ class TestManager
             
 			while ( testObject.selector.hasNext() ) 
 			{   
-				let calleeName = testObject.selector.next(  testObject );
+				let calleeName = testObject.selector.next( testObject );
 
                 if ( ( calleeName in testObject ) && ( typeof testObject[ calleeName ] === "function" ) ) 
                 {
@@ -117,16 +117,18 @@ class TestManager
                 }
             }
         }
-        catch (error) {
+        catch (error) 
+        {
             const errMsg = `${ error.name } : ${ error.message }`;
             console.log(errMsg);       
-            testObject.testReporter.addTestResult( errMsg, false );
+            testObject.reporter.addTestResult( errMsg, false );
         }
-        finally {
+        finally 
+        {
             testObject.tearDown();
-            if ( testObject.testReporter )
+            if ( testObject.reporter )
             {   
-                testObject.testReporter.results();
+                testObject.reporter.results();
             }   
         }
     }
