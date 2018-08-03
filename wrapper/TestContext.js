@@ -83,7 +83,12 @@ class TestContext
 
     restoreAttribute( key )
     {
-        let value = Utils.getVariable( key );
+        let value;
+        if ( Utils.hasVariable( key ) )
+        {
+            value = Utils.getVariable( key );
+        }
+        
         this.setAttribute( key, value );
 
         return value;
