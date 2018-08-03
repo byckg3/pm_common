@@ -65,30 +65,38 @@ class TestContext
                     set : ( value ) => { this.setAttribute( key, value ) }
                 }                                  
         );
+        InitializerBuilder.buildInitializer( key, value );  
     }
 
     setGlobalAttribute( key, value )
     {
         this.setAttribute( key, value );
         Utils.setGlobalVariable( key, value );
-        InitializerBuilder.buildInitializer( key, value );    
     }
 
     setEnvironmentAttribute( key, value )
     {
         this.setAttribute( key, value );
         Utils.setEnvironmentVariable( key, value );
-        InitializerBuilder.buildInitializer( key, value );
     }
 
-    restoreAttribute( key )
+    restoreAttribute( key, value )
     {
-        let value;
-        if ( Utils.hasVariable( key ) )
+        try
         {
-            value = Utils.getVariable( key );
+            if ( Utils.hasVariable( key ) )
+            {
+                value = Utils.getVariable( key );
+            }
+            else
+            {
+                value = JSON.parse( value );
+            }   
         }
-        
+        catch( err )
+        {
+                   
+        }
         this.setAttribute( key, value );
 
         return value;

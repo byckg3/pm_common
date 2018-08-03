@@ -4,25 +4,27 @@ class TestTemplate
     {
         this.context = context;
         this.selector = selector;
-        this.testReporter = reporter;
+        this.reporter = reporter;
         // default expected value
         this.expectedCode = 200;
         this.expectedResponseTime = 5000;
     }
 
-	setUp() {
-		console.log("setup : " + this.context.requestName);
-	}
+	setUp() { }
 
     common_tests() 
     {
 		const cxt = this.context;
-		this.testReporter.addTestResult( `Http status code : ${ cxt.statusCode }`, cxt.statusCode === this.expectedCode )
-                         .addTestResult( `Response time : ${ cxt.responseTime } ms`, cxt.responseTime <= this.expectedResponseTime );               
+		this.reporter.addTestResult( `Http status code : ${ cxt.statusCode }`, cxt.statusCode === this.expectedCode )
+                     .addTestResult( `Response time : ${ cxt.responseTime } ms`, cxt.responseTime <= this.expectedResponseTime );               
+	}
+
+	unexpected()
+	{
+		this.reporter.addTestResult( "unexpected condition : no matched method", false );
 	}
 
 	tearDown() {
-		console.log( "tear down : " + this.context.requestName );
 		if ( this.context.autoClear )
 		{
 			this.context.clearAttributes();

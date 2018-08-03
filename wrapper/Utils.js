@@ -75,15 +75,6 @@ class Utils
         }
         return false;
     }
-    // deprecated
-    static setObjectEnvironmentVariable(key, value) {
-        this.setEnvironmentVariable(key, JSON.stringify(value));
-    }
-    // deprecated
-    static getObjectEnvironmentVariable(key) {
-        return JSON.parse(this.getEnvironmentVariable(key));
-    }
-
     // 不支援有重複相同屬性名稱的JSON
     static getValueFromJsonString(jsonString, key) {
         let value = null;
@@ -126,6 +117,15 @@ class Utils
         // array 有值才會組字串
         return query_list.length > 0 ? `?${query_list.join('&')}` : '';
     }
+    // deprecated
+    static setObjectEnvironmentVariable(key, value) {
+        this.setEnvironmentVariable(key, JSON.stringify(value));
+    }
+    // deprecated
+    static getObjectEnvironmentVariable(key) {
+        return JSON.parse(this.getEnvironmentVariable(key));
+    }
+
     // deprecated
     static testCurRequestBodyWithObject(CurRequestBdoy, post_request_json_body) {
         for (let i in post_request_json_body) {

@@ -52,8 +52,7 @@ class InitializerBuilder
                     break;
                 }
             }
-        }
-      
+        }   
         return string.slice( start, end );
     }
 
@@ -67,24 +66,19 @@ class InitializerBuilder
         else if ( key )
         {
             newBodyContent = this.removeInitializerBody(  initializer.body, key );
-        }
-        
+        }      
         return `${ initializer.header }{${ newBodyContent }}`; 
     }
 
     static setInitializerBody( initializerBody, key, value )
     {
         initializerBody = this.removeInitializerBody( initializerBody, key );
-       
-        if ( typeof value === "string" )
-        {
-            value = `'${ value }'`;
-        }
-        else if ( typeof value === "object" )
+        
+        if ( typeof value === "object" )
         {
             value = JSON.stringify( value );
         }
-        let appendantCode = `this.restoreAttribute( "${ key }", ${ value } );`;
+        let appendantCode = `this.restoreAttribute( "${ key }", '${ value }' );`;
     
         return `${ initializerBody }\n\t\t${ appendantCode } `;
     }
