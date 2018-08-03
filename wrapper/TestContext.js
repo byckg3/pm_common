@@ -82,19 +82,21 @@ class TestContext
 
     restoreAttribute( key, value )
     {
-        if ( Utils.hasVariable( key ) )
+        try
         {
-            value = Utils.getVariable( key );
-        }
-        else
-        {
-            try
+            if ( Utils.hasVariable( key ) )
+            {
+                value = Utils.getVariable( key );
+            }
+            else
             {
                 value = JSON.parse( value );
-            }
-            catch( err )
-            {}
-        } 
+            }   
+        }
+        catch( err )
+        {
+                   
+        }
         this.setAttribute( key, value );
 
         return value;
