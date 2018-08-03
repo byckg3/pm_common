@@ -10,9 +10,7 @@ class TestTemplate
         this.expectedResponseTime = 5000;
     }
 
-	setUp() {
-		console.log("setup : " + this.context.requestName);
-	}
+	setUp() { }
 
     common_tests() 
     {
@@ -21,8 +19,12 @@ class TestTemplate
                      .addTestResult( `Response time : ${ cxt.responseTime } ms`, cxt.responseTime <= this.expectedResponseTime );               
 	}
 
+	unexpected()
+	{
+		this.reporter.addTestResult( "unexpected condition : no matched method", false );
+	}
+
 	tearDown() {
-		console.log( "tear down : " + this.context.requestName );
 		if ( this.context.autoClear )
 		{
 			this.context.clearAttributes();

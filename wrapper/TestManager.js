@@ -100,6 +100,7 @@ class TestManager
     run( testObject ) 
     {
 		try {
+            console.log( "setup : " + this.testContext.requestName);
 			testObject.setUp();
             
 			while ( testObject.selector.hasNext() ) 
@@ -111,9 +112,10 @@ class TestManager
                     console.log( "Executing : " + calleeName);
                     testObject[ calleeName ]();
                 }
-                else {
+                else 
+                {
                     console.log( "unexpected condition : no matched method");
-                    this.unexpected();
+                    testObject.unexpected();
                 }
             }
         }
@@ -125,6 +127,7 @@ class TestManager
         }
         finally 
         {
+            console.log( "tear down : " + this.testContext.requestName );
             testObject.tearDown();
             if ( testObject.reporter )
             {   
