@@ -1,7 +1,7 @@
 class TestContext
 {
     constructor() {
-        this.attributes = new Map();
+        this._attributes = new Map();
         this.autoClear = false;
        
         this.initializer();
@@ -41,22 +41,22 @@ class TestContext
     // others
     hasAttribute( key )
     {
-        return this.attributes.has( key );
+        return this._attributes.has( key );
     }
 
     getAttribute( key )
     {
-        return this.attributes.get( key ); 
+        return this._attributes.get( key ); 
     }
 
     getAttributeNames()
     {
-        return this.attributes.keys();
+        return this._attributes.keys();
     }
 
     setAttribute( key, value )
     {
-        this.attributes.set( key, value );
+        this._attributes.set( key, value );
         Object.defineProperty( this, key,  
                 { 
                     configurable : true,
@@ -104,7 +104,7 @@ class TestContext
 
     removeAttribute( key )
     {
-        this.attributes.delete( key );
+        this._attributes.delete( key );
 
         delete this[ key ];
 
@@ -121,7 +121,7 @@ class TestContext
             Utils.removeVariable( eachName );
         }
 
-        this.attributes.clear();
+        this._attributes.clear();
 
         InitializerBuilder.buildInitializer();
     }
@@ -129,7 +129,7 @@ class TestContext
     toString() 
     {
         let displayedMessage = "";
-        for ( let [ key, value ] of this.attributes.entries() ) {
+        for ( let [ key, value ] of this._attributes.entries() ) {
             displayedMessage += `${ key} : ${ value }\t`;
           }
         return displayedMessage;

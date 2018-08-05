@@ -2,20 +2,19 @@ class TestAsserter
 {
     constructor( reporter )
     {
-        this.reporter = reporter;
+        this._reporter = reporter;
     }
-    assertEquals( expected, actual, message, compare) 
+
+    assertEquals( expected, actual, message = `Expected : ${ expected}, Actual : ${ actual}`, compare = undefined ) 
     {
         let result;
         
         if (typeof compare === "function") {
-            result = compare(expected, actual);
+            result = compare( expected, actual );
         }
         else {
             result = expected === actual;
         }
-
-        this.report( message, result );
 
         if ( !result ) {
             let error = new Error( message );
@@ -23,6 +22,7 @@ class TestAsserter
 
             throw error;
         }
+        this.report( message, result );
 
         return this;
     }
@@ -66,9 +66,9 @@ class TestAsserter
 
     report( message, result )
     {
-        if ( this.reporter )
+        if ( this._reporter )
         {   
-            this.reporter.addTestResult( message, result );
+            this._reporter.addTestResult( message, result );
         }
         else
         {

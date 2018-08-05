@@ -56,7 +56,7 @@ class TestManager
             const proxyHandler = { 
                 set( target, key, value )
                 {
-                    target.reporter.addTestResult( key, value );
+                    reporter.addTestResult( key, value );
                     return Reflect.set( target, key, value );
                 }
             };
