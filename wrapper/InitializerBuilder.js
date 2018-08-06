@@ -13,7 +13,7 @@ class InitializerBuilder
         let header = result[ 0 ].slice( 0, result[ 0 ].length - 1 );
 
         let begin = start + header.length; // index of "{"
-        let body = this.getBoundedContent( codeString, "{", "}", begin );
+        let body = Utils.getBoundedString( codeString, "{", "}", begin );
 
         return {    
             header,
@@ -22,38 +22,6 @@ class InitializerBuilder
             lastIndex : start + body.length + 1,  // index of "}"
             content : `${ header }{${ body }}`
         };
-    }
-
-    static getBoundedContent( string, leftBorder, rightBorder, start = 0 )
-    {
-        let stack = [];
-        let end = string.length;
-        for ( let index = start; index < end; index++ )
-        {
-            if ( string[ index ] === leftBorder )
-            {
-                if ( stack.length === 0 )
-                {
-                    start = index + 1;
-                }
-                stack.push( string[ index ] );        
-            }
-            else if ( string[ index ] === rightBorder )
-            {
-                if ( stack.pop() !== leftBorder )
-                {
-                    console.log( "SyntaxError");
-                    return;
-                }
-    
-                if ( stack.length === 0 )
-                {
-                    end = index;
-                    break;
-                }
-            }
-        }   
-        return string.slice( start, end );
     }
 
     static createNewInitializer( initializer, ...[ key, value ] )

@@ -75,6 +75,38 @@ class Utils
         }
         return false;
     }
+
+    static getBoundedString( string, leftBorder, rightBorder, start = 0 )
+    {
+        let stack = [];
+        let end = string.length;
+        for ( let index = start; index < end; index++ )
+        {
+            if ( string[ index ] === leftBorder )
+            {
+                if ( stack.length === 0 )
+                {
+                    start = index + 1;
+                }
+                stack.push( string[ index ] );        
+            }
+            else if ( string[ index ] === rightBorder )
+            {
+                if ( stack.pop() !== leftBorder )
+                {
+                    console.log( "SyntaxError");
+                    return;
+                }
+    
+                if ( stack.length === 0 )
+                {
+                    end = index;
+                    break;
+                }
+            }
+        }   
+        return string.slice( start, end );
+    }
     // 不支援有重複相同屬性名稱的JSON
     static getValueFromJsonString(jsonString, key) {
         let value = null;
