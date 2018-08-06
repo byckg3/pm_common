@@ -22,6 +22,9 @@ class TestContext
     get requestBodyText() {
         return pm.request.body[ pm.request.body.mode ];
     }
+    get requestBodyJson() {
+        return JSON.parse( this.requestBodyText );
+    }
     // response info
     get statusText() {
         return pm.response.status;

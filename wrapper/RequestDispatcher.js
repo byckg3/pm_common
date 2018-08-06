@@ -3,41 +3,43 @@ class RequestDispatcher {
         postman.setNextRequest(requestName);
     }
 
-    static repeatedRequest( testContext, expectedTimes, nextRequestName ) {
+    static repeatedRequest( testContext, expectedTimes, nextRequestName = null ) 
+    {
         let initial = 1;
-        let requestId = testContext.requestId; // requestId 當作 key, 執行次數為 value
-        let times = testContext.getAttribute( requestId ); 
-
-        if ( times === undefined) {
-            times = initial;
+        let currentTimes = 0;
+        const requestId = testContext.requestId; // requestId 當作 key, 執行次數為 value
+    
+        if ( Utils.hasVariable( requestId ) )
+        {
+            currentTimes = parseInt( Utils.getVariable( requestId ), 10 ) + 1; 
         }
-        else {
-            times = parseInt(times, 10) + 1;
+        else 
+        {
+            currentTimes = initial;
         }
-        console.log( "Repeated times : " +  times );
-        testContext.setEnvironmentAttribute( requestId, times );
-
-        if ( times < expectedTimes ) {
+        console.log( "Repeated times : " +  currentTimes );
+        Utils.setVariable( requestId, currentTimes );
+        
+        if ( currentTimes < expectedTimes ) {
             this.setNextRequest( requestId );
-            console.log("Next Request : " + testContext.requestName );
+            console.log( "Next Request : " + testContext.requestName );
         }
         else {
             testContext.removeAttribute( requestId );
-            if ( nextRequestName !== undefined ) {
-                this.setNextRequest( nextRequestName );
-                console.log("Next Request : " + nextRequestName );
+            this.setNextRequest( nextRequestName );
+            if ( nextRequestName ) {
+                console.log( "Next Request : " + nextRequestName );
             }
         }
     }
 
     static getCurrentRepetition( testContext ) {
-        let times = testContext.getAttribute( testContext.requestId );
-        if (times === undefined) {
-            return 0;
+        let currentTimes = 0;
+        if ( Utils.hasVariable( testContext.requestId ) )
+        {
+            currentTimes = parseInt( Utils.getVariable( testContext.requestId ), 10 ); 
         }
-        else {
-            return parseInt( times, 10 );
-        }
+        return currentTimes;
     }
 
     static setTestCaseRequest(test_case_object) {

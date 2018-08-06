@@ -35,16 +35,19 @@ class TestAsserter
         this.assertEquals( expected, actual, message );
     }
 
-    assertContains( largerObject, smallerObject, message ) // largerObject contains smallerObject
+    assertContains( superobject, subobject, message ) // superobject contains subobject
     {
         let result = true;
 
-        for ( let eachProperty in smallerObject ) 
-        {
-            let partOfResult = JSON.stringify( smallerObject[ eachProperty ] ) === JSON.stringify( largerObject[ eachProperty ] );
-            result = result && partOfResult;
+        for ( let eachProperty in subobject ) 
+        {   
+            let subobjectPropertyValue = JSON.stringify( subobject[ eachProperty ] );
+            let superobjectPropertyValue = JSON.stringify( superobject[ eachProperty ] );
+            let partOfResult = subobjectPropertyValue === superobjectPropertyValue;
 
-            this.report( `Test ${ eachProperty }`, partOfResult );
+            this.report( 
+                `${ eachProperty } : ${ superobjectPropertyValue } should be equal to ${ subobjectPropertyValue }`, partOfResult );
+            result = result && partOfResult;
         }
         this.assertTrue( result, message );
     }
