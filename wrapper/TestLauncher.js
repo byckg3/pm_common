@@ -10,13 +10,12 @@ class TestLauncher
     discover()
     {
         const testPrototype = Object.getPrototypeOf( this.testObject );
-        for ( let eachName of Object.getOwnPropertyNames( testPrototype ) )
+        for ( let eachPropertyName of Object.getOwnPropertyNames( testPrototype ) )
         {
-            if ( typeof this.testObject[ eachName ] !== "function" || this.testObject[ name ] === this.testClass )
+            if ( this._isTestableMethod( eachPropertyName ) )
             {
-                continue;
+                this._methodNames.push( eachPropertyName );  
             } 
-            this._methodNames.push( eachName );   
         }
     }
 
@@ -24,21 +23,21 @@ class TestLauncher
     {
 		try {
             console.log( "setup : " + this.testContext.requestName);
-			testObject.setUp();
+			this.testObject.setUp();
             
-			while ( testObject.selector.hasNext() ) 
+			while ( this.testObject.selector.hasNext() ) 
 			{   
-				let calleeName = testObject.selector.next( testObject );
+				let calleeName = this.testObject.selector.next( this.testObject );
 
-                if ( ( calleeName in testObject ) && ( typeof testObject[ calleeName ] === "function" ) ) 
+                if ( this._isCallableMethod( calleeName ) ) 
                 {
                     console.log( `Executing : ${ calleeName }` );
-                    testObject[ calleeName ]();
+                    this.testObject[ calleeName ]();
                 }
                 else 
                 {
                     console.log( "unexpected condition : no matched method");
-                    testObject.unexpected();
+                    this.testObject.unexpected();
                 }
             }
         }
@@ -46,16 +45,30 @@ class TestLauncher
         {
             const errMsg = `${ error.name } : ${ error.message }`;
             console.log(errMsg);       
-            testObject.reporter.addTestResult( errMsg, false );
+            this.testObject.reporter.addTestResult( errMsg, false );
         }
         finally 
         {
             console.log( "tear down : " + this.testContext.requestName );
-            testObject.tearDown();
-            if ( testObject.reporter )
+            this.testObject.tearDown();
+            if ( this.testObject.reporter )
             {   
-                testObject.reporter.results();
+                this.testObject.reporter.results();
             }   
         }
+    }
+
+    _isCallableMethod( propertyName )
+    {
+        return ( propertyName in this.testObject ) && ( typeof this.testObject[ propertyName ] === "function" );
+    }
+
+    _isTestableMethod( propertyName )
+    {
+        const isFunction = typeof this.testObject[ propertyName ] === "function"; 
+        const isConstructor = this.testObject[ propertyName ] === this.testClass;
+        const isTemplateMethod = [ "setUp", "tearDown", "unexpected" ].includes( propertyName );
+
+        return isFunction && !isConstructor && !isTemplateMethod;
     }
 }
