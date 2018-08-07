@@ -46,7 +46,7 @@ class TestAsserter
             let partOfResult = subobjectPropertyValue === superobjectPropertyValue;
 
             this.report( 
-                `${ eachProperty } : ${ superobjectPropertyValue } should be equal to ${ subobjectPropertyValue }`, partOfResult );
+                `${ eachProperty } : ${ superobjectPropertyValue } === ${ subobjectPropertyValue }`, partOfResult );
             result = result && partOfResult;
         }
         this.assertTrue( result, message );

@@ -1,9 +1,14 @@
 class RequestDispatcher {
-    static setNextRequest(requestName) {
-        postman.setNextRequest(requestName);
+    static setNextRequest( requestName ) {
+        postman.setNextRequest(requestName );
     }
 
-    static repeatedRequest( testContext, expectedTimes, nextRequestName = null ) 
+    static terminate()
+    {
+        this.setNextRequest( null );
+    }
+
+    static repeatedRequest( testContext, expectedTimes, nextRequestName ) 
     {
         let initial = 1;
         let currentTimes = 0;
@@ -26,9 +31,9 @@ class RequestDispatcher {
         }
         else {
             testContext.removeAttribute( requestId );
-            this.setNextRequest( nextRequestName );
             if ( nextRequestName ) {
                 console.log( "Next Request : " + nextRequestName );
+                this.setNextRequest( nextRequestName );
             }
         }
     }
