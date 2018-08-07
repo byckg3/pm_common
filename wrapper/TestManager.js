@@ -109,7 +109,7 @@ class TestManager
 
                 if ( ( calleeName in testObject ) && ( typeof testObject[ calleeName ] === "function" ) ) 
                 {
-                    console.log( "Executing : " + calleeName);
+                    console.log( `Executing : ${ calleeName }()` );
                     testObject[ calleeName ]();
                 }
                 else 
