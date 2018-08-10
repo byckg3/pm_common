@@ -38,7 +38,7 @@ class TestAsserter
     assertContains( superobject, subobject, message ) // superobject contains subobject
     {
         let result = true;
-
+        
         for ( let eachProperty in subobject ) 
         {   
             let subobjectPropertyValue = JSON.stringify( subobject[ eachProperty ] );
@@ -46,7 +46,7 @@ class TestAsserter
             let partOfResult = subobjectPropertyValue === superobjectPropertyValue;
 
             this.report( 
-                `${ eachProperty } : ${ superobjectPropertyValue } === ${ subobjectPropertyValue }`, partOfResult );
+                `${ eachProperty } : ${ subobjectPropertyValue } === ${ superobjectPropertyValue }`, partOfResult );
             result = result && partOfResult;
         }
         this.assertTrue( result, message );
