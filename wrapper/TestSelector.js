@@ -4,9 +4,12 @@ class TestSelector
     {
         this.selectors = [];
         this.step = 0;
+        this._conditions = new Map();
+        this._conditions.set( "" );
 
         this.schedule( [ "common_tests" ] );
         this.addSelector( this.selectHttpStatus );
+        this._prefixes = [ "test", "expect", "assert", "assume" ];
     }
 
     clearSelectors() {
@@ -37,10 +40,32 @@ class TestSelector
         return "expect_" + status + "_" + testObject.expectedCode;
     }
 
-    selectMethodNameInclude( prefix = "test" )
+    fetchCondition( methodName)
     {
-            
+        if ( this._startsWithPrefix( methodName ) )
+        {
+            const index = methodName.indexOf( "if" );
+
+            if ( index !== -1 )
+            {
+                let condition = methodName.slice( index + 2 );
+
+                if ( this._conditions.has( condition ) )
+                {
+                    this._conditions.get( condition ).push( condition );        
+                }   
+                else
+                {
+                    this._conditions.set( condition, [] );
+                }
+            }
+            else
+            {
+
+            }
+        }
     }
+
     // methods of iterator
     hasNext()
     {
@@ -50,5 +75,17 @@ class TestSelector
     next( testObject )
     {   
         return this.selectors[ this.step++ ]( testObject );
+    }
+
+    _startsWithPrefix( methodName )
+    {
+        for ( let prefix of this._prefixes )
+        {
+            if ( methodName.startsWith( prefix ) )
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }
