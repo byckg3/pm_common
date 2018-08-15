@@ -19,11 +19,12 @@
 - 持續擴充共用 function
 - ex. Utils.getValueObjectFromJsonString( jsonString, key1, key2 )
 
-## Tests
-- global object
-- 提供測試方法並存放測試結果
-- assert 開頭的 method 提供中斷流程 throw error 的功能
-- ex. Tests[ "Test name" ] = ( boolean expression );
+## TestAsserter
+- 為方便使用，建立後 assign 給 Tests 變數成為 global object
+- 提供測試用 assert 方法並提交測試結果
+- assertion method 提供中斷流程 throw error 的功能
+- ex. Tests[ "Test name" ] = ( boolean expression ); // 若 fail 還是繼續執行
+- ex. Tests.assertEquals( 1 + 1, 2, "1 + 1 === 2");  // 若 pass 繼續執行後續流程，若 fail 則 throw error
 
 ## TestSelecter
 - 存放可選擇不同測試分支路徑的 function
