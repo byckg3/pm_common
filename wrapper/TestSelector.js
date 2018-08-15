@@ -5,7 +5,7 @@ class TestSelector
         this.selectors = [];
         this.step = 0;
         this._conditions = new Map();
-        this._conditions.set( "" );
+        this._conditions.set( "common_condition", [] );
 
         this.schedule( [ "common_tests" ] );
         this.addSelector( this.selectHttpStatus );
@@ -40,31 +40,7 @@ class TestSelector
         return "expect_" + status + "_" + testObject.expectedCode;
     }
 
-    fetchCondition( methodName)
-    {
-        if ( this._startsWithPrefix( methodName ) )
-        {
-            const index = methodName.indexOf( "if" );
-
-            if ( index !== -1 )
-            {
-                let condition = methodName.slice( index + 2 );
-
-                if ( this._conditions.has( condition ) )
-                {
-                    this._conditions.get( condition ).push( condition );        
-                }   
-                else
-                {
-                    this._conditions.set( condition, [] );
-                }
-            }
-            else
-            {
-
-            }
-        }
-    }
+   
 
     // methods of iterator
     hasNext()
@@ -87,5 +63,47 @@ class TestSelector
             }
         }
         return false;
+    }
+
+    _fetchCondition( methodName)
+    {
+        let condition = "";
+        const index = methodName.indexOf( "if" ) + "if".length + 1;
+        
+        if ( this._isConditional( methodName ) )
+        {
+            condition = methodName.slice( index );
+
+            this._dispatchMethodByCondition( methodName, condition );
+        }
+        else
+        {
+            this._dispatchMethodByCondition( methodName, "common_condition" )
+        }
+        return condition;
+    }
+
+    _isConditional( methodName )
+    {
+        if ( methodName.indexOf( "if" ) !== -1)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    _dispatchMethodByCondition( methodName, condition )
+    {
+        if ( this._conditions.has( condition ) )
+        {
+            this._conditions.get( condition ).push( methodName );        
+        }   
+        else
+        {
+            this._conditions.set( condition, [] );
+        }
     }
 }
