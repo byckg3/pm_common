@@ -26,5 +26,10 @@ class Tester extends TestTemplate
         Tests.assertEquals( this.selector._fetchCondition( functionName4 ), "conditionA", "assert condition : conditionA" );
         Tests.assertEquals( this.selector._fetchCondition( functionName5 ), "conditionB", "assert condition : conditionB" );
     }
+
+    test_conditions()
+    {
+        
+    }
 }
 TestManager.executeTests( Tester );
