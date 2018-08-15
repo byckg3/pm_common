@@ -6,6 +6,10 @@
 - 持續擴充常用資料
 - 在 class 裡面使用 this.context 可取得 TestContext 物件的 reference
 - ex. this.context.responseText 取得回應的 body 字串
+- setAttribute( key, value ) 可設定跨 test script 的變數
+- setEnvironmentAttribute( key, value ) 同為 setAttribute 功能外，額外再設定至 Postman 環境變數區
+- setGlobalAttribute( key, value ) 同為 setAttribute 功能外，額外再設定至 Postman 全域變數區
+- removeAttribute( key )、clearAttribute() 為對應刪除指定和全部的 attribute
 
 ## TestTemplate
 - 提供預先定義的 template 方法
