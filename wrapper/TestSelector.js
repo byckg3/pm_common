@@ -29,7 +29,8 @@ class TestSelector
     {
         this.clearSelectors();
 
-        for (let selector of selectors) {
+        for (let selector of selectors) 
+        {
             this.addSelector(selector);
         }
     }
@@ -37,7 +38,7 @@ class TestSelector
     selectHttpStatus( testObject ) 
     {   
         let status = testObject.context.statusText.replace(/ /g, "_").toLowerCase();
-        return "expect_" + status + "_" + testObject.expectedCode;
+        return "expect_" + status + "_" + testObject.expectedCode; 
     }
 
    
@@ -65,7 +66,7 @@ class TestSelector
         return false;
     }
 
-    _fetchCondition( methodName)
+    _fetchCondition( methodName )
     {
         let condition = "";
         const index = methodName.indexOf( "if" ) + "if".length + 1;
@@ -97,13 +98,10 @@ class TestSelector
 
     _dispatchMethodByCondition( methodName, condition )
     {
-        if ( this._conditions.has( condition ) )
+        if ( !this._conditions.has( condition ) )
         {
-            this._conditions.get( condition ).push( methodName );        
+            this._conditions.set( condition, [] );        
         }   
-        else
-        {
-            this._conditions.set( condition, [] );
-        }
+        this._conditions.get( condition ).push( methodName ); 
     }
 }

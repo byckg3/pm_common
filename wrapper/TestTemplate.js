@@ -10,7 +10,10 @@ class TestTemplate
         this.expectedResponseTime = 3000;
     }
 
-	setUp() { }
+	setUp() 
+	{
+		
+	}
 
     common_tests() 
     {

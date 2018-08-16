@@ -7,6 +7,7 @@ class TestManager
         this.testReporter = null;
         this.testAsserter = null;
         this.testTemplate = null;
+        this.testObject = null;
         
         this.contextCodeString = `( ${ Utils.getVariable( "TestContext" ) } )`;
         this.selectorCodeString = `( ${ Utils.getVariable( "TestSelector" ) } )`;
@@ -82,9 +83,14 @@ class TestManager
         const reporter = this.getTestReporter();
         
         const proxyHandler = { 
-            ownKeys( target )
+            get( targetObj, key )
             {
-                return Reflect.ownKeys( target );
+                const value = Reflect.get( targetObj, key );
+                // if ( typeof value === "function" )
+                // {
+                //     console.log( `Executing : ${ key }()` );
+                // } 
+                return value;
             }
         };
         const obj = new TestClass( context, selector, reporter );
@@ -93,29 +99,29 @@ class TestManager
 
     executeTests( TestClass )
     {
-        const testObject = this.createTestObject( TestClass );
-        this.run( testObject );
+        this.testObject = this.createTestObject( TestClass );
+        this._run( this.testObject );
     }
 
-    run( testObject ) 
+    _run( testObject ) 
     {
 		try {
-            console.log( "setup : " + this.testContext.requestName);
-			testObject.setUp();
-            
+            console.log( `${ this.testContext.requestName } :`);
+		
+            this._call( testObject.setUp );
+
 			while ( testObject.selector.hasNext() ) 
 			{   
 				let calleeName = testObject.selector.next( testObject );
 
                 if ( ( calleeName in testObject ) && ( typeof testObject[ calleeName ] === "function" ) ) 
-                {
-                    console.log( `Executing : ${ calleeName }()` );
-                    testObject[ calleeName ]();
+                {   
+                    this._call( testObject[ calleeName ] );
                 }
                 else 
                 {
                     console.log( "unexpected condition : no matched method");
-                    testObject.unexpected();
+                    this._call( testObject.unexpected );
                 }
             }
         }
@@ -127,13 +133,25 @@ class TestManager
         }
         finally 
         {
-            console.log( "tear down : " + this.testContext.requestName );
-            testObject.tearDown();
+            this._call( testObject.tearDown );
             if ( testObject.reporter )
             {   
                 testObject.reporter.results();
             }   
         }
+    }
+
+    _call( method )
+    {
+        const proxyHandler = { 
+            apply( targetMethod, cxt, args )
+            {
+                console.log( `Executing : ${ targetMethod.name }()` );
+                return Reflect.apply( targetMethod, cxt, args );
+            }
+        };
+
+        return new Proxy( method, proxyHandler ).apply( this.testObject );
     }
 }
 
