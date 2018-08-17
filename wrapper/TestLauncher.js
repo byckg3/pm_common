@@ -3,8 +3,9 @@ class TestLauncher
     constructor( testObj )
     {
         this.testObject = testObj;
-        this.testClass = testObj.constructor;
         this._methodNames = [];
+
+        this.discover();
     }
 
     discover()
@@ -12,9 +13,9 @@ class TestLauncher
         const testPrototype = Object.getPrototypeOf( this.testObject );
         for ( let eachPropertyName of Object.getOwnPropertyNames( testPrototype ) )
         {
-            if ( this._isTestableMethod( eachPropertyName ) )
+            if ( this._isSelectableMethod( eachPropertyName ) )
             {
-                this._methodNames.push( eachPropertyName );  
+                this.testObject.selector.analyze( eachPropertyName );  
             } 
         }
     }
@@ -22,45 +23,54 @@ class TestLauncher
     execute() 
     {
         const testObject = this.testObject;
-		try {
+        const selector = testObject.selector;
+        try 
+        {
             console.log( `${ testObject.context.requestName } :` );
 		
             this._call( "setUp" );
+			
+            while( selector.hasNextCondition() )
+            {
+                const conditionName = selector.nextCondition( testObject );
 
-			while ( testObject.selector.hasNext() ) 
-			{   
-				let calleeName = testObject.selector.next( testObject );
+                if ( selector.conditionExists( conditionName ) )
+                {
+                    selector.selectCondition( conditionName );
 
-                if ( this._isCallableMethod( calleeName, testObject ) )
-                {   
-                    this._call( "beforeEachTest" );
+                    while( selector.hasNextTest() )
+                    {
+                        const calleeName = selector.nextTest();
+
+                        this._call( "beforeEachTest" );
                     
-                    this._call( "before_" + calleeName );
+                        this._call( "before_" + calleeName );
 
-                    this._call( calleeName ); // main test function
+                        this._call( calleeName ); // main test function
 
-                    this._call( "after_" + calleeName );
+                        this._call( "after_" + calleeName );
                     
-                    this._call( "afterEachTest" );
+                        this._call( "afterEachTest" );
+                    }
                 }
-                else 
+                else
                 {
                     this._call( "unexpected" );
-                }
+                } 
             }
         }
         catch (error) 
         {
             const errMsg = `${ error.name } : ${ error.message }`;
             console.log( errMsg );       
-            this.testObject.reporter.addTestResult( errMsg, false );
+            testObject.reporter.addTestResult( errMsg, false );
         }
         finally 
         {
             this._call( "tearDown" );
-            if ( this.testObject.reporter )
+            if ( testObject.reporter )
             {   
-                this.testObject.reporter.results();
+                testObject.reporter.results();
             }   
         }
     }
@@ -78,7 +88,7 @@ class TestLauncher
                     }
                     else
                     {
-                        console.log( "unexpected condition : no matched method");
+                        console.log( "unexpected condition : no matched method" );
                     }
                     return Reflect.apply( targetMethod, cxt, args );
                 }
@@ -92,10 +102,10 @@ class TestLauncher
         return ( propertyName in this.testObject ) && ( typeof this.testObject[ propertyName ] === "function" );
     }
 
-    _isTestableMethod( propertyName )
+    _isSelectableMethod( propertyName )
     {
         const isFunction = typeof this.testObject[ propertyName ] === "function"; 
-        const isConstructor = this.testObject[ propertyName ] === this.testClass;
+        const isConstructor = this.testObject[ propertyName ] === this.testObject.constructor;
         const isTemplateMethod = [ "setUp", "tearDown", "unexpected" ].includes( propertyName );
 
         return isFunction && !isConstructor && !isTemplateMethod;

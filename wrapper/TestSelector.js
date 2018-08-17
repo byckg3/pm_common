@@ -2,26 +2,30 @@ class TestSelector
 {
     constructor()
     {
-        this.selectors = [];
+        this.conditionSelectors = [];
         this.step = 0;
+        
         this._conditions = new Map();
         this._conditions.set( "common_condition", [] );
 
-        this.schedule( [ "common_tests" ] );
-        this.addSelector( this.selectHttpStatus );
+        this.executionQueue = [];
+        this.executionOrder = 0;
+
         this._prefixes = [ "test", "expect", "assert", "assume" ];
+
+        this.schedule( [ "common_condition" ] );
     }
 
     clearSelectors() {
-        this.selectors = [];
+        this.conditionSelectors = [];
     }
 
     addSelector(selector) {
         if ( typeof selector === "function" ) {
-            this.selectors.push(selector);
+            this.conditionSelectors.push(selector);
         }
         else if ( typeof selector === "string") {
-            this.selectors.push( () => selector );
+            this.conditionSelectors.push( () => selector );
         }
     }
 
@@ -37,21 +41,60 @@ class TestSelector
 
     selectHttpStatus( testObject ) 
     {   
-        let status = testObject.context.statusText.replace(/ /g, "_").toLowerCase();
+        let status = testObject.context.statusText.replace( / /g, "_" ).toLowerCase();
         return "expect_" + status + "_" + testObject.expectedCode; 
     }
 
-   
+    analyze( methodName )
+    {
+        if ( this.isTestableMethod( methodName ) )
+        {
+            const conditionName = this._fetchCondition( methodName );
+
+            this._dispatchMethodByCondition( methodName, conditionName );
+        }
+    }
+
+    selectCondition( conditionName )
+    {
+        this.executionQueue = this._conditions.get( conditionName );
+        this.executionOrder = 0;
+    }
 
     // methods of iterator
     hasNext()
     {
-        return this.step < this.selectors.length;
+        return this._hasNextTest() || this._hasNextCondition();
     } 
 
-    next( testObject )
-    {   
-        return this.selectors[ this.step++ ]( testObject );
+    isTestableMethod( methodName )
+    {
+        return  this._startsWithPrefix( methodName );
+    }
+
+    hasNextTest()
+    {
+        return this.executionOrder < this.executionQueue.length;
+    }
+
+    nextTest()
+    {
+        return this.executionQueue[ this.executionOrder++ ];
+    }
+
+    hasNextCondition()
+    {
+        return this.step < this.conditionSelectors.length; 
+    }
+
+    nextCondition( testObject )
+    {
+        return this.conditionSelectors[ this.step++ ]( testObject );
+    }
+
+    conditionExists( conditionName )
+    {
+        return this.conditions.has( conditionName );
     }
 
     _startsWithPrefix( methodName )
@@ -68,25 +111,19 @@ class TestSelector
 
     _fetchCondition( methodName )
     {
-        let condition = "";
-        const index = methodName.indexOf( "if" ) + "if".length + 1;
+        let condition = "common_condition";
         
         if ( this._isConditional( methodName ) )
         {
+            const index = methodName.toLowerCase().indexOf( "if" ) + "if".length + 1;
             condition = methodName.slice( index );
-
-            this._dispatchMethodByCondition( methodName, condition );
-        }
-        else
-        {
-            this._dispatchMethodByCondition( methodName, "common_condition" )
         }
         return condition;
     }
 
     _isConditional( methodName )
     {
-        if ( methodName.indexOf( "if" ) !== -1)
+        if ( methodName.toLowerCase().indexOf( "if" ) !== -1)
         {
             return true;
         }
