@@ -14,6 +14,7 @@ class TestManager
         this.reporterCodeString = `( ${ Utils.getVariable( "TestReporter" ) } )`;
         this.asserterCodeString = `( ${ Utils.getVariable( "TestAsserter" ) } )`;
         this.templateCodeString = `( ${ Utils.getVariable( "TestTemplate" ) } )`;   
+        this.launcherCodeString = `( ${ Utils.getVariable( "TestLauncher" ) } )`; 
         //this.accessController = null;
         //this.controllerCodeString = `( ${ Utils.getVariable( "AccessController" ) } )`;
     }
@@ -100,58 +101,9 @@ class TestManager
     executeTests( TestClass )
     {
         this.testObject = this.createTestObject( TestClass );
-        this._run( this.testObject );
-    }
-
-    _run( testObject ) 
-    {
-		try {
-            console.log( `${ this.testContext.requestName } :`);
-		
-            this._call( testObject.setUp );
-
-			while ( testObject.selector.hasNext() ) 
-			{   
-				let calleeName = testObject.selector.next( testObject );
-
-                if ( ( calleeName in testObject ) && ( typeof testObject[ calleeName ] === "function" ) ) 
-                {   
-                    this._call( testObject[ calleeName ] );
-                }
-                else 
-                {
-                    console.log( "unexpected condition : no matched method");
-                    this._call( testObject.unexpected );
-                }
-            }
-        }
-        catch (error) 
-        {
-            const errMsg = `${ error.name } : ${ error.message }`;
-            console.log(errMsg);       
-            testObject.reporter.addTestResult( errMsg, false );
-        }
-        finally 
-        {
-            this._call( testObject.tearDown );
-            if ( testObject.reporter )
-            {   
-                testObject.reporter.results();
-            }   
-        }
-    }
-
-    _call( method )
-    {
-        const proxyHandler = { 
-            apply( targetMethod, cxt, args )
-            {
-                console.log( `Executing : ${ targetMethod.name }()` );
-                return Reflect.apply( targetMethod, cxt, args );
-            }
-        };
-
-        return new Proxy( method, proxyHandler ).apply( this.testObject );
+        const TestLauncher = eval( this.launcherCodeString );
+        
+        new TestLauncher( this.testObject ).execute();
     }
 }
 

@@ -1,9 +1,9 @@
 class TestLauncher
-{
-    constructor( testObject  )
+{   
+    constructor( testObj )
     {
-        this.testObject = testObject;
-        this.testClass = testObject.constructor;
+        this.testObject = testObj;
+        this.testClass = testObj.constructor;
         this._methodNames = [];
     }
 
@@ -19,42 +19,71 @@ class TestLauncher
         }
     }
 
-    run( testObject ) 
+    execute() 
     {
+        const testObject = this.testObject;
 		try {
-            console.log( "setup : " + this.testContext.requestName);
-			this.testObject.setUp();
-            
-			while ( this.testObject.selector.hasNext() ) 
-			{   
-				let calleeName = this.testObject.selector.next( this.testObject );
+            console.log( `${ testObject.context.requestName } :` );
+		
+            this._call( "setUp" );
 
-                if ( this._isCallableMethod( calleeName ) ) 
-                {
-                    console.log( `Executing : ${ calleeName }` );
-                    this.testObject[ calleeName ]();
+			while ( testObject.selector.hasNext() ) 
+			{   
+				let calleeName = testObject.selector.next( testObject );
+
+                if ( this._isCallableMethod( calleeName, testObject ) )
+                {   
+                    this._call( "beforeEachTest" );
+                    
+                    this._call( "before_" + calleeName );
+
+                    this._call( calleeName ); // main test function
+
+                    this._call( "after_" + calleeName );
+                    
+                    this._call( "afterEachTest" );
                 }
                 else 
                 {
-                    console.log( "unexpected condition : no matched method");
-                    this.testObject.unexpected();
+                    this._call( "unexpected" );
                 }
             }
         }
         catch (error) 
         {
             const errMsg = `${ error.name } : ${ error.message }`;
-            console.log(errMsg);       
+            console.log( errMsg );       
             this.testObject.reporter.addTestResult( errMsg, false );
         }
         finally 
         {
-            console.log( "tear down : " + this.testContext.requestName );
-            this.testObject.tearDown();
+            this._call( "tearDown" );
             if ( this.testObject.reporter )
             {   
                 this.testObject.reporter.results();
             }   
+        }
+    }
+
+    _call( methodName )
+    {
+        if ( this._isCallableMethod( methodName, this.testObject ) )
+        {
+            const proxyLogger = { 
+                apply( targetMethod, cxt, args )
+                {
+                    if ( targetMethod.name !== "unexpected" )
+                    {
+                        console.log( `Executing : ${ targetMethod.name }()` );
+                    }
+                    else
+                    {
+                        console.log( "unexpected condition : no matched method");
+                    }
+                    return Reflect.apply( targetMethod, cxt, args );
+                }
+            };
+            return new Proxy( this.testObject[ methodName ], proxyLogger ).apply( this.testObject );
         }
     }
 
