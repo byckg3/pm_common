@@ -75,7 +75,7 @@ class TestAsserter
         }
         else
         {
-            const error = new Error( "TestReporter doesn't exist" );
+            const error = new Error( "Reporter doesn't exist" );
             error.name = "Initialization Error";
 
             throw error;

@@ -8,23 +8,19 @@ class TestManager
         this.testAsserter = null;
         this.testTemplate = null;
         this.testObject = null;
-        
-        this.contextCodeString = `( ${ Utils.getVariable( "TestContext" ) } )`;
-        this.selectorCodeString = `( ${ Utils.getVariable( "TestSelector" ) } )`;
-        this.reporterCodeString = `( ${ Utils.getVariable( "TestReporter" ) } )`;
-        this.asserterCodeString = `( ${ Utils.getVariable( "TestAsserter" ) } )`;
-        this.templateCodeString = `( ${ Utils.getVariable( "TestTemplate" ) } )`;   
-        this.launcherCodeString = `( ${ Utils.getVariable( "TestLauncher" ) } )`; 
-        //this.accessController = null;
-        //this.controllerCodeString = `( ${ Utils.getVariable( "AccessController" ) } )`;
+    
+    }
+    
+    import( libName )
+    {
+        return eval( `( ${ this.getVariable( libName ) } )` );
     }
 
     getTestContext()
     {   
         if ( !this.testContext )
         {   
-            const TestContext = eval( this.contextCodeString );
-            this.testContext = new TestContext();
+            this.testContext = SimpleFactory.createContext();
         } 
         return this.testContext;
     }
@@ -32,9 +28,8 @@ class TestManager
     getTestSelector()
     {
         if ( !this.testSelector )
-        {
-            const TestSelector = eval( this.selectorCodeString );       
-            this.testSelector = new TestSelector();
+        {   
+            this.testSelector = SimpleFactory.createSelector();
         }
         return this.testSelector;
     }
@@ -43,8 +38,7 @@ class TestManager
     {   
         if ( !this.testReporter )
         {
-            const TestReporter = eval( this.reporterCodeString );  
-            this.testReporter = new TestReporter();
+            this.testReporter = SimpleFactory.createReporter();
         } 
         return this.testReporter; 
     }
@@ -54,15 +48,15 @@ class TestManager
         if ( !this.testAsserter )
         {
             const reporter = this.getTestReporter();
-            const Asserter = eval( this.asserterCodeString );
+            const asserter = SimpleFactory.createAsserter( reporter );
             const proxyHandler = { 
-                set( target, key, value )
+                set( targetAsserter, key, value )
                 {
                     reporter.addTestResult( key, value );
-                    return Reflect.set( target, key, value );
+                    return Reflect.set( targetAsserter, key, value );
                 }
             };
-            this.testAsserter = new Proxy( new Asserter( reporter ), proxyHandler );
+            this.testAsserter = new Proxy( asserter, proxyHandler );
         }
         return this.testAsserter;
     }
@@ -71,8 +65,7 @@ class TestManager
     {
         if ( !this.testTemplate )
         {                         
-            const TestTemplate = eval( this.templateCodeString );
-            this.testTemplate = new TestTemplate();
+            this.testTemplate = this.createTestObject(  SimpleFactory.templateConstructor );
         }
         return this.testTemplate;
     }
@@ -103,7 +96,7 @@ class TestManager
         this.testObject = this.createTestObject( TestClass );
         const TestLauncher = eval( this.launcherCodeString );
         
-        new TestLauncher( this.testObject ).execute();
+        SimpleFactory.createLauncher( this.testObject ).execute();
     }
 }
 
