@@ -41,9 +41,21 @@ class TestSelector
 
     selectHttpStatus( testObject ) 
     {   
-        let status = testObject.context.statusText.replace( / /g, "_" ).toLowerCase();
-        return "expect_" + status + "_" + testObject.expectedCode; 
+        const expectedCode = testObject.expectedCode; 
+        const actualCode = testObject.context.statusCode;
+        if ( expectedCode !== actualCode )
+        {
+            return "unexpected";
+        }
+        return "status_" + expectedCode; 
     }
+
+    selectCondition( conditionName )
+    {
+        this.executionQueue = this._conditions.get( conditionName );
+        this.executionOrder = 0;
+    }
+
 
     analyze( methodName )
     {
@@ -54,32 +66,16 @@ class TestSelector
             this._dispatchMethodByCondition( methodName, conditionName );
         }
     }
-
-    selectCondition( conditionName )
-    {
-        this.executionQueue = this._conditions.get( conditionName );
-        this.executionOrder = 0;
-    }
-
+    
     // methods of iterator
     hasNext()
     {
         return this._hasNextTest() || this._hasNextCondition();
     } 
 
-    isTestableMethod( methodName )
-    {
-        return  this._startsWithPrefix( methodName );
-    }
-
     hasNextTest()
     {
         return this.executionOrder < this.executionQueue.length;
-    }
-
-    nextTest()
-    {
-        return this.executionQueue[ this.executionOrder++ ];
     }
 
     hasNextCondition()
@@ -87,14 +83,29 @@ class TestSelector
         return this.conditionStep < this.conditionSelectors.length; 
     }
 
+    nextTest()
+    {
+        return this.executionQueue[ this.executionOrder++ ];
+    }
+
     nextCondition( testObject )
     {
         return this.conditionSelectors[ this.conditionStep++ ]( testObject );
     }
 
+    isTestableMethod( methodName )
+    {
+        return  this._startsWithPrefix( methodName );
+    }
+
+    isExpectedCondition( conditionName )
+    {
+        return this.conditionExists( conditionName ) && ( conditionName !== "unexpected" ); 
+    }
+
     conditionExists( conditionName )
     {
-        return this.conditions.has( conditionName );
+        return this._conditions.has( conditionName );
     }
 
     _startsWithPrefix( methodName )

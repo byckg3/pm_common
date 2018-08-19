@@ -78,9 +78,9 @@ class SimpleFactory
         return `( ${ Utils.getVariable( "TestSelector" ) } )`;
     } 
     
-    static createLauncher( testObject )
+    static createLauncher( ...args )
     {  
-        return new ( this.launcherConstructor )( testObject );
+        return new ( this.launcherConstructor )( ...args );
     }
     static get launcherConstructor()
     {

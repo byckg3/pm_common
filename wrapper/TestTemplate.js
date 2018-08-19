@@ -15,11 +15,16 @@ class TestTemplate
 		
 	}
 
-    common_tests() 
-    {
+	test_http_status_code()
+	{
 		const cxt = this.context;
-		this.reporter.addTestResult( `Http status code : ${ cxt.statusCode }`, cxt.statusCode === this.expectedCode )
-                     .addTestResult( `Response time : ${ cxt.responseTime } ms`, cxt.responseTime <= this.expectedResponseTime );               
+		this.reporter.addTestResult( `Http status code : ${ cxt.statusCode }`, cxt.statusCode === this.expectedCode );
+	}
+
+	test_response_time()
+	{
+		const cxt = this.context;
+		this.reporter.addTestResult( `Response time : ${ cxt.responseTime } ms`, cxt.responseTime <= this.expectedResponseTime );
 	}
 
 	unexpected()

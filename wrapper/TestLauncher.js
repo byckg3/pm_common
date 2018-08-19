@@ -1,20 +1,25 @@
 class TestLauncher
 {   
-    constructor( testObj )
+    constructor( testObj, manager )
     {
         this.testObject = testObj;
+        this.selector = manager.getTestSelector();
+        this.context = manager.getTestContext();
+        this.reporter = manager.getTestReporter();
 
         this.discover();
     }
 
     discover()
     {
-        const testPrototype = Object.getPrototypeOf( this.testObject );
-        for ( let eachPropertyName of Object.getOwnPropertyNames( testPrototype ) )
-        {
+        const testObjPrototype = Object.getPrototypeOf( this.testObject );
+        const parentPrototype = Object.getPrototypeOf( testObjPrototype );
+        const propertyNames = Object.getOwnPropertyNames( parentPrototype ).concat( Object.getOwnPropertyNames( testObjPrototype ) );
+        for ( let eachPropertyName of propertyNames )
+        {   
             if ( this._isSelectableMethod( eachPropertyName ) )
             {
-                this.testObject.selector.analyze( eachPropertyName );  
+                this.selector.analyze( eachPropertyName );  
             } 
         }
     }
@@ -22,18 +27,20 @@ class TestLauncher
     execute() 
     {
         const testObject = this.testObject;
-        const selector = testObject.selector;
+        const selector = this.selector;
+        const context = this.context;
+        const reporter = this.reporter;
         try 
         {
-            console.log( `${ testObject.context.requestName } :` );
+            console.log( `${ context.requestName } :` );
 		
             this._call( "setUp" );
 			
             while( selector.hasNextCondition() )
             {
                 const conditionName = selector.nextCondition( testObject );
-
-                if ( selector.conditionExists( conditionName ) )
+                console.log( `Condition : ${ conditionName } :` );
+                if ( selector.isExpectedCondition( conditionName ) )
                 {
                     selector.selectCondition( conditionName );
 
@@ -62,14 +69,14 @@ class TestLauncher
         {
             const errMsg = `${ error.name } : ${ error.message }`;
             console.log( errMsg );       
-            testObject.reporter.addTestResult( errMsg, false );
+            reporter.addTestResult( errMsg, false );
         }
         finally 
         {
             this._call( "tearDown" );
-            if ( testObject.reporter )
+            if ( reporter )
             {   
-                testObject.reporter.results();
+                reporter.results();
             }   
         }
     }
@@ -81,13 +88,13 @@ class TestLauncher
             const proxyLogger = { 
                 apply( targetMethod, cxt, args )
                 {
-                    if ( targetMethod.name !== "unexpected" )
+                    if ( !targetMethod.name.startsWith( "unexpected" ) )
                     {
                         console.log( `Executing : ${ targetMethod.name }()` );
                     }
                     else
                     {
-                        console.log( "unexpected condition : no matched method" );
+                        console.log( `An unexpected condition occurred : ${ targetMethod.name }()` );
                     }
                     return Reflect.apply( targetMethod, cxt, args );
                 }

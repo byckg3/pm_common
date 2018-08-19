@@ -91,7 +91,7 @@ class TestManager
     executeTests( TestClass )
     {
         this._testObject = this.createTestObject( TestClass );   
-        this._factory.createLauncher( this._testObject ).execute();
+        this._factory.createLauncher( this._testObject, this ).execute();
     }
 }
 
