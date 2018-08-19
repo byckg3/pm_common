@@ -2,53 +2,50 @@ class TestManager
 {
     constructor()
     {
-        this.testContext = null;
-        this.testSelector = null;
-        this.testReporter = null;
-        this.testAsserter = null;
-        this.testTemplate = null;
-        this.testObject = null;
-    
-    }
-    
-    import( libName )
-    {
-        return eval( `( ${ this.getVariable( libName ) } )` );
+        this._context = null;
+        this._selector = null;
+        this._reporter = null;
+        this._asserter = null;
+
+        this._testTemplate = null;
+        this._testObject = null;
+
+        this._factory = Utils.import( "SimpleFactory" );
     }
 
     getTestContext()
     {   
-        if ( !this.testContext )
+        if ( !this._context )
         {   
-            this.testContext = SimpleFactory.createContext();
+            this._context = this._factory.createContext();
         } 
-        return this.testContext;
+        return this._context;
     }
 
     getTestSelector()
     {
-        if ( !this.testSelector )
+        if ( !this._selector )
         {   
-            this.testSelector = SimpleFactory.createSelector();
+            this._selector = this._factory.createSelector();
         }
-        return this.testSelector;
+        return this._selector;
     }
 
     getTestReporter()
     {   
-        if ( !this.testReporter )
+        if ( !this._reporter )
         {
-            this.testReporter = SimpleFactory.createReporter();
+            this._reporter = this._factory.createReporter();
         } 
-        return this.testReporter; 
+        return this._reporter; 
     }
 
     getTestAsserter()
     {
-        if ( !this.testAsserter )
+        if ( !this._asserter )
         {
             const reporter = this.getTestReporter();
-            const asserter = SimpleFactory.createAsserter( reporter );
+            const asserter = this._factory.createAsserter( reporter );
             const proxyHandler = { 
                 set( targetAsserter, key, value )
                 {
@@ -56,18 +53,18 @@ class TestManager
                     return Reflect.set( targetAsserter, key, value );
                 }
             };
-            this.testAsserter = new Proxy( asserter, proxyHandler );
+            this._asserter = new Proxy( asserter, proxyHandler );
         }
-        return this.testAsserter;
+        return this._asserter;
     }
 
     getTestTemplate()
     {
-        if ( !this.testTemplate )
+        if ( !this._testTemplate )
         {                         
-            this.testTemplate = this.createTestObject(  SimpleFactory.templateConstructor );
+            this._testTemplate = this.createTestObject(  this._factory.templateConstructor );
         }
-        return this.testTemplate;
+        return this._testTemplate;
     }
 
     createTestObject( TestClass )
@@ -93,10 +90,10 @@ class TestManager
 
     executeTests( TestClass )
     {
-        this.testObject = this.createTestObject( TestClass );
+        this._testObject = this.createTestObject( TestClass );
         const TestLauncher = eval( this.launcherCodeString );
         
-        SimpleFactory.createLauncher( this.testObject ).execute();
+        this._factory.createLauncher( this._testObject ).execute();
     }
 }
 

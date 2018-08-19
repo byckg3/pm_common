@@ -3,17 +3,17 @@ class TestSelector
     constructor()
     {
         this.conditionSelectors = [];
-        this.step = 0;
+        this.conditionStep = 0;
         
         this._conditions = new Map();
-        this._conditions.set( "common_condition", [] );
+        this._conditions.set( "common", [] );
 
         this.executionQueue = [];
         this.executionOrder = 0;
 
-        this._prefixes = [ "test", "expect", "assert", "assume" ];
+        this._prefixes = [ "test", "expect", "check" ];
 
-        this.schedule( [ "common_condition" ] );
+        this.schedule( [ "common" ] );
     }
 
     clearSelectors() {
@@ -84,12 +84,12 @@ class TestSelector
 
     hasNextCondition()
     {
-        return this.step < this.conditionSelectors.length; 
+        return this.conditionStep < this.conditionSelectors.length; 
     }
 
     nextCondition( testObject )
     {
-        return this.conditionSelectors[ this.step++ ]( testObject );
+        return this.conditionSelectors[ this.conditionStep++ ]( testObject );
     }
 
     conditionExists( conditionName )
@@ -111,7 +111,7 @@ class TestSelector
 
     _fetchCondition( methodName )
     {
-        let condition = "common_condition";
+        let condition = "common";
         
         if ( this._isConditional( methodName ) )
         {

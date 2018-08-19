@@ -1,9 +1,12 @@
 class TestContext
 {
-    constructor() {
-        this._attributes = new Map();
+    constructor() 
+    {    
         this.autoClear = false;
-       
+
+        this._attributes = new Map();
+        this._attributeBuilder = Utils.import( "InitializerBuilder" );
+
         this.initializer();
     }
 
@@ -68,7 +71,7 @@ class TestContext
                     set : ( value ) => { this.setAttribute( key, value ) }
                 }                                  
         );
-        InitializerBuilder.buildInitializer( key, value );  
+        this._attributeBuilder.buildInitializer( key, value );  
     }
 
     setGlobalAttribute( key, value )
@@ -113,7 +116,7 @@ class TestContext
 
         Utils.removeVariable( key );
 
-        InitializerBuilder.buildInitializer( key );
+        this._attributeBuilder.buildInitializer( key );
     }
 
     clearAttributes()
@@ -126,7 +129,7 @@ class TestContext
 
         this._attributes.clear();
 
-        InitializerBuilder.buildInitializer();
+        this._attributeBuilder.buildInitializer();
     }
 
     toString() 
