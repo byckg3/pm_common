@@ -7,7 +7,9 @@ class TestTemplate
         this.reporter = reporter;
         // default expected value
         this.expectedCode = 200;
-        this.expectedResponseTime = 3000;
+		this.expectedResponseTime = 3000;
+		
+		this.selector.selectHttpStatus( this );
     }
 
 	setUp() 

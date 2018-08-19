@@ -43,11 +43,15 @@ class TestSelector
     {   
         const expectedCode = testObject.expectedCode; 
         const actualCode = testObject.context.statusCode;
+
+        let result = "";
         if ( expectedCode !== actualCode )
         {
-            return "unexpected";
+            result = "unexpected";
         }
-        return "status_" + expectedCode; 
+        result = "status_" + expectedCode;
+        
+        this.addSelector( result );
     }
 
     selectCondition( conditionName )

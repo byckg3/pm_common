@@ -15,6 +15,7 @@ class TestLauncher
         const testObjPrototype = Object.getPrototypeOf( this.testObject );
         const parentPrototype = Object.getPrototypeOf( testObjPrototype );
         const propertyNames = Object.getOwnPropertyNames( parentPrototype ).concat( Object.getOwnPropertyNames( testObjPrototype ) );
+
         for ( let eachPropertyName of propertyNames )
         {   
             if ( this._isSelectableMethod( eachPropertyName ) )
@@ -39,7 +40,7 @@ class TestLauncher
             while( selector.hasNextCondition() )
             {
                 const conditionName = selector.nextCondition( testObject );
-                console.log( `Condition : ${ conditionName } :` );
+                console.log( `Condition ${ conditionName } :` );
                 if ( selector.isExpectedCondition( conditionName ) )
                 {
                     selector.selectCondition( conditionName );
