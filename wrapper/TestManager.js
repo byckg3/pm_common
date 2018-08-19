@@ -90,9 +90,7 @@ class TestManager
 
     executeTests( TestClass )
     {
-        this._testObject = this.createTestObject( TestClass );
-        const TestLauncher = eval( this.launcherCodeString );
-        
+        this._testObject = this.createTestObject( TestClass );   
         this._factory.createLauncher( this._testObject ).execute();
     }
 }

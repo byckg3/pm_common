@@ -3,7 +3,6 @@ class TestLauncher
     constructor( testObj )
     {
         this.testObject = testObj;
-        this._methodNames = [];
 
         this.discover();
     }
