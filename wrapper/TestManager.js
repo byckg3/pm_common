@@ -1,51 +1,52 @@
 class TestManager
 {
-    constructor()
+    static import( libName )
     {
-        this._context = null;
-        this._selector = null;
-        this._reporter = null;
-        this._asserter = null;
-
-        this._testTemplate = null;
-        this._testObject = null;
-
-        this._factory = Utils.import( "SimpleFactory" );
+        return eval( "(" + pm.variables.get( libName ) + ")" );
     }
 
-    getTestContext()
+    static get factory()
+    {
+        if ( !this._factory )
+        {
+            this._factory = this.import( "SimpleFactory" );
+        }
+        return this._factory;
+    }
+    
+    static getTestContext()
     {   
         if ( !this._context )
         {   
-            this._context = this._factory.createContext();
+            this._context = this.factory.createContext( this );
         } 
         return this._context;
     }
 
-    getTestSelector()
+    static getTestSelector()
     {
         if ( !this._selector )
         {   
-            this._selector = this._factory.createSelector();
+            this._selector = this.factory.createSelector();
         }
         return this._selector;
     }
 
-    getTestReporter()
+    static getTestReporter()
     {   
         if ( !this._reporter )
         {
-            this._reporter = this._factory.createReporter();
+            this._reporter = this.factory.createReporter();
         } 
         return this._reporter; 
     }
 
-    getTestAsserter()
+    static getTestAsserter()
     {
         if ( !this._asserter )
         {
             const reporter = this.getTestReporter();
-            const asserter = this._factory.createAsserter( reporter );
+            const asserter = this.factory.createAsserter( reporter );
             const proxyHandler = { 
                 set( targetAsserter, key, value )
                 {
@@ -58,21 +59,17 @@ class TestManager
         return this._asserter;
     }
 
-    getTestTemplate()
+    static getTestTemplate()
     {
         if ( !this._testTemplate )
         {                         
-            this._testTemplate = this.createTestObject(  this._factory.templateConstructor );
+            this._testTemplate = this.createTestObject(  this.factory.templateConstructor );
         }
         return this._testTemplate;
     }
 
-    createTestObject( TestClass )
+    static createTestObject( TestClass )
     {   
-        const context = this.getTestContext();
-        const selector = this.getTestSelector();
-        const reporter = this.getTestReporter();
-        
         const proxyHandler = { 
             get( targetObj, key )
             {
@@ -84,14 +81,14 @@ class TestManager
                 return value;
             }
         };
-        const obj = new TestClass( context, selector, reporter );
+        const obj = new TestClass( this );
         return new Proxy( obj, proxyHandler );
     }
 
-    executeTests( TestClass )
+    static executeTests( TestClass )
     {
         this._testObject = this.createTestObject( TestClass );   
-        this._factory.createLauncher( this._testObject, this ).execute();
+        this.factory.createLauncher( this._testObject, this ).execute();
     }
 }
 

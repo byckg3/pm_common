@@ -40,7 +40,7 @@ class TestLauncher
             while( selector.hasNextCondition() )
             {
                 const conditionName = selector.nextCondition( testObject );
-                console.log( `Condition ${ conditionName } :` );
+                console.log( `Condition : ${ conditionName }` );
                 if ( selector.isExpectedCondition( conditionName ) )
                 {
                     selector.selectCondition( conditionName );
@@ -89,14 +89,12 @@ class TestLauncher
             const proxyLogger = { 
                 apply( targetMethod, cxt, args )
                 {
-                    if ( !targetMethod.name.startsWith( "unexpected" ) )
+                    if ( targetMethod.name.startsWith( "unexpected" ) )
                     {
-                        console.log( `Executing : ${ targetMethod.name }()` );
+                        console.log( `unexpected condition : no matched method` );
                     }
-                    else
-                    {
-                        console.log( `An unexpected condition occurred : ${ targetMethod.name }()` );
-                    }
+                    console.log( `Executing : ${ targetMethod.name }()` );
+
                     return Reflect.apply( targetMethod, cxt, args );
                 }
             };

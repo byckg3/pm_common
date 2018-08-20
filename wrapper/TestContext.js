@@ -1,11 +1,11 @@
 class TestContext
 {
-    constructor() 
+    constructor( manager ) 
     {    
         this.autoClear = false;
 
         this._attributes = new Map();
-        this._attributeBuilder = Utils.import( "InitializerBuilder" );
+        this._attributeBuilder = manager.import( "InitializerBuilder" );
 
         this.initializer();
     }

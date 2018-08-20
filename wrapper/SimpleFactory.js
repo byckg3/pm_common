@@ -13,9 +13,9 @@ class SimpleFactory
         return `( ${ Utils.getVariable( "TestManager" ) } )`;
     }
     
-    static createContext()
+    static createContext( ...args )
     {
-        return new ( this.contextConstructor )();
+        return new ( this.contextConstructor )( ...args );
     }
     static get contextConstructor()
     {
@@ -26,9 +26,9 @@ class SimpleFactory
         return `( ${ Utils.getVariable( "TestContext" ) } )`;
     }
     
-    static createReporter()
+    static createReporter( ...args )
     {
-        return new ( this.reporterConstructor )();
+        return new ( this.reporterConstructor )( ...args );
     }
     static get reporterConstructor()
     {

@@ -1,10 +1,5 @@
 class Utils 
 {
-    static import( libName )
-    {
-        return eval( "(" + pm.variables.get( libName ) + ")" );
-    }
-
     static getGlobalVariable(key) {
         return pm.globals.get(key);
     }

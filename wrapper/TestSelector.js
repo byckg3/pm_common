@@ -33,9 +33,9 @@ class TestSelector
     {
         this.clearSelectors();
 
-        for (let selector of selectors) 
+        for ( let selector of selectors ) 
         {
-            this.addSelector(selector);
+            this.addSelector( selector );
         }
     }
 
@@ -44,12 +44,11 @@ class TestSelector
         const expectedCode = testObject.expectedCode; 
         const actualCode = testObject.context.statusCode;
 
-        let result = "";
+        let result = "status_" + actualCode;
         if ( expectedCode !== actualCode )
         {
             result = "unexpected";
         }
-        result = "status_" + expectedCode;
         
         this.addSelector( result );
     }

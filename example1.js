@@ -1,9 +1,8 @@
-const Utils = eval("(" + pm.variables.get("Utils") + ")");
-const RequestDispatcher = eval("(" + Utils.getVariable("RequestDispatcher") + ")");
-const TestSelector = eval("(" + Utils.getVariable("TestSelector") + ")");
-const Tests = new (eval("(" + Utils.getVariable("Tests") + ")"))();
-const TestContext = eval("(" + Utils.getVariable("WebApiTestContext") + ")");
-const TestTemplate = eval("(" + Utils.getVariable("WebApiTestTemplate") + ")");
+var TestManager = eval( "(" + pm.variables.get( "TestManager" ) + ")" );
+var Utils = TestManager.import( "Utils" );
+var RequestDispatcher = TestManager.import( "RequestDispatcher" );
+var TestTemplate = TestManager.import( "TestTemplate" );
+var Tests = TestManager.getTestAsserter();
 
 class Tester extends TestTemplate {
     expect_ok_200() {
