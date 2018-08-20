@@ -1,15 +1,15 @@
 class TestTemplate 
 {
-    constructor( context, selector, reporter ) 
+    constructor( manager ) 
     {
-        this.context = context;
-        this.selector = selector;
-        this.reporter = reporter;
+		this.selector = manager.getTestSelector();
+        this.context = manager.getTestContext();
+        this.reporter = manager.getTestReporter();
         // default expected value
         this.expectedCode = 200;
 		this.expectedResponseTime = 3000;
 		
-		this.selector.selectHttpStatus( this );
+		this.selector.selectHttpStatus( this.expectedCode );
     }
 
 	setUp() 

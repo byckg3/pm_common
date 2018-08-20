@@ -1,10 +1,5 @@
 class TestManager
 {
-    static import( libName )
-    {
-        return eval( "(" + pm.variables.get( libName ) + ")" );
-    }
-
     static get factory()
     {
         if ( !this._factory )
@@ -13,7 +8,12 @@ class TestManager
         }
         return this._factory;
     }
-    
+ 
+    static import( libName )
+    {
+        return eval( "(" + pm.variables.get( libName ) + ")" );
+    }
+
     static getTestContext()
     {   
         if ( !this._context )
@@ -70,19 +70,7 @@ class TestManager
 
     static createTestObject( TestClass )
     {   
-        const proxyHandler = { 
-            get( targetObj, key )
-            {
-                const value = Reflect.get( targetObj, key );
-                // if ( typeof value === "function" )
-                // {
-                //     console.log( `Executing : ${ key }()` );
-                // } 
-                return value;
-            }
-        };
-        const obj = new TestClass( this );
-        return new Proxy( obj, proxyHandler );
+        return new TestClass( this );
     }
 
     static executeTests( TestClass )

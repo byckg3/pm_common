@@ -71,7 +71,7 @@ class TestContext
                     set : ( value ) => { this.setAttribute( key, value ) }
                 }                                  
         );
-        this._attributeBuilder.buildInitializer( key, value );  
+        this._attributeBuilder.build( key, value );  
     }
 
     setGlobalAttribute( key, value )
@@ -116,7 +116,7 @@ class TestContext
 
         Utils.removeVariable( key );
 
-        this._attributeBuilder.buildInitializer( key );
+        this._attributeBuilder.build( key );
     }
 
     clearAttributes()
@@ -129,7 +129,7 @@ class TestContext
 
         this._attributes.clear();
 
-        this._attributeBuilder.buildInitializer();
+        this._attributeBuilder.build();
     }
 
     toString() 

@@ -57,7 +57,7 @@ class InitializerBuilder
         return initializerBody.replace( removalPattern, "" );     
     }
 
-    static buildInitializer( ...parameters )
+    static build( ...parameters )
     {
         let contextCodeString = Utils.getVariable( "TestContext" );
         let initializer = this.parseInitializer( contextCodeString );
