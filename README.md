@@ -59,10 +59,9 @@ eval( pm.variables.get( "pm_common" ) );
 
 
 pm_common =
-var Utils = eval( "(" + pm.variables.get( "Utils" ) + ")" );
-var TestManager = new ( eval( "(" + Utils.getVariable( "TestManager" ) + ")" ) )();
-var RequestDispatcher = eval( "(" + Utils.getVariable( "RequestDispatcher" ) + ")" );
-var InitializerBuilder = eval( "(" + Utils.getVariable( "InitializerBuilder" ) + ")" );
-var TestTemplate = eval( "(" + Utils.getVariable( "TestTemplate" ) + ")" );
+var TestManager = eval( "(" + pm.variables.get( "TestManager" ) + ")" );
+var Utils = TestManager.import( "Utils" );
+var RequestDispatcher = TestManager.import( "RequestDispatcher" );
+var TestTemplate = TestManager.import( "TestTemplate" );
 var Tests = TestManager.getTestAsserter();
 ```
