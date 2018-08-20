@@ -7,8 +7,7 @@
 
 ## TestContext 
 - 存放 Api 測試共同的常用資料
-- 在 class 裡面使用 this.context 可取得 TestContext 物件的 reference
-- ex. this.context.responseText 取得回應的 body 字串
+- ex. responseText 取得回應的 body 字串
 - setAttribute( key, value ) 可設定跨 test script 的變數
 - setEnvironmentAttribute( key, value ) 同為 setAttribute 功能外，額外再設定至 Postman 環境變數區
 - setGlobalAttribute( key, value ) 同為 setAttribute 功能外，額外再設定至 Postman 全域變數區
