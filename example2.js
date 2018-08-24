@@ -1,4 +1,4 @@
-eval(pm.variables.get("pm_common"));
+eval( pm.variables.get("pm_common") );
 
 class Tester extends TestTemplate {
     setUp() {

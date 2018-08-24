@@ -1,6 +1,6 @@
 class TestSelector 
 {
-    constructor()
+    constructor( manager )
     {
         this.conditionSelectors = [];
         this.conditionStep = 0;
@@ -11,9 +11,7 @@ class TestSelector
         this.executionQueue = [];
         this.executionOrder = 0;
 
-        this._prefixes = [ "test", "expect", "check" ];
-
-        this.schedule( [ "common" ] );
+        this.analyser = manager.import( "MethodAnalyser" );
     }
 
     clearSelectors() {
@@ -39,18 +37,22 @@ class TestSelector
         }
     }
 
-    selectHttpStatus( testObject ) 
+    selectHttpStatus( statusCode ) 
     {   
-        const expectedCode = testObject.expectedCode; 
-        const actualCode = testObject.context.statusCode;
+        this.addSelector( 
+            ( testObject ) => { 
+                testObject.expectedCode = statusCode;       
+                const expectedCode = testObject.expectedCode; 
+                const actualCode = testObject.context.statusCode;
 
-        let result = "status_" + actualCode;
-        if ( expectedCode !== actualCode )
-        {
-            result = "unexpected";
-        }
-        
-        this.addSelector( result );
+                let result = "http_status_" + actualCode;
+                if ( expectedCode !== actualCode )
+                {
+                    result = "unexpected";
+                }
+                return result;
+            } 
+        );
     }
 
     selectCondition( conditionName )
@@ -60,13 +62,17 @@ class TestSelector
     }
 
 
-    analyze( methodName )
+    analyze( methodName, testObj )
     {
-        if ( this.isTestableMethod( methodName ) )
+        if ( this.analyser.isTestableMethod( methodName ) )
         {
-            const conditionName = this._fetchCondition( methodName );
+            const conditionName = this.analyser.getCondition( methodName );
 
             this._dispatchMethodByCondition( methodName, conditionName );
+        }
+        else if ( this.analyser.isSelector( methodName ) )
+        {  
+            this.addSelector( testObj[ methodName ] );
         }
     }
     
@@ -93,12 +99,8 @@ class TestSelector
 
     nextCondition( testObject )
     {
-        return this.conditionSelectors[ this.conditionStep++ ]( testObject );
-    }
-
-    isTestableMethod( methodName )
-    {
-        return  this._startsWithPrefix( methodName );
+        const conditionSelectorMethod = this.conditionSelectors[ this.conditionStep++ ];
+        return conditionSelectorMethod.call( testObject, testObject );
     }
 
     isExpectedCondition( conditionName )
@@ -109,42 +111,6 @@ class TestSelector
     conditionExists( conditionName )
     {
         return this._conditions.has( conditionName );
-    }
-
-    _startsWithPrefix( methodName )
-    {
-        for ( let prefix of this._prefixes )
-        {
-            if ( methodName.startsWith( prefix ) )
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    _fetchCondition( methodName )
-    {
-        let condition = "common";
-        
-        if ( this._isConditional( methodName ) )
-        {
-            const index = methodName.toLowerCase().indexOf( "if" ) + "if".length + 1;
-            condition = methodName.slice( index );
-        }
-        return condition;
-    }
-
-    _isConditional( methodName )
-    {
-        if ( methodName.toLowerCase().indexOf( "if" ) !== -1)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
     }
 
     _dispatchMethodByCondition( methodName, condition )

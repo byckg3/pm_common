@@ -20,9 +20,10 @@ class TestLauncher
         {   
             if ( this._isSelectableMethod( eachPropertyName ) )
             {
-                this.selector.analyze( eachPropertyName );  
+                this.selector.analyze( eachPropertyName, this.testObject );  
             } 
         }
+        this.selector.addSelector( "common" );
     }
 
     execute() 
@@ -69,7 +70,7 @@ class TestLauncher
         catch (error) 
         {
             const errMsg = `${ error.name } : ${ error.message }`;
-            console.log( errMsg );       
+            console.error( errMsg );       
             reporter.addTestResult( errMsg, false );
         }
         finally 
@@ -111,7 +112,7 @@ class TestLauncher
     {
         const isFunction = typeof this.testObject[ propertyName ] === "function"; 
         const isConstructor = this.testObject[ propertyName ] === this.testObject.constructor;
-        const isTemplateMethod = [ "setUp", "tearDown", "unexpected" ].includes( propertyName );
+        const isTemplateMethod = [ "setUp", "tearDown", "unexpected", "beforeEachTest", "afterEachTest" ].includes( propertyName );
 
         return isFunction && !isConstructor && !isTemplateMethod;
     }

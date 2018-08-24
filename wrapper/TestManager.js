@@ -27,9 +27,19 @@ class TestManager
     {
         if ( !this._selector )
         {   
-            this._selector = this.factory.createSelector();
+            this._selector = this.factory.createSelector( this );
         }
         return this._selector;
+    }
+
+    static getTestFilter()
+    {
+        if ( !this._filter )
+        {                         
+            this._filter = this.factory.createFilter();
+        }
+        return this._filter;
+    
     }
 
     static getTestReporter()
@@ -87,7 +97,10 @@ class TestManager
 
     static executeTests( TestClass )
     {
-        this._testObject = this.createTestObject( TestClass );   
+        if ( !this._testObject )
+        {
+            this._testObject = this.createTestObject( TestClass );   
+        } 
         this.factory.createLauncher( this._testObject, this ).execute();
     }
 }
