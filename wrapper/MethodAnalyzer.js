@@ -1,4 +1,4 @@
-class MethodAnalyser
+class MethodAnalyzer
 {
     static get _testMethodPrefixes()
     {
@@ -10,14 +10,14 @@ class MethodAnalyser
         return [ "select", "choose" ];
     }
 
-    static get _selectorPrefixes()
-    {
-        return [ "select", "choose" ];
-    }
-
     static get _conditionalTestKeywords()
     {
         return [ "if", "when" ];
+    }
+
+    static get _excludeKeywords()
+    {
+        return [ "select", "choose" ];
     }
 
     static isTestableMethod( methodName )
