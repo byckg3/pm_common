@@ -5,7 +5,8 @@ class TestAsserter
         this._reporter = reporter;
     }
 
-    assertEquals( expected, actual, message = `Expected : ${ expected}, Actual : ${ actual}`, compare = undefined ) 
+    assertEquals( expected, actual, 
+                  message = `Expected : ${ expected}, Actual : ${ actual}`, compare = undefined ) 
     {
         let result;
         

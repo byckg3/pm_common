@@ -11,7 +11,7 @@ class TestSelector
         this.executionQueue = [];
         this.executionOrder = 0;
 
-        this.analyser = manager.import( "MethodAnalyser" );
+        this.analyzer = manager.import( "MethodAnalyzer" );
     }
 
     clearSelectors() {
@@ -61,16 +61,15 @@ class TestSelector
         this.executionOrder = 0;
     }
 
-
     analyze( methodName, testObj )
     {
-        if ( this.analyser.isTestableMethod( methodName ) )
+        if ( this.analyzer.isTestableMethod( methodName ) )
         {
-            const conditionName = this.analyser.getCondition( methodName );
+            const conditionName = this.analyzer.getCondition( methodName );
 
             this._dispatchMethodByCondition( methodName, conditionName );
         }
-        else if ( this.analyser.isSelector( methodName ) )
+        else if ( this.analyzer.isSelector( methodName ) )
         {  
             this.addSelector( testObj[ methodName ] );
         }
