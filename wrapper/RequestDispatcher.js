@@ -1,6 +1,18 @@
-class RequestDispatcher {
-    static setNextRequest( requestName ) {
-        postman.setNextRequest(requestName );
+class RequestDispatcher 
+{
+    static get scheduler()
+    {
+        return Utils.getVariable( "Scheduler" );
+    }
+
+    static set scheduler( settingObj )
+    {
+        Utils.setVariable( "Scheduler", settingObj );
+    }
+
+    static setNextRequest( nextRequestName ) {
+        postman.setNextRequest( nextRequestName );
+        console.log( "Next Request : " + nextRequestName );
     }
 
     static terminate()
@@ -8,43 +20,44 @@ class RequestDispatcher {
         this.setNextRequest( null );
     }
 
+    static schedule( context )
+    {
+        let nextRequest = "";
+        const currentRequestName = context.requestName;
+
+        this.setNextRequest( nextRequest );
+    }
     static repeatedRequest( testContext, expectedTimes, nextRequestName ) 
     {
-        let initial = 1;
-        let currentTimes = 0;
         const requestId = testContext.requestId; // requestId 當作 key, 執行次數為 value
-    
-        if ( Utils.hasVariable( requestId ) )
-        {
-            currentTimes = parseInt( Utils.getVariable( requestId ), 10 ) + 1; 
-        }
-        else 
-        {
-            currentTimes = initial;
-        }
-        console.log( "Repeated times : " +  currentTimes );
-        Utils.setVariable( requestId, currentTimes );
+        let currentRepeatedTimes = this.getRepetition( testContext ) + 1;
+
+        console.log( "Repeated times : " +  currentRepeatedTimes );
+        this._setRepetition( testContext, currentRepeatedTimes );
         
-        if ( currentTimes < expectedTimes ) {
-            this.setNextRequest( requestId );
-            console.log( "Next Request : " + testContext.requestName );
+        if ( currentRepeatedTimes < expectedTimes ) {6
+            this.setNextRequest( testContext.requestName );
         }
         else {
             testContext.removeAttribute( requestId );
-            if ( nextRequestName ) {
-                console.log( "Next Request : " + nextRequestName );
+            if ( nextRequestName !== undefined ) {
                 this.setNextRequest( nextRequestName );
             }
         }
     }
 
-    static getCurrentRepetition( testContext ) {
-        let currentTimes = 0;
+    static getRepetition( testContext ) {
+        let repeatedTimes = 0;
         if ( Utils.hasVariable( testContext.requestId ) )
         {
-            currentTimes = parseInt( Utils.getVariable( testContext.requestId ), 10 ); 
+            repeatedTimes = parseInt( Utils.getVariable( testContext.requestId ), 10 ); 
         }
-        return currentTimes;
+        return repeatedTimes;
+    }
+
+    static _setRepetition( testContext, times )
+    {
+        Utils.setVariable( testContext.requestId, times );
     }
 
     static setTestCaseRequest(test_case_object) {
