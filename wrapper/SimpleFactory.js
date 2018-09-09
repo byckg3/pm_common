@@ -90,5 +90,4 @@ class SimpleFactory
     {
         return `( ${ Utils.getVariable( "TestLauncher" ) } )`; 
     } 
-
 }

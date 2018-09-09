@@ -2,14 +2,12 @@ class TestTemplate
 {
     constructor( manager ) 
     {
-		this.selector = manager.getTestSelector();
         this.context = manager.getTestContext();
+        this.selector = manager.getTestSelector();
         this.reporter = manager.getTestReporter();
         // default expected value
         this.expectedCode = 200;
 		this.expectedResponseTime = 3000;
-		
-		this.selector.selectHttpStatus( this.expectedCode );
     }
 
 	setUp() 
@@ -17,16 +15,18 @@ class TestTemplate
 		
 	}
 
-	test_http_status_code()
+	test_http_status_code( statusCode = this.expectedCode )
 	{
 		const cxt = this.context;
-		this.reporter.addTestResult( `Http status code : ${ cxt.statusCode }`, cxt.statusCode === this.expectedCode );
+		this.expectedCode = statusCode;
+		this.reporter.addTestResult( `Http status code : ${ this.expectedCode }`, cxt.statusCode === this.expectedCode );
 	}
 
-	test_response_time()
+	test_response_time( responseTime = this.expectedResponseTime )
 	{
 		const cxt = this.context;
-		this.reporter.addTestResult( `Response time : ${ cxt.responseTime } ms`, cxt.responseTime <= this.expectedResponseTime );
+		this.expectedResponseTime = responseTime;
+		this.reporter.addTestResult( `Response time : ${ cxt.responseTime } ms <= ${ this.expectedResponseTime } ms`, cxt.responseTime <= this.expectedResponseTime );
 	}
 
 	unexpected()
