@@ -27,6 +27,7 @@ class RequestDispatcher
 
         this.setNextRequest( nextRequest );
     }
+    
     static repeatedRequest( testContext, expectedTimes, nextRequestName ) 
     {
         const requestId = testContext.requestId; // requestId 當作 key, 執行次數為 value
@@ -35,7 +36,7 @@ class RequestDispatcher
         console.log( "Repeated times : " +  currentRepeatedTimes );
         this._setRepetition( testContext, currentRepeatedTimes );
         
-        if ( currentRepeatedTimes < expectedTimes ) {6
+        if ( currentRepeatedTimes < expectedTimes ) {
             this.setNextRequest( testContext.requestName );
         }
         else {
