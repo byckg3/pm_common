@@ -66,7 +66,6 @@
 ```javascript
 eval( pm.variables.get( "pm_common" ) );
 
-
 pm_common =
 var TestManager = eval( "(" + pm.variables.get( "TestManager" ) + ")" );
 var Utils = TestManager.import( "Utils" );
