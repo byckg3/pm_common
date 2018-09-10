@@ -4,7 +4,9 @@ class TestTemplate
     {
         this.context = manager.getTestContext();
         this.selector = manager.getTestSelector();
-        this.reporter = manager.getTestReporter();
+		this.reporter = manager.getTestReporter();
+		
+		this.requestDispatcher = manager.import( "RequestDispatcher" );
         // default expected value
         this.expectedCode = 200;
 		this.expectedResponseTime = 3000;
@@ -12,7 +14,7 @@ class TestTemplate
 
 	setUp() 
 	{
-		
+		this.requestDispatcher.dispatchNext( this.context );
 	}
 
 	test_http_status_code( statusCode = this.expectedCode )

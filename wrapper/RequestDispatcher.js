@@ -2,7 +2,12 @@ class RequestDispatcher
 {
     static get scheduler()
     {
-        return Utils.getVariable( "Scheduler" );
+        this._scheduler = [];
+        if ( Utils.hasVariable( "Scheduler" ) )
+        {
+            this._scheduler = Utils.getVariable( "Scheduler" );
+        }
+        return this._scheduler;
     }
 
     static set scheduler( settingObj )
@@ -10,7 +15,8 @@ class RequestDispatcher
         Utils.setVariable( "Scheduler", settingObj );
     }
 
-    static setNextRequest( nextRequestName ) {
+    static setNextRequest( nextRequestName ) 
+    {
         postman.setNextRequest( nextRequestName );
         console.log( "Next Request : " + nextRequestName );
     }
@@ -20,12 +26,22 @@ class RequestDispatcher
         this.setNextRequest( null );
     }
 
-    static schedule( context )
+    static schedule( ...orders )
     {
-        let nextRequest = "";
-        const currentRequestName = context.requestName;
+        this.scheduler = this.scheduler.concat( ...orders );
+        console.log( this.scheduler );
+    }
 
-        this.setNextRequest( nextRequest );
+    static dispatchNext( context )
+    {
+        const currentRequestName = context.requestName;
+        let currentOrder = this.scheduler.indexOf( currentRequestName );
+
+        if ( currentOrder >= 0 && currentOrder < this.scheduler.length -1 )
+        {
+            let nextRequest = this.scheduler[ currentOrder + 1 ];
+            this.setNextRequest( nextRequest );
+        }
     }
     
     static repeatedRequest( testContext, expectedTimes, nextRequestName ) 
@@ -62,7 +78,7 @@ class RequestDispatcher
     }
 
     static setTestCaseRequest(test_case_object) {
-        // 存在才會 setNextRequest
+        // 存在才會 setNextRequest
         // 判斷順序 Setup > Test > Teardown > NextTest
         console.log(test_case_object)
         let NextReq = null;

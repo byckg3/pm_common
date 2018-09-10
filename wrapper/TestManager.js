@@ -32,16 +32,6 @@ class TestManager
         return this._selector;
     }
 
-    static getTestFilter()
-    {
-        if ( !this._filter )
-        {                         
-            this._filter = this.factory.createFilter();
-        }
-        return this._filter;
-    
-    }
-
     static getTestReporter()
     {   
         if ( !this._reporter )
