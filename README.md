@@ -9,13 +9,14 @@
 - 盡量減少測試中包含流程控制、條件判斷等複雜邏輯
 - 避免測試與測試之間的相依關係
 - 一個測試只驗證一個關注點 ( 回傳值、改變的狀態或與第三方物件的互動 )
-- 參考團隊夥伴的觀點和意見
+- 參考團隊夥伴的觀點意見
 
-## Class
+## Classes
 - [TestManager](#TestManager)
 - [TestContext](#TestContext)
-- [TestTemplate](#TestTemplate)
 - [TestSelecter](#TestSelecter)
+- [TestTemplate](#TestTemplate)
+- [RequestDispatcher](#RequestDispatcher)
 - [Utils](#Utils)
 
 ## TestManager
@@ -35,7 +36,7 @@
 - 使用者可繼承此 TestTemplate 後覆寫所需的內容
 
 ## Utils
-- 工具函式庫，包含 Postman的功能 Api
+- 工具函式庫，包含封裝 Postman 功能 Api
 - 持續擴充共用 utility function
 - ex. Utils.getValueObjectFromJsonString( jsonString, key1, key2 )
 
@@ -53,9 +54,12 @@
 
 ## TestSelecter
 - 負責對 method name 進行語意分析來進行分類
-- 包含 "if" 的 method 被視為有條件的測試
+- 包含 "if"、"when" 等關鍵字的 method 被視為有條件的測試
 - nextTest() : 回傳選擇執行的 method name 字串
 - nextCondition() : 回傳選擇執行的 Condition name 字串
+
+## RequestDispatcher
+- 負責 Request 執行順序的控制
 
 使用方式 : js 檔案內容複製貼上 Postman 變數欄位並引用下列宣告在 test script 開頭
 
