@@ -37,7 +37,7 @@ class RequestDispatcher
         const currentRequestName = context.requestName;
         let currentOrder = this.scheduler.indexOf( currentRequestName );
 
-        if ( currentOrder >= 0 && currentOrder < this.scheduler.length -1 )
+        if ( currentOrder >= 0 && currentOrder < this.scheduler.length - 1 )
         {
             let nextRequest = this.scheduler[ currentOrder + 1 ];
             this.setNextRequest( nextRequest );

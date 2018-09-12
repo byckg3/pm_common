@@ -27,11 +27,11 @@ class InitializerBuilder
     static createNewInitializer( initializer, ...[ key, value ] )
     {   
         let newBodyContent = " ";
-        if ( value )
+        if ( value !== undefined )
         {
             newBodyContent = this.setInitializerBody( initializer.body, key, value );
         }
-        else if ( key )
+        else if ( key !== undefined )
         {
             newBodyContent = this.removeInitializerBody(  initializer.body, key );
         }      
