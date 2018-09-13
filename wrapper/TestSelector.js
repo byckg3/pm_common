@@ -4,7 +4,7 @@ class TestSelector
     {
         this.conditionSelectors = [];
         this.conditionStep = 0;
-        
+
         this._conditions = new Map();
         this._conditions.set( "common", [] );
 
@@ -14,15 +14,19 @@ class TestSelector
         this.analyzer = manager.import( "MethodAnalyzer" );
     }
 
-    clearSelectors() {
+    clearSelectors()
+    {
         this.conditionSelectors = [];
     }
 
-    addSelector(selector) {
-        if ( typeof selector === "function" ) {
-            this.conditionSelectors.push(selector);
+    addSelector( selector )
+    {
+        if ( typeof selector === "function" )
+        {
+            this.conditionSelectors.push( selector );
         }
-        else if ( typeof selector === "string") {
+        else if ( typeof selector === "string" )
+        {
             this.conditionSelectors.push( () => selector );
         }
     }
@@ -38,11 +42,12 @@ class TestSelector
     }
 
     selectHttpStatus( statusCode ) 
-    {   
-        this.addSelector( 
-            ( testObject ) => { 
-                testObject.expectedCode = statusCode;       
-                const expectedCode = testObject.expectedCode; 
+    {
+        this.addSelector(
+            ( testObject ) =>
+            {
+                testObject.expectedCode = statusCode;
+                const expectedCode = testObject.expectedCode;
                 const actualCode = testObject.context.statusCode;
 
                 let result = "http_status_" + actualCode;
@@ -51,7 +56,7 @@ class TestSelector
                     result = "unexpected";
                 }
                 return result;
-            } 
+            }
         );
     }
 
@@ -70,16 +75,16 @@ class TestSelector
             this._dispatchMethodByCondition( methodName, conditionName );
         }
         else if ( this.analyzer.isSelector( methodName ) )
-        {  
+        {
             this.addSelector( testObj[ methodName ] );
         }
     }
-    
+
     // methods of iterator
     hasNext()
     {
         return this._hasNextTest() || this._hasNextCondition();
-    } 
+    }
 
     hasNextTest()
     {
@@ -88,7 +93,7 @@ class TestSelector
 
     hasNextCondition()
     {
-        return this.conditionStep < this.conditionSelectors.length; 
+        return this.conditionStep < this.conditionSelectors.length;
     }
 
     nextTest()
@@ -104,7 +109,7 @@ class TestSelector
 
     isExpectedCondition( conditionName )
     {
-        return this.conditionExists( conditionName ) && ( conditionName !== "unexpected" ); 
+        return this.conditionExists( conditionName ) && ( conditionName !== "unexpected" );
     }
 
     conditionExists( conditionName )
@@ -116,8 +121,8 @@ class TestSelector
     {
         if ( !this._conditions.has( condition ) )
         {
-            this._conditions.set( condition, [] );        
-        }   
-        this._conditions.get( condition ).push( methodName ); 
+            this._conditions.set( condition, [] );
+        }
+        this._conditions.get( condition ).push( methodName );
     }
 }

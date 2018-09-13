@@ -17,7 +17,7 @@ class MethodAnalyzer
 
     static get _excludeKeywords()
     {
-        return [ "select", "choose" ];
+        return [];
     }
 
     static isTestableMethod( methodName )

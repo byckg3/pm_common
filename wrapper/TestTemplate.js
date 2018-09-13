@@ -1,16 +1,16 @@
 class TestTemplate 
 {
-    constructor( manager ) 
-    {
-        this.context = manager.getTestContext();
-        this.selector = manager.getTestSelector();
+	constructor( manager ) 
+	{
+		this.context = manager.getTestContext();
+		this.selector = manager.getTestSelector();
 		this.reporter = manager.getTestReporter();
-		
+
 		this.requestDispatcher = manager.import( "RequestDispatcher" );
-        // default expected value
-        this.expectedCode = 200;
+		// default expected value
+		this.expectedCode = 200;
 		this.expectedResponseTime = 3000;
-    }
+	}
 
 	setUp() 
 	{
@@ -36,7 +36,8 @@ class TestTemplate
 		this.reporter.addTestResult( "unexpected condition : no matched method", false );
 	}
 
-	tearDown() {
+	tearDown()
+	{
 		if ( this.context.autoClear )
 		{
 			this.context.clearAttributes();
