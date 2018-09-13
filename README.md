@@ -42,8 +42,8 @@
 - 使用者可繼承此 TestTemplate 後覆寫所需的內容
 
 ## Utils
-- 工具函式庫，包含封裝 Postman 功能 Api
-- 持續擴充共用 utility function
+- 工具函式庫，包含封裝 Postman API 的功能
+- 持續擴充實用的 utility function
 - ex. Utils.getValueObjectFromJsonString( jsonString, key1, key2 )
 
 ## TestAsserter
