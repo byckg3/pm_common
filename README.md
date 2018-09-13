@@ -19,11 +19,11 @@
 
 ## Classes
 - [TestManager](#testmanager)
-- [TestContext](#TestContext)
-- [TestSelecter](#TestSelecter)
-- [TestTemplate](#TestTemplate)
-- [RequestDispatcher](#RequestDispatcher)
-- [Utils](#Utils)
+- [TestContext](#testcontext)
+- [TestSelecter](#testselecter)
+- [TestTemplate](#testtemplate)
+- [RequestDispatcher](#requestdispatcher)
+- [Utils](#utils)
 
 ## TestManager
 - 負責 test script 相關物件的建立、組裝和管理
