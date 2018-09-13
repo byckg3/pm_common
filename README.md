@@ -18,7 +18,7 @@
 - select, choose 開頭的 function name 被視為可選擇不同 conditon 的分支選擇器，應依據條件判斷回傳 condition name
 
 ## Classes
-- [TestManager](#TestManager)
+- [TestManager](#testmanager)
 - [TestContext](#TestContext)
 - [TestSelecter](#TestSelecter)
 - [TestTemplate](#TestTemplate)
