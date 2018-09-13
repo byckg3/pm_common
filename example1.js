@@ -1,17 +1,28 @@
-var TestManager = eval( "(" + pm.variables.get( "TestManager" ) + ")" );
-var Utils = TestManager.import( "Utils" );
-var RequestDispatcher = TestManager.import( "RequestDispatcher" );
-var TestTemplate = TestManager.import( "TestTemplate" );
-var Tests = TestManager.getTestAsserter();
+eval( pm.variables.get( "pm_common" ) );
 
-class Tester extends TestTemplate {
-    expect_ok_200() {
-        // branch 200
+class JobInfoTester extends TestTemplate
+{
+    setUp()
+    {
+        this.jobInfo = Utils.getValueObjectFromJsonString( this.context.responseText, "jobNo", "switch" );
+        this.selector.selectHttpStatus( 200 );
     }
-
-    expect_bad_request_400() {
-        // branch 400
+    
+    check_job_number_if_http_status_200()
+    {   
+        let number = parseInt( Utils.getEnvironmentVariable( "jobNo" ), 10 );
+        let toggle = this.context.getAttribute( "switch" );
+        
+        Tests[ "Job number : " + number ] = number === this.jobInfo.jobNo;
+        Tests[ "Job's switch : " + toggle ] = toggle === this.jobInfo.switch;
     }
+    
+    check_job_info_if_http_status_200()
+    {
+        const returnedJobInfo = this.context.responseJson.data;
+        const expectedJobInfo = this.context.getAttribute( "expectedJobInfo" );
+      
+        Tests.assertContains( returnedJobInfo, expectedJobInfo, "job info should be consistent" );
+    }                         
 }
-
-new Tester(new TestContext()).run();
+TestManager.executeTests( JobInfoTester );

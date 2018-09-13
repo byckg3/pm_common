@@ -11,13 +11,19 @@
 - 一個測試只驗證一個關注點 ( 回傳值、改變的狀態或與第三方物件的互動 )
 - 參考團隊夥伴的觀點意見
 
+## Postman 上的測試寫法規則
+- "test", "expect", "check" 開頭的 function name 被視為可執行的測試
+- 測試名稱若含有 "if", "when" 關鍵字，則被進行 condition 分類，視為 conditional test
+- condition name 預期為從 "if", "when" 關鍵字後兩個字元擷取到結尾， ex : test_something_when_conditionOccurs，則 condition name 為 "conditionOccurs"
+- "select", "choose" 開頭的 function name 被視為可選擇不同 conditon 的分支選擇器，應依據條件判斷回傳 condition name
+
 ## Classes
-- [TestManager](#TestManager)
-- [TestContext](#TestContext)
-- [TestSelecter](#TestSelecter)
-- [TestTemplate](#TestTemplate)
-- [RequestDispatcher](#RequestDispatcher)
-- [Utils](#Utils)
+- [TestManager](##TestManager)
+- [TestContext](##TestContext)
+- [TestSelecter](##TestSelecter)
+- [TestTemplate](##TestTemplate)
+- [RequestDispatcher](##RequestDispatcher)
+- [Utils](##Utils)
 
 ## TestManager
 - 負責 test script 相關物件的建立、組裝和管理
