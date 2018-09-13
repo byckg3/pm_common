@@ -4,7 +4,7 @@
 ## 撰寫易維護測試的原則
 - 遵守 DRY 原則
 - 高可讀性的命名
-- 確保測試該失敗時會真的失敗，該通過時會真的通過
+- 確保測試該失敗時會真的失敗，該通過時會真的通過 ( 可信任的測試 )
 - 了解測試目的和內容，不需過度驗證
 - 盡量減少測試中包含流程控制、條件判斷等複雜邏輯
 - 避免測試與測試之間的相依關係
@@ -41,11 +41,6 @@
 - 提供 Web Api 測試共通常用的內容
 - 使用者可繼承此 TestTemplate 後覆寫所需的內容
 
-## Utils
-- 工具函式庫，包含封裝 Postman API 的功能
-- 持續擴充實用的 utility function
-- ex. Utils.getValueObjectFromJsonString( jsonString, key1, key2 )
-
 ## TestAsserter
 - 為方便使用，建立後 assign 給 Tests 變數成為 global object
 - 提供測試用 assert 方法並提交測試結果
@@ -63,6 +58,11 @@
 - 包含 "if"、"when" 等關鍵字的 method 被視為有條件的測試
 - nextTest() : 回傳選擇執行的 method name 字串
 - nextCondition() : 回傳選擇執行的 Condition name 字串
+
+## Utils
+- 工具函式庫，包含封裝 Postman API 的功能
+- 持續擴充實用的 utility function
+- ex. Utils.getValueObjectFromJsonString( jsonString, key1, key2 )
 
 ## RequestDispatcher
 - 負責 Request 執行順序的控制
