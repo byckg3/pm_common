@@ -18,12 +18,12 @@
 - select, choose 開頭的 function name 被視為可選擇不同 conditon 的分支選擇器，應依據條件判斷回傳 condition name
 
 ## Classes
-- [TestManager](##TestManager)
-- [TestContext](##TestContext)
-- [TestSelecter](##TestSelecter)
-- [TestTemplate](##TestTemplate)
-- [RequestDispatcher](##RequestDispatcher)
-- [Utils](##Utils)
+- [TestManager](#TestManager)
+- [TestContext](#TestContext)
+- [TestSelecter](#TestSelecter)
+- [TestTemplate](#TestTemplate)
+- [RequestDispatcher](#RequestDispatcher)
+- [Utils](#Utils)
 
 ## TestManager
 - 負責 test script 相關物件的建立、組裝和管理
