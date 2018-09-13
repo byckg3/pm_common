@@ -11,10 +11,10 @@
 - 一個測試只驗證一個關注點 ( 回傳值、改變的狀態或與第三方物件的互動 )
 - 參考團隊夥伴的觀點意見
 
-## Postman 上的測試寫法規則
+## Postman 上測試函式的寫作規則
 - test, expect, check 開頭的 function name 被視為可執行的測試
 - 測試名稱若含有 if, when 關鍵字，則被進行 condition 分類，視為 conditional test
-- condition name 預期為從 if, when 關鍵字後兩個字元擷取到結尾， ex : test_something_when_conditionOccurs，則 condition name 為 "conditionOccurs"
+- condition name 預期為從 if, when 關鍵字後兩個字元擷取到結尾， ex : test_something_if_conditionOccurs，則 condition name 為 "conditionOccurs"
 - select, choose 開頭的 function name 被視為可選擇不同 conditon 的分支選擇器，應依據條件判斷回傳 condition name
 
 ## Classes
@@ -32,7 +32,7 @@
 ## TestContext 
 - 存放 Api 測試共同的常用資料
 - ex. responseText 取得回應的 body 字串
-- setAttribute( key, value ) 可設定跨 test script 的變數
+- setAttribute( key, value ) 可設定跨不同 test script 的變數
 - setEnvironmentAttribute( key, value ) 同為 setAttribute 功能外，額外再設定至 Postman 環境變數區
 - setGlobalAttribute( key, value ) 同為 setAttribute 功能外，額外再設定至 Postman 全域變數區
 - removeAttribute( key )、clearAttribute() 為對應刪除指定和全部的 attribute
@@ -65,7 +65,8 @@
 - ex. Utils.getValueObjectFromJsonString( jsonString, key1, key2 )
 
 ## RequestDispatcher
-- 負責 Request 執行順序的控制
+- 負責 Collection 當中 Request 執行順序的控制
+- 傳入欲排程的 Request 名稱或陣列至 schedule() 進行 Request 執行順序的設定
 
 使用方式 : js 檔案內容複製貼上 Postman 變數欄位並引用下列宣告在 test script 開頭
 
