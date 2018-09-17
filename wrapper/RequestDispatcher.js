@@ -44,41 +44,41 @@ class RequestDispatcher
         }
     }
     
-    static repeatedRequest( testContext, expectedTimes, nextRequestName ) 
+    static repeatedRequest( context, expectedTimes, nextRequestName ) 
     {
-        const requestId = testContext.requestId; // requestId 當作 key, 執行次數為 value
-        let currentRepeatedTimes = this.getRepetition( testContext ) + 1;
+        const requestId = context.requestId; // requestId 當作 key, 執行次數為 value
+        let currentRepeatedTimes = this.getRepetition( context ) + 1;
 
         console.log( "Repeated times : " +  currentRepeatedTimes );
-        this._setRepetition( testContext, currentRepeatedTimes );
+        this._setRepetition( context, currentRepeatedTimes );
         
         if ( currentRepeatedTimes < expectedTimes ) {
-            this.setNextRequest( testContext.requestName );
+            this.setNextRequest( context.requestName );
         }
         else {
-            testContext.removeAttribute( requestId );
+            context.removeAttribute( requestId );
             if ( nextRequestName !== undefined ) {
                 this.setNextRequest( nextRequestName );
             }
             else
             {
-                this.dispatchNext( testContext );
+                this.dispatchNext( context );
             }
         }
     }
 
-    static getRepetition( testContext ) {
+    static getRepetition( context ) {
         let repeatedTimes = 0;
-        if ( Utils.hasVariable( testContext.requestId ) )
+        if ( Utils.hasVariable( context.requestId ) )
         {
-            repeatedTimes = parseInt( Utils.getVariable( testContext.requestId ), 10 ); 
+            repeatedTimes = parseInt( Utils.getVariable( context.requestId ), 10 ); 
         }
         return repeatedTimes;
     }
 
-    static _setRepetition( testContext, times )
+    static _setRepetition( context, times )
     {
-        Utils.setVariable( testContext.requestId, times );
+        Utils.setVariable( context.requestId, times );
     }
 
     static setTestCaseRequest(test_case_object) {
