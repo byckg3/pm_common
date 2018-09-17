@@ -60,6 +60,10 @@ class RequestDispatcher
             if ( nextRequestName !== undefined ) {
                 this.setNextRequest( nextRequestName );
             }
+            else
+            {
+                this.dispatchNext( testContext );
+            }
         }
     }
 
