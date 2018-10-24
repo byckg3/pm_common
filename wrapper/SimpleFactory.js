@@ -12,7 +12,7 @@ class SimpleFactory
     {
         return `( ${ Utils.getVariable( "TestManager" ) } )`;
     }
-    
+
     static createContext( ...args )
     {
         return new ( this.contextConstructor )( ...args );
@@ -25,7 +25,7 @@ class SimpleFactory
     {
         return `( ${ Utils.getVariable( "TestContext" ) } )`;
     }
-    
+
     static createReporter( ...args )
     {
         return new ( this.reporterConstructor )( ...args );
@@ -37,10 +37,10 @@ class SimpleFactory
     static get reporterCodeString()
     {
         return `( ${ Utils.getVariable( "TestReporter" ) } )`;
-    } 
-    
+    }
+
     static createAsserter( reporter )
-    {  
+    {
         return new ( this.asserterConstructor )( reporter );
     }
     static get asserterConstructor()
@@ -51,9 +51,9 @@ class SimpleFactory
     {
         return `( ${ Utils.getVariable( "TestAsserter" ) } )`;
     }
-    
+
     static createTemplate( ...args )
-    {  
+    {
         return new ( this.templateConstructor )( ...args );
     }
     static get templateConstructor()
@@ -62,11 +62,11 @@ class SimpleFactory
     }
     static get templateCodeString()
     {
-        return `( ${ Utils.getVariable( "TestTemplate" ) } )`;   
-    } 
+        return `( ${ Utils.getVariable( "TestTemplate" ) } )`;
+    }
 
     static createSelector( ...args )
-    {  
+    {
         return new ( this.selectorConstructor )( ...args );
     }
     static get selectorConstructor()
@@ -76,10 +76,10 @@ class SimpleFactory
     static get selectorCodeString()
     {
         return `( ${ Utils.getVariable( "TestSelector" ) } )`;
-    } 
-    
+    }
+
     static createLauncher( ...args )
-    {  
+    {
         return new ( this.launcherConstructor )( ...args );
     }
     static get launcherConstructor()
@@ -88,6 +88,6 @@ class SimpleFactory
     }
     static get launcherCodeString()
     {
-        return `( ${ Utils.getVariable( "TestLauncher" ) } )`; 
-    } 
+        return `( ${ Utils.getVariable( "TestLauncher" ) } )`;
+    }
 }

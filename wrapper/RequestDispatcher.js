@@ -1,18 +1,23 @@
 class RequestDispatcher 
 {
+    static get DATA_KEY()
+    {
+        return "Scheduler";
+    }
+
     static get scheduler()
     {
         this._scheduler = [];
-        if ( Utils.hasVariable( "Scheduler" ) )
+        if ( Utils.hasVariable( this.DATA_KEY ) )
         {
-            this._scheduler = Utils.getVariable( "Scheduler" );
+            this._scheduler = Utils.getVariable( this.DATA_KEY );
         }
         return this._scheduler;
     }
 
     static set scheduler( settingObj )
     {
-        Utils.setVariable( "Scheduler", settingObj );
+        Utils.setVariable( this.DATA_KEY, settingObj );
     }
 
     static setNextRequest( nextRequestName ) 
