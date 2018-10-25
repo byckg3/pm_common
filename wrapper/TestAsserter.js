@@ -6,7 +6,7 @@ class TestAsserter
     }
 
     assertEquals( expected, actual, 
-                  message = `Expected : ${ expected}, Actual : ${ actual}`, compare = undefined ) 
+                  message = `Expected : ${ expected }, Actual : ${ actual }`, compare = undefined ) 
     {
         let result;
         
@@ -47,7 +47,7 @@ class TestAsserter
             let partOfResult = subobjectPropertyValue === superobjectPropertyValue;
 
             this.report( 
-                `${ eachProperty } : ${ subobjectPropertyValue } === ${ superobjectPropertyValue }`, partOfResult );
+                `${ eachProperty } : ${ superobjectPropertyValue } === ${ subobjectPropertyValue }`, partOfResult );
             result = result && partOfResult;
         }
         this.assertTrue( result, message );

@@ -2,7 +2,7 @@ class MethodAnalyzer
 {
     static get _testMethodPrefixes()
     {
-        return [ "test", "expect", "check", "verify", "validate" ];
+        return [ "test", "expect", "check" ];
     }
 
     static get _selectorPrefixes()
