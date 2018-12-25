@@ -42,7 +42,7 @@ class MethodAnalyzer
         return false;
     }
  
-    static getCondition( methodName )
+    static getConditionName( methodName )
     {
         let condition = "common";
         

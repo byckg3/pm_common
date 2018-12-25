@@ -70,7 +70,7 @@ class TestSelector
     {
         if ( this.analyzer.isTestableMethod( methodName ) )
         {
-            const conditionName = this.analyzer.getCondition( methodName );
+            const conditionName = this.analyzer.getConditionName( methodName );
 
             this._dispatchMethodByCondition( methodName, conditionName );
         }

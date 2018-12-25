@@ -9,7 +9,7 @@ class TestTemplate
 		this.requestDispatcher = manager.import( "RequestDispatcher" );
 		// default expected value
 		this.expectedCode = 200;
-		this.expectedResponseTime = 3000;
+		this.expectedResponseTime = 5000;
 	}
 
 	setUp() 
